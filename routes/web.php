@@ -57,8 +57,8 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
         });
   
   
-          // section market and delivery side in admin panel
-          Route::prefix('delivery')->group(function (){
+        // section market and delivery side in admin panel
+        Route::prefix('delivery')->group(function (){
             Route::get('/', 'DeliveryController@index')->name('admin.market.delivery.index');
             Route::get('/create', 'DeliveryController@create')->name('admin.market.delivery.create');
             Route::post('/store', 'DeliveryController@store')->name('admin.market.delivery.store');
@@ -70,15 +70,82 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
         
         // section market , discount  and copan side in admin panel
         Route::prefix('discount')->namespace('Discount')->group(function (){
+
             Route::prefix('copan')->group(function (){
                 Route::get('/', 'CopanController@index')->name('admin.market.discount.copan.index');
                 Route::get('/create', 'CopanController@create')->name('admin.market.discount.copan.create');
-                Route::post('/store', 'CopanController@store')->name('admin.marketdiscount..copan.store');
+                Route::post('/store', 'CopanController@store')->name('admin.market.discoommonDiscountcopan.store');
                 Route::get('/edit/{id}', 'CopanController@edit')->name('admin.market.discount.copan.edit');
                 Route::put('/update/{id}', 'CopanController@update')->name('admin.market.discount.copan.update');
                 Route::delete('/destroy/{id}', 'CopanController@destroy')->name('admin.market.discount.copan.destroy');
             });
+            
+            
+            // section market , discount  and common discount side in admin panel
+            Route::prefix('common-discount')->group(function (){
+                Route::get('/', 'CommonDiscountController@index')->name('admin.market.discount.common-discount.index');
+                Route::get('/create', 'CommonDiscountController@create')->name('admin.market.discount.common-discount.create');
+                Route::post('/store', 'CommonDiscountController@store')->name('admin.market.discount.common-discount.store');
+                Route::get('/edit/{id}', 'CommonDiscountController@edit')->name('admin.market.discount.common-discount.edit');
+                Route::put('/update/{id}', 'CommonDiscountController@update')->name('admin.market.discount.common-discount.update');
+                Route::delete('/destroy/{id}', 'CommonDiscountController@destroy')->name('admin.market.discount.common-discount.destroy');
+            });
+
+
+            // section market , discount  and amazing sale side in admin panel
+            Route::prefix('amazing-sale')->group(function (){
+                Route::get('/', 'AmazingSaleController@index')->name('admin.market.discount.amazing-sale.index');
+                Route::get('/create', 'AmazingSaleController@create')->name('admin.market.discount.amazing-sale.create');
+                Route::post('/store', 'AmazingSaleController@store')->name('admin.market.discount.amazing-sale.store');
+                Route::get('/edit/{id}', 'AmazingSaleController@edit')->name('admin.market.discount.amazing-sale.edit');
+                Route::put('/update/{id}', 'AmazingSaleController@update')->name('admin.market.discount.amazing-sale.update');
+                Route::delete('/destroy/{id}', 'AmazingSaleController@destroy')->name('admin.market.discount.amazing-sale.destroy');
+            });
+            
+
         });
+
+        // section market and oders side in admin panel
+        Route::prefix('order')->group(function (){
+            Route::get('/', 'OrderController@total')->name('admin.market.order.total-order');         
+            Route::get('/new-order', 'OrderController@newOrder')->name('admin.market.order.new-order');         
+            Route::get('/sending', 'OrderController@sending')->name('admin.market.order.sending-order');         
+            Route::get('/unpaind', 'OrderController@unpaind')->name('admin.market.order.unpaind-order');         
+            Route::get('/canceled', 'OrderController@canceled')->name('admin.market.order.canceled-order');         
+            Route::get('/returned', 'OrderController@returned')->name('admin.market.order.returned-order');         
+            
+            
+            Route::get('/show', 'OrderController@show')->name('admin.market.order.show-order');         
+            Route::get('/change-send-status', 'OrderController@changeSendStatus')->name('admin.market.order.change-send-status');         
+            Route::get('/change-order-status', 'OrderController@changeOrderStatus')->name('admin.market.order.change-order-status');         
+            Route::get('/cancel-order', 'OrderController@cancelOrder')->name('admin.market.order.cancel-order');         
+        });
+
+        // section market and payment side in admin panel
+        Route::prefix('payment')->group(function (){
+            Route::get('/', 'PaymentController@total')->name('admin.market.payment.total-payment');         
+            Route::get('/online', 'PaymentController@online')->name('admin.market.payment.online-payment');         
+            Route::get('/offline', 'PaymentController@offline')->name('admin.market.payment.offline-payment');         
+            Route::get('/attendance', 'PaymentController@attendance')->name('admin.market.payment.attendance-payment');         
+            Route::get('/confirm', 'PaymentController@confirm')->name('admin.market.payment.confirm-payment');         
+            
+            
+            // Route::get('/show', 'OrderController@show')->name('admin.market.order.show-order');         
+            // Route::get('/change-send-status', 'OrderController@changeSendStatus')->name('admin.market.order.change-send-status');         
+            // Route::get('/change-order-status', 'OrderController@changeOrderStatus')->name('admin.market.order.change-order-status');         
+            // Route::get('/cancel-order', 'OrderController@cancelOrder')->name('admin.market.order.cancel-order');         
+        });
+
+         // section market and product side in admin panel
+         Route::prefix('product')->group(function (){
+            Route::get('/', 'ProductController@index')->name('admin.market.product.index');
+            Route::get('/create', 'ProductController@create')->name('admin.market.product.create');
+            Route::post('/store', 'ProductController@store')->name('admin.market.product.store');
+            Route::get('/edit/{id}', 'ProductController@edit')->name('admin.market.product.edit');
+            Route::put('/update/{id}', 'ProductController@update')->name('admin.market.product.update');
+            Route::delete('/destroy/{id}', 'ProductController@destroy')->name('admin.market.product..productdestroy');
+        });
+        
     });
 });
 
