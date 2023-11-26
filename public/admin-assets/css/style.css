@@ -101,6 +101,12 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 .width-16-rem{
     width: 16rem;
 }
+.max-width-22-rem{
+    max-width: 22rem;
+}
+.width-22-rem{
+    width: 22rem;
+}
 .table>:not(caption)>*>* {
     border-bottom-width: 0px;
 }
