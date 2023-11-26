@@ -49,6 +49,30 @@
                             <td>hd84d8d</td>
                             <td>15%</td>
                             <td><span>25,000<span>تومان</span></span></td>
+                            <td>خصوصی</td>
+                            <td>24 اردیبهشت 1402</td>
+                            <td>31 اردیبهشت 1402</td>
+                            <td class="row m-0 align-items-center">
+                                <div class="col-md-8 px-1">
+                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
+                                        <option value="1">فعال</option>
+                                        <option value="0">غیر فعال</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 px-1">
+                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
+                                </div>
+                            </td>
+                            <td class="width-16-rem text-start">
+                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
+                            </td>
+                        </tr>
+                        <tr class="align-middle">
+                            <th>2</th>
+                            <td>hd84d8d</td>
+                            <td>75%</td>
+                            <td><span>85,000<span>تومان</span></span></td>
                             <td>عمومی</td>
                             <td>24 اردیبهشت 1402</td>
                             <td>31 اردیبهشت 1402</td>
@@ -69,34 +93,10 @@
                             </td>
                         </tr>
                         <tr class="align-middle">
-                            <th>1</th>
+                            <th>3</th>
                             <td>hd84d8d</td>
-                            <td>15%</td>
-                            <td><span>25,000<span>تومان</span></span></td>
-                            <td>عمومی</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
-                        <tr class="align-middle">
-                            <th>1</th>
-                            <td>hd84d8d</td>
-                            <td>15%</td>
-                            <td><span>25,000<span>تومان</span></span></td>
+                            <td>25%</td>
+                            <td><span>56,000<span>تومان</span></span></td>
                             <td>عمومی</td>
                             <td>24 اردیبهشت 1402</td>
                             <td>31 اردیبهشت 1402</td>

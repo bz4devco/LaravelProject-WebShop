@@ -13,7 +13,7 @@
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.category.index') }}">دسته بندی</a></li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.discount.copan.index') }}">کوپن تخفیف</a></li>
     <li class="breadcrumb-item active" aria-current="page">ایجاد کوپن تخفیف</li>
 </ol>
 </nav>
