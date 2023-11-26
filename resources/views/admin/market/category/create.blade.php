@@ -34,13 +34,13 @@
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="">نام دسته</label>
-                                <input class="form-control form-control-sm" type="text">
+                                <input class="form-control form-select-sm" type="text">
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="">والد دسته</label>
-                                <select class="form-control form-control-sm" name="" id="">
+                                <select class="form-select form-select-sm" name="" id="">
                                     <option>دسته را انتخاب کنید</option>
                                     <option value="">وسایل الکترونیکی</option>
                                 </select>
@@ -49,8 +49,8 @@
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="">وضعیت</label>
-                                <select class="form-control form-control-sm" name="" id="">
-                                    <option>وشعیت را انتخاب کنید</option>
+                                <select class="form-select form-select-sm" name="" id="">
+                                    <option>وضعیت را انتخاب کنید</option>
                                     <option value="1">فعال</option>
                                     <option value="0">غیر فعال</option>
                                 </select>

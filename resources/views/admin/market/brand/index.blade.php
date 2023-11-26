@@ -48,7 +48,7 @@
                             <td><img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" class="max-height-2rem" alt="برند"></td>
                             <td class="row m-0 align-items-center">
                                 <div class="col-md-8 px-1">
-                                    <select class="form-control form-control-sm form-select" style="min-width:3rem" name="status" id="status">
+                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
                                         <option value="1">فعال</option>
                                         <option value="0">غیر فعال</option>
                                     </select>
@@ -69,7 +69,7 @@
                             <td><img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" class="max-height-2rem" alt="برند"></td>
                             <td class="row m-0 align-items-center">
                                 <div class="col-md-8 px-1">
-                                    <select class="form-control form-control-sm form-select" style="min-width:3rem" name="status" id="status">
+                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
                                         <option value="1">فعال</option>
                                         <option value="0">غیر فعال</option>
                                     </select>
@@ -90,7 +90,7 @@
                             <td><img src="{{ asset('admin-assets/images/avatar-2.jpg') }}" class="max-height-2rem" alt="برند"></td>
                             <td class="row m-0 align-items-center">
                                 <div class="col-md-8 px-1">
-                                    <select class="form-control form-control-sm form-select" style="min-width:3rem" name="status" id="status">
+                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
                                         <option value="1">فعال</option>
                                         <option value="0">غیر فعال</option>
                                     </select>

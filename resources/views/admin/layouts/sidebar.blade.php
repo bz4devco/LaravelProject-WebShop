@@ -22,7 +22,7 @@
                     <a href="{{ route('admin.market.brand.index') }}">برندها</a>
                     <a href="#">کالاها</a>
                     <a href="#">انبار</a>
-                    <a href="#">نظرات</a>
+                    <a href="{{ route('admin.market.comment.index') }}">نظرات</a>
                 </section>
             </section>
 
@@ -63,13 +63,13 @@
                     <i class="fas fa-angle-left angle"></i>
                 </section>
                 <section class="sidebar-dropdown">
-                    <a href="#">کپن تخفیف</a>
+                    <a href="{{ route('admin.market.discount.copan.index') }}">کپن تخفیف</a>
                     <a href="#">تخفیف عمومی</a>
                     <a href="#">فروش شگفت انگیز</a>
                 </section>
             </section>
 
-            <a href="#" class="sidebar-link">
+            <a href="{{ route('admin.market.delivery.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>روش های ارسال</span>
             </a>
