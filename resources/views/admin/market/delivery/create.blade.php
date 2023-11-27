@@ -42,8 +42,7 @@
                                 <label for="">هزینه ارسال</label>
                             </div>
                             <div class="input-group input-group-sm mb-3">
-                                <input type="text" id="delivery-price" onkeyup='Validate(this.id,"float");' onblur="numberFormat(this.value, this.id)" class="form-control form-price form-control-sm" placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
-                                <span class="input-group-text" id="deliver-price">تومان</span>
+                            <input type="text" class="form-control form-price form-control-sm  number money" placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">                                <span class="input-group-text" id="deliver-price">تومان</span>
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
