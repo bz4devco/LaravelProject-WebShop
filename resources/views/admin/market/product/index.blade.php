@@ -71,7 +71,9 @@
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>گالری</a>
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>فرم کالا</a>
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-trash ms-2"></i>حذف</a>
+                                    <form action="" method="post">
+                                        <button type="submit" class="dropdown-item text-end ms-2"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -102,7 +104,9 @@
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>گالری</a>
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>فرم کالا</a>
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-trash ms-2"></i>حذف</a>
+                                    <form action="" method="post">
+                                        <button type="submit" class="dropdown-item text-end ms-2"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -133,7 +137,9 @@
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>گالری</a>
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>فرم کالا</a>
                                     <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-trash ms-2"></i>حذف</a>
+                                    <form action="" method="post">
+                                        <button type="submit" class="dropdown-item text-end ms-2"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
