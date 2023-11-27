@@ -24,6 +24,9 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
     // dashboard route
     Route::get('/', 'AdminDashboardController@index')->name('admin.home');
 
+
+    // Market Module
+    
     // section market in admin panel
     Route::prefix('market')->namespace('Market')->group(function (){
 
@@ -136,17 +139,87 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             // Route::get('/cancel-order', 'OrderController@cancelOrder')->name('admin.market.order.cancel-order');         
         });
 
-         // section market and product side in admin panel
-         Route::prefix('product')->group(function (){
+        // section market and product side in admin panel
+        Route::prefix('product')->group(function (){
             Route::get('/', 'ProductController@index')->name('admin.market.product.index');
             Route::get('/create', 'ProductController@create')->name('admin.market.product.create');
             Route::post('/store', 'ProductController@store')->name('admin.market.product.store');
             Route::get('/edit/{id}', 'ProductController@edit')->name('admin.market.product.edit');
             Route::put('/update/{id}', 'ProductController@update')->name('admin.market.product.update');
-            Route::delete('/destroy/{id}', 'ProductController@destroy')->name('admin.market.product..productdestroy');
+            Route::delete('/destroy/{id}', 'ProductController@destroy')->name('admin.market.product.destroy');
+            
+            // gallery
+            Route::get('/gallery', 'GalleryController@index')->name('admin.market.gallery.index');
+            Route::post('/gallery/store', 'GalleryController@store')->name('admin.market.gallery.store');
+            Route::delete('/gallery/destroy/{id}', 'GalleryController@destroy')->name('admin.market.gallery.destroy');
+        });
+
+        // section market and property side in admin panel
+        Route::prefix('prooperty')->group(function (){
+            Route::get('/', 'PropertyController@index')->name('admin.market.property.index');
+            Route::get('/create', 'PropertyController@create')->name('admin.market.property.create');
+            Route::post('/store', 'PropertyController@store')->name('admin.market.property.store');
+            Route::get('/edit/{id}', 'PropertyController@edit')->name('admin.market.property.edit');
+            Route::put('/update/{id}', 'PropertyController@update')->name('admin.market.property.update');
+            Route::delete('/destroy/{id}', 'PropertyController@destroy')->name('admin.market.property.destroy');
+            
+            // Route::get('/gallery', 'GalleryController@index')->name('admin.market.gallery.index');
+            // Route::post('/gallery/store', 'GalleryController@store')->name('admin.market.gallery.store');
+            // Route::delete('/gallery/destroy/{id}', 'GalleryController@destroy')->name('admin.market.gallery.destroy');
         });
         
+
+         // section market and store side in admin panel
+         Route::prefix('store')->group(function (){
+            Route::get('/', 'StoreController@index')->name('admin.market.store.index');
+            // Route::get('/create', 'StoreController@create')->name('admin.market.store.create');
+            // Route::post('/store', 'StoreController@store')->name('admin.market.store.store');
+            Route::get('/edit/{id}', 'StoreController@edit')->name('admin.market.store.edit');
+            Route::put('/update/{id}', 'StoreController@update')->name('admin.market.store.update');
+            Route::delete('/destroy/{id}', 'StoreController@destroy')->name('admin.market.store.destroy');
+            
+            Route::get('/add-to-store', 'StoreController@indexAddToStore')->name('admin.market.store.index-add-to-store');
+            Route::post('/add-to-store/store', 'StoreController@addToStore')->name('admin.market.store.add-to-store');
+        });
     });
+
+
+
+    // Content Module
+    
+    // section content in admin panel
+    Route::prefix('content')->namespace('Content')->group(function (){
+
+        // section content and category side in admin panel
+        Route::prefix('category')->group(function (){
+            Route::get('/', 'CategoryController@index')->name('admin.content.category.index');
+            Route::get('/create', 'CategoryController@create')->name('admin.content.category.create');
+            Route::post('/store', 'CategoryController@store')->name('admin.content.category.store');
+            Route::get('/edit/{id}', 'CategoryController@edit')->name('admin.content.category.edit');
+            Route::put('/update/{id}', 'CategoryController@update')->name('admin.content.category.update');
+            Route::delete('/destroy/{id}', 'CategoryController@destroy')->name('admin.content.category.destroy');
+        });
+
+
+        // section content and comment side in admin panel
+        Route::prefix('comment')->group(function (){
+            Route::get('/', 'CommentController@index')->name('admin.content.comment.index');
+            Route::get('/show', 'CommentController@show')->name('admin.content.comment.show');
+            Route::put('/update/{id}', 'CommentController@update')->name('admin.content.comment.update');
+        });
+
+
+        // section content and faq side in admin panel
+        Route::prefix('faq')->group(function (){
+            Route::get('/', 'FaqController@index')->name('admin.content.faq.index');
+            Route::get('/create', 'FaqController@create')->name('admin.content.faq.create');
+            Route::post('/store', 'FaqController@store')->name('admin.content.faq.store');
+            Route::get('/edit/{id}', 'FaqController@edit')->name('admin.content.faq.edit');
+            Route::put('/update/{id}', 'FaqController@update')->name('admin.content.faq.update');
+            Route::delete('/destroy/{id}', 'FaqController@destroy')->name('admin.content.faq.destroy');
+        });
+    });
+
 });
 
 

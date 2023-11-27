@@ -1,48 +1,69 @@
 $(document).on('click', '.number-spinner button', function () {    
 	var btn = $(this),
 		oldValue = btn.closest('.number-spinner').find('input').val().trim(),
-		oldValue = oldValue.replace('%',''),
+		inputChar = btn.closest('.number-spinner').find('input').attr('data-char'),
+		char = (inputChar != '') ? inputChar : '',
+		oldValue = oldValue.replace(char,''),
 		inputstep = Number(btn.closest('.number-spinner').find('input').attr('step')),
 		inputmin = Number(btn.closest('.number-spinner').find('input').attr('min')),
 		inputsmax = Number(btn.closest('.number-spinner').find('input').attr('max')),
 		newVal = 0;
-
-	
-	if (btn.attr('data-dir') == 'up') {
-		if(oldValue < inputsmax){
-		newVal = parseInt(oldValue) + inputstep;
-		}
-		else {
-			newVal = inputsmax;
-		}
-	} else {
-		if (oldValue > inputmin) {
-			newVal = parseInt(oldValue) - inputstep;
+	if(inputsmax != ""){
+		if (btn.attr('data-dir') == 'up') {
+			if(oldValue < inputsmax){
+			newVal = parseInt(oldValue) + inputstep;
+			}
+			else {
+				newVal = inputsmax;
+			}
 		} else {
-			newVal = inputmin;
+			if (oldValue > inputmin) {
+				newVal = parseInt(oldValue) - inputstep;
+			} else {
+				newVal = inputmin;
+			}
+		}
+	}else{
+		if (btn.attr('data-dir') == 'up') {
+			newVal = parseInt(oldValue) + inputstep;
+		} else {
+			if (oldValue > inputmin) {
+				newVal = parseInt(oldValue) - inputstep;
+			} else {
+				newVal = inputmin;
+			}
 		}
 	}
-	btn.closest('.number-spinner').find('input').val(newVal+'%');
+
+	btn.closest('.number-spinner').find('input').val(newVal + char);
 });
 
-$(document).on('blur', '.number-spinner #after', function () {
+$(document).on('blur', '.number-spinner .input-step-number', function () {
 	var input = $(this),
 		oldValue = input.val().trim(),
-		oldValue = oldValue.replace('%',''),
+		char = ($(this).attr('data-char') != '') ? $(this).attr('data-char') : '';
+		oldValue = oldValue.replace(char,''),
 		inputmin = Number(input.attr('min')),
 		inputsmax = Number(input.attr('max')),
 		newVal = 0;
 
-		console.log(oldValue,inputmin,inputsmax);
-
-		if(oldValue > inputsmax){
-			newVal = inputsmax;
+		if(inputsmax != ""){
+			if(oldValue > inputsmax){
+				newVal = inputsmax;
+			}
+			else if(oldValue < inputmin) {
+				newVal = inputmin;
+			}else {
+				newVal = oldValue;
+			}
+		}else{
+			if(oldValue < inputmin) {
+				newVal = inputmin;
+			}
+			else {
+				newVal = oldValue;
+			}
 		}
-		else if(oldValue < inputmin) {
-			newVal = inputmin;
-		}else {
-			newVal = oldValue;
-		}
 
-		input.val(newVal+'%');
+		input.val(newVal + char);
 });
