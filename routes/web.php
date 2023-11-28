@@ -218,8 +218,150 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::put('/update/{id}', 'FaqController@update')->name('admin.content.faq.update');
             Route::delete('/destroy/{id}', 'FaqController@destroy')->name('admin.content.faq.destroy');
         });
+
+        
+        // section content and menu side in admin panel
+        Route::prefix('menu')->group(function (){
+            Route::get('/', 'MenuController@index')->name('admin.content.menu.index');
+            Route::get('/create', 'MenuController@create')->name('admin.content.menu.create');
+            Route::post('/store', 'MenuController@store')->name('admin.content.menu.store');
+            Route::get('/edit/{id}', 'MenuController@edit')->name('admin.content.menu.edit');
+            Route::put('/update/{id}', 'MenuController@update')->name('admin.content.menu.update');
+            Route::delete('/destroy/{id}', 'MenuController@destroy')->name('admin.content.menu.destroy');
+        });
+        
+
+        // section content and post side in admin panel
+        Route::prefix('post')->group(function (){
+            Route::get('/', 'PostController@index')->name('admin.content.post.index');
+            Route::get('/create', 'PostController@create')->name('admin.content.post.create');
+            Route::post('/store', 'PostController@store')->name('admin.content.post.store');
+            Route::get('/edit/{id}', 'PostController@edit')->name('admin.content.post.edit');
+            Route::put('/update/{id}', 'PostController@update')->name('admin.content.post.update');
+            Route::delete('/destroy/{id}', 'PostController@destroy')->name('admin.content.post.destroy');
+        });
+
+        
+        // section content and page side in admin panel
+        Route::prefix('page')->group(function (){
+            Route::get('/', 'PageController@index')->name('admin.content.page.index');
+            Route::get('/create', 'PageController@create')->name('admin.content.page.create');
+            Route::post('/store', 'PageController@store')->name('admin.content.page.store');
+            Route::get('/edit/{id}', 'PageController@edit')->name('admin.content.page.edit');
+            Route::put('/update/{id}', 'PageController@update')->name('admin.content.page.update');
+            Route::delete('/destroy/{id}', 'PageController@destroy')->name('admin.content.page.destroy');
+        });
     });
 
+
+    // User Module
+    
+    // section user in admin panel
+    Route::prefix('user')->namespace('User')->group(function (){
+        
+        // section user and admin-user side in admin panel
+        Route::prefix('admin-user')->group(function (){
+            Route::get('/', 'AdminUserController@index')->name('admin.user.admin-user.index');
+            Route::get('/create', 'AdminUserController@create')->name('admin.user.admin-user.create');
+            Route::post('/store', 'AdminUserController@store')->name('admin.user.admin-user.store');
+            Route::get('/edit/{id}', 'AdminUserController@edit')->name('admin.user.admin-user.edit');
+            Route::put('/update/{id}', 'AdminUserController@update')->name('admin.user.admin-user.update');
+            Route::delete('/destroy/{id}', 'AdminUserController@destroy')->name('admin.user.admin-user.destroy');
+        });
+
+
+        // section user and costumer side in admin panel
+        Route::prefix('costumer')->group(function (){
+            Route::get('/', 'CostumerController@index')->name('admin.user.costumer.index');
+            Route::get('/create', 'CostumerController@create')->name('admin.user.costumer.create');
+            Route::post('/store', 'CostumerController@store')->name('admin.user.costumer.store');
+            Route::get('/edit/{id}', 'CostumerController@edit')->name('admin.user.costumer.edit');
+            Route::put('/update/{id}', 'CostumerController@update')->name('admin.user.costumer.update');
+            Route::delete('/destroy/{id}', 'CostumerController@destroy')->name('admin.user.costumer.destroy');
+        });
+    
+
+        // section user and role side in admin panel
+        Route::prefix('role')->group(function (){
+            Route::get('/', 'RoleController@index')->name('admin.user.role.index');
+            Route::get('/create', 'RoleController@create')->name('admin.user.role.create');
+            Route::post('/store', 'RoleController@store')->name('admin.user.role.store');
+            Route::get('/edit/{id}', 'RoleController@edit')->name('admin.user.role.edit');
+            Route::put('/update/{id}', 'RoleController@update')->name('admin.user.role.update');
+            Route::delete('/destroy/{id}', 'RoleController@destroy')->name('admin.user.role.destroy');
+        });
+        
+    });
+    
+    
+    // Notify Module
+    
+    // section notify in admin panel
+    Route::prefix('notify')->namespace('Notify')->group(function (){
+
+        // section notify and email side in admin panel
+        Route::prefix('email')->group(function (){
+            Route::get('/', 'EmailController@index')->name('admin.notify.email.index');
+            Route::get('/create', 'EmailController@create')->name('admin.notify.email.create');
+            Route::post('/store', 'EmailController@store')->name('admin.notify.email.store');
+            Route::get('/edit/{id}', 'EmailController@edit')->name('admin.notify.email.edit');
+            Route::put('/update/{id}', 'EmailController@update')->name('admin.notify.email.update');
+            Route::delete('/destroy/{id}', 'EmailController@destroy')->name('admin.notify.email.destroy');
+        });
+
+
+        // section notify and sms side in admin panel
+        Route::prefix('sms')->group(function (){
+            Route::get('/', 'SmsController@index')->name('admin.notify.sms.index');
+            Route::get('/create', 'SmsController@create')->name('admin.notify.sms.create');
+            Route::post('/store', 'SmsController@store')->name('admin.notify.sms.store');
+            Route::get('/edit/{id}', 'SmsController@edit')->name('admin.notify.sms.edit');
+            Route::put('/update/{id}', 'SmsController@update')->name('admin.notify.sms.update');
+            Route::delete('/destroy/{id}', 'SmsController@destroy')->name('admin.notify.sms.destroy');
+        });
+                
+    });
+
+
+    // Ticket Module
+    
+    // section ticket in admin panel
+    Route::prefix('ticket')->namespace('Ticket')->group(function (){
+
+        Route::get('/new-tickets', 'TicketController@newTickets')->name('admin.ticket.new-ticket');
+        Route::get('/open-tickets', 'TicketController@openTickets')->name('admin.ticket.open-ticket');
+        Route::get('/close-tickets', 'TicketController@closeTickets')->name('admin.ticket.close-ticket');
+        Route::get('/', 'TicketController@index')->name('admin.ticket.index');
+
+        Route::get('/show', 'TicketController@show')->name('admin.ticket.show');
+        Route::get('/edit/{id}', 'TicketController@edit')->name('admin.ticket.edit');
+        Route::put('/update/{id}', 'TicketController@update')->name('admin.ticket.update');
+        Route::delete('/destroy/{id}', 'TicketController@destroy')->name('admin.ticket.destroy');
+
+    });
+
+
+    // Setting Module
+    
+    // section setting in admin panel
+    Route::prefix('setting')->namespace('Setting')->group(function (){
+        Route::get('/', 'SettingController@index')->name('admin.setting.index');
+        Route::get('/create', 'SettingController@create')->name('admin.setting.create');
+        Route::post('/store', 'SettingController@store')->name('admin.setting.store');
+        Route::get('/edit/{id}', 'SettingController@edit')->name('admin.setting.edit');
+        Route::put('/update/{id}', 'SettingController@update')->name('admin.setting.update');
+        Route::delete('/destroy/{id}', 'SettingController@destroy')->name('admin.setting.destroy');
+    });
 });
 
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified'
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
