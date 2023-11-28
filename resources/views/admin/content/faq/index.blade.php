@@ -35,7 +35,7 @@
                     <thead class="border-bottom border-dark">
                         <th>#</th>
                         <th>پرسش</th>
-                        <th>خلاصه پرسش</th>
+                        <th>خلاصه پاسخ</th>
                         <th>وضعیت</th>
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>

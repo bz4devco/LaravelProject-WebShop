@@ -1,7 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
-<title> ایجاد روش ارسال | پنل مدیریت</title>
+<link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/persian-datepicker/persian-datepicker.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/persian-datepicker/persian-datepicker-cheerup.min.css') }}">
+
+<title> ایجاد اطلاعیه پیامکی  | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -9,9 +12,9 @@
 <nav aria-label="breadcrumb">
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.delivery.index') }}">روش ارسال</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ایجاد روش ارسال</li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">اطلاع رسانی</a></li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.notify.sms.index') }}">اطلاعیه پیامکی</a></li>
+    <li class="breadcrumb-item active" aria-current="page">ایجاد اطلاعیه پیامکی</li>
 </ol>
 </nav>
 <!-- category page Breadcrumb area -->
@@ -22,34 +25,26 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 ایجاد روش ارسال
+                ایجاد اطلاعیه پیامکی
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.market.delivery.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
+                <a href="{{ route('admin.notify.sms.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
                 <form action="" method="">
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">نام روش ارسال</label>
-                                <input class="form-control form-control-sm" type="text">
+                                <label for="">عنوان پیامک</label>
+                                <input class="form-control form-select-sm" type="text">
                             </div>
                         </section>
-                        <section class="col-12 col-md-6">
-                            <div class="form-group">
-                                <label for="">هزینه ارسال</label>
-                            </div>
-                            <div class="input-group input-group-sm mb-3">
-                            <input type="text" class="form-control form-price form-control-sm  number money" placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
-                            <span class="input-group-text" id="deliver-price">تومان</span>
-                            </div>
-                        </section>
+  
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">زمان ارسال</label>
-                                <input class="form-control form-control-sm" type="text">
+                                <label for="">تاریخ انتشار</label>
+                                <input type="text" name="startdate" id="startdate" class="form-control form-control-sm" autocomplete="off" />
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
@@ -61,6 +56,12 @@
                                     <option value="0">غیر فعال</option>
                                 </select>
                             </div>
+                        </section>
+                        <section class="col-12 mb-3">
+                            <div class="form-group">
+                                <label for="">متن پیامک</label>
+                                <textarea class="form-control form-control-sm" id="" name="" rows="5"></textarea>
+                               </div>
                         </section>
                         <section class="col-12">
                             <button class="btn btn-primary btn-sm">ثبت</button>
@@ -74,5 +75,9 @@
 <!-- category page category list area -->
 @endsection
 @section('script')
-<script src="{{ asset('admin-assets/js/number-format.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin-assets/js/persian-datepicker/persian_fromtodatepicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin-assets/js/persian-datepicker/persian-date.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin-assets/js/persian-datepicker/persian-datepicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('admin-assets/js/mask-input/jquery.maskedinput.js') }}"></script>
+<script src="{{ asset('admin-assets/js/datepicker-config.js') }}"></script>
 @endsection
