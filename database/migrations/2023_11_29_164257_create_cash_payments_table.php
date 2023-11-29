@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGuranteesTable extends Migration
+class CreateCashPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateGuranteesTable extends Migration
      */
     public function up()
     {
-        Schema::create('gurantees', function (Blueprint $table) {
+        Schema::create('cash_payments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->decimal('price_increase', 20, 3)->default(0);
+            $table->decimal('amount', 20, 3)->comment('IR price unit');
+            $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('cash_receiver')->nullable();
+            $table->timestamp('pay_date');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
@@ -31,6 +32,6 @@ class CreateGuranteesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gurantees');
+        Schema::dropIfExists('cash_payments');
     }
 }

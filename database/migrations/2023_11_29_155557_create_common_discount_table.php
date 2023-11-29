@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommenDiscountTable extends Migration
+class CreateCommonDiscountTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCommenDiscountTable extends Migration
      */
     public function up()
     {
-        Schema::create('commen_discount', function (Blueprint $table) {
+        Schema::create('common_discount', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->integer('percentage');
