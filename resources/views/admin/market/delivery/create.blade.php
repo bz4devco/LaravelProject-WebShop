@@ -74,5 +74,5 @@
 <!-- category page category list area -->
 @endsection
 @section('script')
-<script src="{{ asset('admin-assets/js/number-format.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/number-format.js') }}"></script>
 @endsection

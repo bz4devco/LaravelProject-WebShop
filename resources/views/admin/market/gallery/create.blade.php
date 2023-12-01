@@ -126,14 +126,11 @@
 @endsection
 @section('script')
 <script type="text/javascript" src="{{ asset('admin-assets/js/mask-input/jquery.maskedinput.js') }}"></script>
-<script src="{{ asset('admin-assets/js/bootstrap-number-input.js') }}"></script>
-<script src="{{ asset('admin-assets/js/price-format.js') }}"></script>
-<script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-<!-- <script src="{{ asset('admin-assets/js/ckeditor/lang/fa.js') }}"></script> -->
+<script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
+<script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
 <script>
-        CKEDITOR.replace( 'editor1', {
-            language: 'fa'
-        } );
+        CKEDITOR.replace( 'product-desc');
 </script>
+
 
 @endsection

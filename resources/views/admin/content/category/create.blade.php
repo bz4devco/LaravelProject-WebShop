@@ -15,7 +15,6 @@
 </ol>
 </nav>
 <!-- category page Breadcrumb area -->
-
 <!--category page category list area -->
 <section class="row">
     <section class="col-12">
@@ -29,31 +28,111 @@
                 <a href="{{ route('admin.content.category.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form action="" method="">
+                <form id="form" action="{{ route('admin.content.category.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">نام دسته</label>
-                                <input class="form-control form-select-sm" type="text">
+                                <label for="name">نام دسته</label>
+                                <input class="form-control form-select-sm" type="text" name="name" id="name" value="{{ old('name') }}">
+                                @error('name')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">والد دسته</label>
-                                <select class="form-select form-select-sm" name="" id="">
-                                    <option>دسته را انتخاب کنید</option>
-                                    <option value="">وسایل الکترونیکی</option>
-                                </select>
+                                <label for="slug">نام مسیر</label>
+                                <input class="form-control form-select-sm" type="text" name="slug" id="slug" value="{{ old('slug') }}">
+                                @error('slug')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">وضعیت</label>
-                                <select class="form-select form-select-sm" name="" id="">
-                                    <option>وضعیت را انتخاب کنید</option>
-                                    <option value="1">فعال</option>
-                                    <option value="0">غیر فعال</option>
+                                <label for="image">تصویر</label>
+                                <input class="form-control form-select-sm" type="file" name="image" id="image" >
+                                @error('image')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="tags">برچسب ها</label>
+                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags') }}">
+                                <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
+                                @error('tags')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 mb-3">
+                            <div class="form-group">
+                                <label for="description">توضیحات</label>
+                                <textarea id="description" name="description">{{ old('description') }}</textarea>
+                                @error('description')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                               </div>
+                        </section>
+               
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="status">وضعیت</label>
+                                <select class="form-select form-select-sm" name="status" id="status">
+                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
                                 </select>
+                                @error('status')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="sort">ترتیب نمایش</label>
+                                <div class="input-group  input-group-sm number-spinner">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default btn-border p-btn-num rounded-end" data-dir="up">+</button>
+                                    </span>
+                                    <input name="sort" id="sort" class="input-step-number form-control number text-center rounded-0" data-char="" type="text" step="1" value="@if (old('sort')) {{old('sort')}} @else {{1}} @endif" min="0" max="">
+                                    <span class="input-group-btn ">
+                                        <button type="button" class="btn btn-default btn-border p-btn-num rounded-start" data-dir="dwn">-</button>
+                                    </span>
+                                </div>
+                                @error('sort')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12">
@@ -66,4 +145,13 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
+<script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/select2-input-config.js') }}"></script>
+<script>
+    /// CKEDITOR config
+    CKEDITOR.replace( 'description');
+</script>
 @endsection

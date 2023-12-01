@@ -126,8 +126,8 @@
 @endsection
 @section('script')
 <script type="text/javascript" src="{{ asset('admin-assets/js/mask-input/jquery.maskedinput.js') }}"></script>
-<script src="{{ asset('admin-assets/js/bootstrap-number-input.js') }}"></script>
-<script src="{{ asset('admin-assets/js/price-format.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/price-format.js') }}"></script>
 <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
 <script>
         CKEDITOR.replace( 'product-desc');

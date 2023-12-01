@@ -195,9 +195,10 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/', 'CategoryController@index')->name('admin.content.category.index');
             Route::get('/create', 'CategoryController@create')->name('admin.content.category.create');
             Route::post('/store', 'CategoryController@store')->name('admin.content.category.store');
-            Route::get('/edit/{id}', 'CategoryController@edit')->name('admin.content.category.edit');
-            Route::put('/update/{id}', 'CategoryController@update')->name('admin.content.category.update');
-            Route::delete('/destroy/{id}', 'CategoryController@destroy')->name('admin.content.category.destroy');
+            Route::get('/edit/{postCategory}', 'CategoryController@edit')->name('admin.content.category.edit');
+            Route::put('/update/{postCategory}', 'CategoryController@update')->name('admin.content.category.update');
+            Route::delete('/destroy/{postCategory}', 'CategoryController@destroy')->name('admin.content.category.destroy');
+            Route::get('/status/{postCategory}', 'CategoryController@status')->name('admin.content.category.status');
         });
 
 

@@ -16,11 +16,12 @@ class CreatePostCategoriesTable extends Migration
         Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('desciption');
+            $table->text('description');
             $table->string('slug')->unique()->nullable();
             $table->string('image')->nullable();
             $table->tinyInteger('status');
             $table->string('tags')->nullable();
+            $table->integer('sort')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

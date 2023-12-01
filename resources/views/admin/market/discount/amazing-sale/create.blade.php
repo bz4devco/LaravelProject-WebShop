@@ -98,7 +98,7 @@
 <script type="text/javascript" src="{{ asset('admin-assets/js/persian-datepicker/persian-date.js') }}"></script>
 <script type="text/javascript" src="{{ asset('admin-assets/js/persian-datepicker/persian-datepicker.js') }}"></script>
 <script type="text/javascript" src="{{ asset('admin-assets/js/mask-input/jquery.maskedinput.js') }}"></script>
-<script src="{{ asset('admin-assets/js/bootstrap-number-input.js') }}"></script>
-<script src="{{ asset('admin-assets/js/price-format.js') }}"></script>
-<script src="{{ asset('admin-assets/js/datepicker-config.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/price-format.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/datepicker-config.js') }}"></script>
 @endsection

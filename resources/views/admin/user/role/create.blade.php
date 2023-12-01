@@ -106,6 +106,3 @@
 </section>
 <!-- category page category list area -->
 @endsection
-@section('script')
-<script src="{{ asset('admin-assets/js/price-format.js') }}"></script>
-@endsection
