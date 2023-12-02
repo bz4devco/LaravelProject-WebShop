@@ -123,7 +123,7 @@
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default btn-border p-btn-num rounded-end" data-dir="up">+</button>
                                     </span>
-                                    <input name="sort" id="sort" class="input-step-number form-control number text-center rounded-0" data-char="" type="text" step="1" value="@if (old('sort', $postCategory->sort) > 1) {{$postCategory->sort}} @else {{1}} @endif" min="0" max="">
+                                    <input name="sort" id="sort" class="input-step-number form-control number text-center rounded-0" data-char="" type="text" step="1" value="@if (old('sort', $postCategory->sort) > 1) {{old('sort', $postCategory->sort)}} @else {{1}} @endif" min="0" max="">
                                     <span class="input-group-btn ">
                                         <button type="button" class="btn btn-default btn-border p-btn-num rounded-start" data-dir="dwn">-</button>
                                     </span>

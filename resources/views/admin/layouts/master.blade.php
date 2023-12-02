@@ -7,9 +7,8 @@
 </head>
 
 <body dir="rtl">
-
     @include('admin.layouts.header')
-
+    
     <section class="body-container">
         @include('admin.layouts.sidebar')
 
@@ -19,9 +18,15 @@
         </section> 
         <!-- main body -->
     </section>
-
+    
     @include('admin.layouts.script')
     @yield('script')
+    <section class="toast-container flex-row-reverse position-fixed top-0 end-0 p-3" style="z-index: 16000">
+        @include('admin.alerts.toast.success')
+        @include('admin.alerts.toast.error')
+    </section>
+
+    @include('admin.alerts.sweetalert.success')
 
 </body>
 
