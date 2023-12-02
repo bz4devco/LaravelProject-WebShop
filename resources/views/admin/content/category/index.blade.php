@@ -26,6 +26,7 @@
                  دسته بندی
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.content.category.create') }}" class="btn btn-sm btn-info text-white">ایجاد دسته بندی</a>
                 <div class="max-width-16-rem">
@@ -59,7 +60,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.content.category.status', $postCategory->id) }}" onchange="changeStatus({{ $postCategory->id }})" class="custom-switch-input" id="{{ $postCategory->id }}" name="status" type="checkbox" @if($postCategory->status) checked @endif >
+                                        <input data-url="{{ route('admin.content.category.status', $postCategory->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $postCategory->id }}" name="status" type="checkbox" @if($postCategory->status) checked @endif >
                                         <label class="custom-switch-btn" for="{{ $postCategory->id }}"></label>
                                     </div>
                                 </section>
@@ -69,7 +70,7 @@
                                 <form class="d-inline" action="{{ route('admin.content.category.destroy', $postCategory->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                    <button type="submit" id="{{ $postCategory->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
                             </td>
                         </tr>
@@ -89,5 +90,9 @@
 @endsection
 @section('script')
 <script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+
+
 @endsection
 
