@@ -18,6 +18,8 @@ class CategoryController extends Controller
     {
         $postCategorys = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.content.category.index', compact('postCategorys'));
+       
+        
     }
 
     /**
@@ -42,7 +44,8 @@ class CategoryController extends Controller
         $inputs['slug'] = str_replace(' ' , '-' , $inputs['slug']);
         $inputs['image'] = 'image';
         $postCategory->create($inputs);
-        return redirect()->route('admin.content.category.index');
+        return redirect()->route('admin.content.category.index')
+        ->with('alert-section-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -64,7 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(PostCategory $postCategory)
     {
-        return view('admin.content.category.edit', compact('postCategory'));
+        return view('admin.content.category.edit', compact('postCategory'));        
     }
 
     /**
@@ -80,7 +83,8 @@ class CategoryController extends Controller
         $inputs['slug'] = str_replace(' ' , '-' , $inputs['slug']);
         $inputs['image'] = 'image';
         $postCategory->update($inputs);
-        return redirect()->route('admin.content.category.index');
+        return redirect()->route('admin.content.category.index')
+        ->with('alert-section-success', 'ویرایش دسته بندی شماره   '.$postCategory['id'].' با موفقیت انجام شد');
     }
 
     /**
@@ -92,7 +96,8 @@ class CategoryController extends Controller
     public function destroy(PostCategory $postCategory)
     {
         $result = $postCategory->delete();
-        return redirect()->route('admin.content.category.index');
+        return redirect()->route('admin.content.category.index')
+        ->with('alert-section-success', ' دسته بندی شماره '.$postCategory->id.' با موفقیت حذف شد');
     }
 
         /**
@@ -109,9 +114,9 @@ class CategoryController extends Controller
 
         if($result){
             if($postCategory->status == 0){
-                return response()->json(['status' => true, 'checked' => false]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $postCategory->id]);
             }else{
-                return response()->json(['status' => true, 'checked' => true]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $postCategory->id]);
             }
         }else{
             return response()->json(['status' => false]);

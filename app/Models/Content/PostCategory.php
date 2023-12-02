@@ -12,6 +12,6 @@ class PostCategory extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name', 'description', 'slug', 'image', 'status', 'tags'
+        'name', 'description', 'slug', 'image', 'status', 'tags', 'sort'
     ];
 }
