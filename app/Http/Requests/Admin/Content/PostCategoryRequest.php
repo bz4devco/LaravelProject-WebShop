@@ -27,7 +27,7 @@ class PostCategoryRequest extends FormRequest
             return [
                 'name' => 'required|max:120|min:2',
                 'description' => 'required|max:500|min:5',
-                'slug' => 'unique:post_categories',
+                'slug' => 'nullable',
                 'image' => 'required',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required',

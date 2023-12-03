@@ -41,7 +41,6 @@ class CategoryController extends Controller
     public function store(PostCategoryRequest $request, PostCategory $postCategory)
     {
         $inputs = $request->all();
-        $inputs['slug'] = str_replace(' ' , '-' , $inputs['slug']);
         $inputs['image'] = 'image';
         $postCategory->create($inputs);
         return redirect()->route('admin.content.category.index')
@@ -80,7 +79,6 @@ class CategoryController extends Controller
     public function update(PostCategoryRequest $request, PostCategory $postCategory)
     {
         $inputs = $request->all();
-        $inputs['slug'] = str_replace(' ' , '-' , $inputs['slug']);
         $inputs['image'] = 'image';
         $postCategory->update($inputs);
         return redirect()->route('admin.content.category.index')

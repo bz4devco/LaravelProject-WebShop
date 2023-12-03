@@ -46,19 +46,6 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="slug">نام مسیر</label>
-                                <input class="form-control form-select-sm" type="text" name="slug" id="slug" value="{{ old('slug') }}">
-                                @error('slug')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </section>
-                        <section class="col-12 col-md-6">
-                            <div class="form-group mb-3">
                                 <label for="image">تصویر</label>
                                 <input class="form-control form-select-sm" type="file" name="image" id="image" >
                                 @error('image')
