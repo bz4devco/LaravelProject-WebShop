@@ -7,12 +7,12 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.content.menu.index') }}">منوها</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ایجاد منو</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.content.menu.index') }}">منوها</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ایجاد منو</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -22,57 +22,77 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 ایجاد دسته بندی
+                    ایجاد منوی جدید
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.content.menu.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form action="" method="">
+                <form id="form" action="{{ route('admin.content.menu.store') }}" method="post">
+                    @csrf
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">عنوان منو</label>
-                                <input class="form-control form-select-sm" type="text">
+                                <label for="name">عنوان منو</label>
+                                <input class="form-control form-select-sm" type="text" name="name" id="name" value="{{ old('name') }}">
+                                @error('name')
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">عنوان لاتین</label>
-                                <input class="form-control form-select-sm" type="text">
+                                <label for="url">آدرس URL</label>
+                                <input class="form-control form-select-sm" type="url" name="url" id="url" placeholder="http://example.com" value="{{ old('url') }}">
+                                @error('url')
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">منو والد</label>
-                                <select class="form-select form-select-sm" name="" id="">
-                                    <option>دسته را انتخاب کنید</option>
-                                    <option value="87687">موبایل</option>
-                                    <option value="87687">کالای الکترونیکی</option>
+                                <label for="parent_id">منو والد</label>
+                                <select class="form-select form-select-sm" name="parent_id" id="parent_id">
+                                    <option disabled selected>والد را انتخاب کنید</option>
+                                    <option value="" @if (old('parent_id') == '') selected @endif>منوی اصلی</option>
+                                    @forelse($menus as $menu)
+                                    <option value="{{$menu->id}}" @if (old('parent_id') == $menu->id) selected @endif>{{ $menu->name }}</option>
+                                    @empty
+                                    <option disabled class="text-center">والدی وجود ندارد</option>
+                                    @endforelse
                                 </select>
+                                @error('parent_id')
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">آدرس URL</label>
-                                <input class="form-control form-select-sm" type="text">
-                            </div>
-                        </section>
-                        <section class="col-12 col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="">تصویر</label>
-                                <input class="form-control form-select-sm" type="file" name="" id="">
-                            </div>
-                        </section>
-                        <section class="col-12 col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="">وضعیت</label>
-                                <select class="form-select form-select-sm" name="" id="">
-                                    <option>وضعیت را انتخاب کنید</option>
-                                    <option value="1">فعال</option>
-                                    <option value="0">غیر فعال</option>
+                                <label for="status">وضعیت</label>
+                                <select class="form-select form-select-sm" name="status" id="status">
+                                    <option value="0" @if (old('status')==0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status')==1) selected @endif>فعال</option>
                                 </select>
+                                @error('status')
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12">

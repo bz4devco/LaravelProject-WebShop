@@ -20,6 +20,7 @@ class CreatePostsTable extends Migration
             $table->string('summery');
             $table->text('body');
             $table->text('image');
+            $table->integer('sort')->default(1);
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('commentable')->default(0)->comment('0 => uncommentable, 1 => commentable');
             $table->string('tags')->nullable();

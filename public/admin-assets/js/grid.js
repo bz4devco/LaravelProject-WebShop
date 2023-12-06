@@ -137,11 +137,13 @@ $(document).ready(function(){
     });
 
 
-    // toggle fullscreen mode
 
 }); 
-
 // toggle sidebar dropdown menu
+
+
+
+// toggle fullscreen mode
 $('#full-screen').click(function(){
     toggleFullScreen();
 });

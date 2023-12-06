@@ -1,29 +1,34 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<!-- status switch on list -->
+<link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
+
 <title>منوها | پنل مدیریت</title>
 @endsection
 
 @section('content')
-<!-- category page Breadcrumb area -->
+<!-- category menu Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
-    <li class="breadcrumb-item active" aria-current="page">منوها</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
+        <li class="breadcrumb-item active" aria-current="menu">منوها</li>
+    </ol>
 </nav>
-<!-- category page Breadcrumb area -->
+<!-- category menu Breadcrumb area -->
 
-<!--category page category list area -->
+<!--category menu category list area -->
 <section class="row">
     <section class="col-12">
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                منوها
+                    منوها
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
+            @include('admin.alerts.alert-section.error')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.content.menu.create') }}" class="btn btn-sm btn-info text-white">ایجاد منو جدید</a>
                 <div class="max-width-16-rem">
@@ -32,7 +37,7 @@
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام منو</th>
                         <th>منو والد</th>
@@ -41,74 +46,46 @@
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                        @forelse($menus as $menu)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>کالای الکترونیکی</td>
-                            <td>-</td>
-                            <td  class="text-truncate" style="max-width: 120px;">http://localhost/category/کالای-الکتونیکی</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
+                            <th>{{ $menu->id}}</th>
+                            <td>{{ $menu->name}}</td>
+                            <td>{{ $menu->parent_id ? $menu->parent->name : 'منوی اصلی'}}</td>
+                            <td class="text-truncate" style="max-width: 120px;">{{ $menu->url }}</td>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.content.menu.status', $menu->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $menu->id }}" name="status" type="checkbox" @if($menu->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $menu->id }}"></label>
+                                    </div>
+                                </section>
                             </td>
                             <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
+                                <a href="{{ route('admin.content.menu.edit', $menu->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.content.menu.destroy', $menu->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $menu->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>موبایل</td>
-                            <td>کالای الکترونیکی</td>
-                            <td  class="text-truncate" style="max-width: 120px;">http://localhost/category/موبایل</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable py-4">جدول منو ها خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>سامسونگ</td>
-                            <td>برندها</td>
-                            <td  class="text-truncate" style="max-width: 120px;">http://localhost/category/سامسونگ</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
         </section>
     </section>
 </section>
-<!-- category page category list area -->
+<!-- category menu category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+
+
 @endsection

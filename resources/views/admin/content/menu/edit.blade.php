@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
-<title> ایجاد پیج | پنل مدیریت</title>
+<title> ویرایش منو | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -9,9 +9,10 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb m-0 font-size-12">
         <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.content.page.index') }}">پیج ساز</a></li>
-        <li class="breadcrumb-item active" aria-current="page">ایجاد پیج</li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.content.menu.index') }}">منوها</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ویرایش منو</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ $menu->name }}</li>
     </ol>
 </nav>
 <!-- category page Breadcrumb area -->
@@ -22,21 +23,22 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                    ایجاد پیج
+                    ویرایش منوی جدید
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.content.page.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
+                <a href="{{ route('admin.content.menu.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form id="form" action="{{ route('admin.content.page.store') }}" method="post">
+                <form id="form" action="{{ route('admin.content.menu.update', $menu->id) }}" method="post">
                     @csrf
+                    @method('PUT')
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="title">عنوان</label>
-                                <input id="title" name="title" class="form-control form-select-sm" type="text" value="{{ old('title') }}">
-                                @error('title')
+                                <label for="name">عنوان منو</label>
+                                <input class="form-control form-select-sm" type="text" name="name" id="name" value="{{ old('name', $menu->name) }}">
+                                @error('name')
                                 <span class="text-danger font-size-12">
                                     <strong>
                                         {{ $message }}
@@ -48,21 +50,8 @@
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="url">آدرس URL</label>
-                                <input id="url" name="url" class="form-control form-select-sm" type="text" value="{{ old('url') }}">
+                                <input class="form-control form-select-sm" type="url" name="url" id="url" value="{{ old('url', $menu->url) }}">
                                 @error('url')
-                                <span class="text-danger font-size-12">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </section>
-                        <section class="col-12 mb-3">
-                            <div class="form-group">
-                                <label for="body">محتوی</label>
-                                <textarea id="body" name="body">{{ old('body') }}</textarea>
-                                @error('body')
                                 <span class="text-danger font-size-12">
                                     <strong>
                                         {{ $message }}
@@ -73,10 +62,16 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="tags">برچسب ها</label>
-                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags') }}">
-                                <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
-                                @error('tags')
+                                <label for="parent_id">منو والد</label>
+                                <select class="form-select form-select-sm" name="parent_id" id="parent_id">
+                                    <option value="" @if (old('parent_id', $menu->parent_id) == '') selected @endif>منوی اصلی</option>
+                                    @forelse($parentsMenu as $parentMenu)
+                                        <option value="{{$parentMenu->id}}" @if (old('parent_id', $menu->parent_id) == $parentMenu->id) selected @endif>{{ $parentMenu->name }}</option>
+                                    @empty
+                                    <option disabled class="text-center">والدی وجود ندارد</option>
+                                    @endforelse
+                                </select>
+                                @error('parent_id')
                                 <span class="text-danger font-size-12">
                                     <strong>
                                         {{ $message }}
@@ -89,8 +84,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status')==0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status')==1) selected @endif>فعال</option>
+                                    <option value="0" @if (old('status', $menu->status)==0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status', $menu->status)==1) selected @endif>فعال</option>
                                 </select>
                                 @error('status')
                                 <span class="text-danger font-size-12">
@@ -111,13 +106,4 @@
     </section>
 </section>
 <!-- category page category list area -->
-@endsection
-@section('script')
-<script type="text/javascript" src="{{ asset('admin-assets/js/mask-input/jquery.maskedinput.js') }}"></script>
-<script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
-<script src="{{ asset('admin-assets/js/plugin/form/select2-input-config.js') }}"></script>
-
-<script>
-    CKEDITOR.replace('body');
-</script>
 @endsection

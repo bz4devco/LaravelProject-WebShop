@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Content\PostCategory;
 use App\Http\Requests\Admin\Content\PostCategoryRequest;
+use App\Http\Services\Image\ImageCacheService;
+use App\Http\Services\Image\ImageService;
+use Intervention\Image\ImageCache;
 
 class CategoryController extends Controller
 {
@@ -38,10 +41,23 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostCategoryRequest $request, PostCategory $postCategory)
+    public function store(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageservice)
     {
-        $inputs = $request->all();
-        $inputs['image'] = 'image';
+        // image Upload
+        if($request->hasFile('image'))
+        {
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            $result = $imageservice->createIndexAndSave($request->file('image'));
+            if($result === false)
+            {
+                return redirect()->route('admin.content.category.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs = $request->all();
+        }
+     
+
+        // store data in database
+        $inputs['image'] = $result;
         $postCategory->create($inputs);
         return redirect()->route('admin.content.category.index')
         ->with('alert-section-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
@@ -76,10 +92,39 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostCategoryRequest $request, PostCategory $postCategory)
+    public function update(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageservice)
     {
+
         $inputs = $request->all();
-        $inputs['image'] = 'image';
+        
+        
+        // update image set and edit
+        if($request->hasFile('image'))
+        {
+            if(!empty($postCategory))
+            {
+                $imageservice->deleteDirectoryAndFiles($postCategory->image['directory']);
+            }
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-category');
+            $result = $imageservice->createIndexAndSave($request->file('image'));
+            
+            if($result === false)
+            {
+                return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['image'] = $result;
+        }
+        else {
+            if(isset($inputs['currentImage']) && !empty($postCategory->image))
+            {
+                $image = $postCategory->image;
+                $image['currentImage'] = $inputs['currentImage'];
+                $inputs['image'] = $image;
+            }
+        }
+
+
+
         $postCategory->update($inputs);
         return redirect()->route('admin.content.category.index')
         ->with('alert-section-success', 'ویرایش دسته بندی شماره   '.$postCategory['id'].' با موفقیت انجام شد');

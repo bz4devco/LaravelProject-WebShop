@@ -12,7 +12,7 @@ $(document).ready(function (){
         }
 
     select_tags.select2({
-        placeholder: 'لطفا پرچسب های خود را وارد کنید',
+        placeholder: 'لطفا برچسب های خود را وارد کنید',
         tags: true,
         data: default_data,
     });

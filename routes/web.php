@@ -205,8 +205,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
         // section content and comment side in admin panel
         Route::prefix('comment')->group(function (){
             Route::get('/', 'CommentController@index')->name('admin.content.comment.index');
-            Route::get('/show', 'CommentController@show')->name('admin.content.comment.show');
-            Route::put('/update/{id}', 'CommentController@update')->name('admin.content.comment.update');
+            Route::get('/show{comment}', 'CommentController@show')->name('admin.content.comment.show');
+            Route::put('/update/{comment}', 'CommentController@update')->name('admin.content.comment.update');
+            Route::get('/show{comment}', 'CommentController@approved')->name('admin.content.comment.approved');
+            Route::get('/answershow{comment}', 'CommentController@answershow')->name('admin.content.comment.answershow');
+            Route::get('/approved{comment}', 'CommentController@approved')->name('admin.content.comment.approved');
         });
 
 
@@ -215,9 +218,10 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/', 'FaqController@index')->name('admin.content.faq.index');
             Route::get('/create', 'FaqController@create')->name('admin.content.faq.create');
             Route::post('/store', 'FaqController@store')->name('admin.content.faq.store');
-            Route::get('/edit/{id}', 'FaqController@edit')->name('admin.content.faq.edit');
-            Route::put('/update/{id}', 'FaqController@update')->name('admin.content.faq.update');
-            Route::delete('/destroy/{id}', 'FaqController@destroy')->name('admin.content.faq.destroy');
+            Route::get('/edit/{faq}', 'FaqController@edit')->name('admin.content.faq.edit');
+            Route::put('/update/{faq}', 'FaqController@update')->name('admin.content.faq.update');
+            Route::delete('/destroy/{faq}', 'FaqController@destroy')->name('admin.content.faq.destroy');
+            Route::get('/status/{faq}', 'FaqController@status')->name('admin.content.faq.status');
         });
 
         
@@ -226,9 +230,10 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/', 'MenuController@index')->name('admin.content.menu.index');
             Route::get('/create', 'MenuController@create')->name('admin.content.menu.create');
             Route::post('/store', 'MenuController@store')->name('admin.content.menu.store');
-            Route::get('/edit/{id}', 'MenuController@edit')->name('admin.content.menu.edit');
-            Route::put('/update/{id}', 'MenuController@update')->name('admin.content.menu.update');
-            Route::delete('/destroy/{id}', 'MenuController@destroy')->name('admin.content.menu.destroy');
+            Route::get('/edit/{menu}', 'MenuController@edit')->name('admin.content.menu.edit');
+            Route::put('/update/{menu}', 'MenuController@update')->name('admin.content.menu.update');
+            Route::delete('/destroy/{menu}', 'MenuController@destroy')->name('admin.content.menu.destroy');
+            Route::get('/status/{menu}', 'MenuController@status')->name('admin.content.menu.status');
         });
         
 
@@ -237,9 +242,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/', 'PostController@index')->name('admin.content.post.index');
             Route::get('/create', 'PostController@create')->name('admin.content.post.create');
             Route::post('/store', 'PostController@store')->name('admin.content.post.store');
-            Route::get('/edit/{id}', 'PostController@edit')->name('admin.content.post.edit');
-            Route::put('/update/{id}', 'PostController@update')->name('admin.content.post.update');
-            Route::delete('/destroy/{id}', 'PostController@destroy')->name('admin.content.post.destroy');
+            Route::get('/edit/{post}', 'PostController@edit')->name('admin.content.post.edit');
+            Route::put('/update/{post}', 'PostController@update')->name('admin.content.post.update');
+            Route::delete('/destroy/{post}', 'PostController@destroy')->name('admin.content.post.destroy');
+            Route::get('/status/{post}', 'PostController@status')->name('admin.content.post.status');
+            Route::get('/commentable/{post}', 'PostController@commentable')->name('admin.content.post.commentable');
         });
 
         
@@ -248,9 +255,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/', 'PageController@index')->name('admin.content.page.index');
             Route::get('/create', 'PageController@create')->name('admin.content.page.create');
             Route::post('/store', 'PageController@store')->name('admin.content.page.store');
-            Route::get('/edit/{id}', 'PageController@edit')->name('admin.content.page.edit');
-            Route::put('/update/{id}', 'PageController@update')->name('admin.content.page.update');
-            Route::delete('/destroy/{id}', 'PageController@destroy')->name('admin.content.page.destroy');
+            Route::get('/edit/{page}', 'PageController@edit')->name('admin.content.page.edit');
+            Route::put('/update/{page}', 'PageController@update')->name('admin.content.page.update');
+            Route::delete('/destroy/{page}', 'PageController@destroy')->name('admin.content.page.destroy');
+            Route::get('/status/{page}', 'PageController@status')->name('admin.content.page.status');
+
         });
     });
 

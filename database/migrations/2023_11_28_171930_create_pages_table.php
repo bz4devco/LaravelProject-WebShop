@@ -17,7 +17,8 @@ class CreatePagesTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('body');
-            $table->string('slug')->unique()->nullable();
+            $table->string('url')->nullable()->comment('only for save and create slugs');
+            $table->string('slug')->unique()->nullable()->comment('orginal url for use');
             $table->tinyInteger('status')->default(0);
             $table->string('tags')->nullable();
             $table->timestamps();

@@ -128,10 +128,8 @@
     .main-body table {
         font-size: 0.75rem;
     }
+    
 /* admin posts */
-    .alert_required{
-        color: #ff50a1 !important;
-    }
     .switch {
         position: relative;
         display: inline-block;
@@ -266,6 +264,9 @@
     .max-height-2rem{
         max-height: 2rem;
     }
+    .max-h{
+        max-height: 200px;
+    }
 
     .btn-border{
         border: 1px solid #ced4da;
@@ -299,6 +300,20 @@
         padding-left: 0.5rem;
     }
 
+/* file input costum style */
+  .custom-file-button input[type=file] {
+    margin-left: -2px !important;
+  }
+  .custom-file-button input[type=file]::-webkit-file-upload-button {
+    display: none;
+  }
+  .custom-file-button input[type=file]::file-selector-button {
+    display: none;
+  }
+  .custom-file-button:hover label {
+    background-color: #dde0e3;
+    cursor: pointer;
+  }
 /* table rows border style */
     .table>:not(caption)>*>* {
         border-bottom-width: 0px;
@@ -356,9 +371,6 @@
         font-size: .8rem;
         font-family: IRANSans;
     }
-    .select2-container .select2-search--inline .select2-search__field {
-        margin-top: 0;
-    }
     .select2-container--default[dir="rtl"] .select2-selection--multiple .select2-selection__choice__remove {
         border-left: 1px solid transparent;
     }
@@ -385,4 +397,16 @@
     }
     .select2-container{
         width: 100% !important;
+    }
+
+
+/* set image checked style on image input of edit page */
+    .set-image + .form-check-label{
+        border: 1px solid rgb(211, 211, 211);
+    }
+
+    .set-image:checked + .form-check-label{
+        border-radius: 2px;
+        border: 3px solid rgb(101, 206, 255);
+        box-shadow: 0 3px 18px 3px rgba(103, 103, 103, 0.185);
     }
