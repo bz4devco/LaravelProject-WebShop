@@ -48,7 +48,7 @@
                         <tr class="align-middle">
                             <th>{{ $faq->id }}</th>
                             <td>{{ $faq->qusetion }}</td>
-                            <td class="text-truncate" style="max-width: 120px;">{{ $faq->answer }}</td>
+                            <td class="text-truncate" style="max-width: 120px;">{{ strip_tags($faq->answer) }}</td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">

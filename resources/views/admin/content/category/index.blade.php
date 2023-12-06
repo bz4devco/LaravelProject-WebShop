@@ -51,7 +51,7 @@
                             <th>{{ $postCategory->id }}</th>
                             <td>{{ $postCategory->name }}</td>
                             <td  class="text-truncate" style="max-width: 150px;" title="{{ $postCategory->description }}">
-                                {{ $postCategory->description }}
+                                {{ strip_tags($postCategory->description) }}
                             </td>
                             <td  class="text-truncate" style="max-width: 150px;" title="{{ $postCategory->slug }}">
                                 {{ $postCategory->slug }}
