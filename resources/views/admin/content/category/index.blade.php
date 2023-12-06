@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<!-- status switch on list -->
 <link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
 
 <title>دسته بندی | پنل مدیریت</title>
@@ -40,14 +41,12 @@
                         <th>نام دسته بندی</th>
                         <th>توضیحات</th>
                         <th>عنوان مسیر</th>
+                        <th>تصویر</th>
                         <th>وضعیت</th>
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
                         @forelse($postCategorys as $postCategory)
-                        @php 
-                            $selected = $postCategory->status;
-                        @endphp
                         <tr class="align-middle">
                             <th>{{ $postCategory->id }}</th>
                             <td>{{ $postCategory->name }}</td>
@@ -56,6 +55,9 @@
                             </td>
                             <td  class="text-truncate" style="max-width: 150px;" title="{{ $postCategory->slug }}">
                                 {{ $postCategory->slug }}
+                            </td>
+                            <td>
+                                <img src="{{ asset($postCategory->image['indexArray'][$postCategory->image['currentImage']]) }}" height="50" alt="{{ $postCategory->name }}">
                             </td>
                             <td>
                                 <section>

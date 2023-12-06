@@ -1,6 +1,6 @@
 <!-- header start -->
 <!-- ** header top postion fixed z-index 1000 ** -->
-<header class="header" id="header">
+<header class="header-main" id="header">
     <!-- header sidbar right area -->
     <!-- ** dashboard menu for transfer to admin pages ** -->
     <section class="sidbar-header bg-gray"  id="header-sidbar">

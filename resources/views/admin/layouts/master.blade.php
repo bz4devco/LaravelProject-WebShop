@@ -25,6 +25,9 @@
         @include('admin.alerts.toast.success')
         @include('admin.alerts.toast.error')
     </section>
+    <section class="toast-wrapper d-flex flex-column-reverse" style="display: none!important">
+        
+    </section>
 
     @include('admin.alerts.sweetalert.success')
 

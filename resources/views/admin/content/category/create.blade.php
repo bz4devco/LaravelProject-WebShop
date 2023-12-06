@@ -46,9 +46,10 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="image">تصویر</label>
-                                <input class="form-control form-select-sm" type="file" name="image" id="image" >
-                                @error('image')
+                                <label for="tags">برچسب ها</label>
+                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags') }}">
+                                <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
+                                @error('tags')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -59,10 +60,9 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="tags">برچسب ها</label>
-                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags') }}">
-                                <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
-                                @error('tags')
+                                <label for="image">تصویر</label>
+                                <input class="form-control form-select-sm" type="file" name="image" id="image" accept="image/*">
+                                @error('image')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -134,6 +134,7 @@
 <!-- category page category list area -->
 @endsection
 @section('script')
+<script src="{{ asset('admin-assets/js/plugin/form/price-format.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
 <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/form/select2-input-config.js') }}"></script>

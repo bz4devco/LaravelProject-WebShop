@@ -48,9 +48,10 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="slug">نام مسیر</label>
-                                <input class="form-control form-select-sm" type="text" name="slug" id="slug" value="{{ old('slug', str_replace('-', ' ', $postCategory->slug)) }}">
-                                @error('slug')
+                                <label for="tags">برچسب ها</label>
+                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags' , $postCategory->tags) }}">
+                                <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
+                                @error('tags')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -62,7 +63,7 @@
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="image">تصویر</label>
-                                <input class="form-control form-select-sm" type="file" name="image" id="image" >
+                                <input class="form-control form-select-sm" type="file" name="image" id="image"  accept="image/*">
                                 @error('image')
                                     <span class="text-danger font-size-12">
                                         <strong>
@@ -70,20 +71,27 @@
                                         </strong>
                                     </span>
                                 @enderror
-                            </div>
-                        </section>
-                        <section class="col-12 col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="tags">برچسب ها</label>
-                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags' , $postCategory->tags) }}">
-                                <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
-                                @error('tags')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
+                                <section class="row mt-2">
+                                    @php   
+                                        $number = 1;
+                                    @endphp
+
+                                    @foreach($postCategory->image['indexArray'] as $key => $value)
+                                    <section class="col-{{ 6 / $number }}">
+                                        <div class="form-check p-0">
+                                            <input type="radio" class="form-check-input d-none set-image" name="currentImage" value="{{ $key }}" id="{{ $number }}"
+                                            @if($postCategory->image['currentImage']  == $key) checked @endif>
+                                            <label for="{{ $number }}" class="form-check-label">
+                                                <img src="{{ asset($value) }}" class="w-100 max-h" alt="">
+                                            </label>
+                                        </div>
+                                    </section>
+                                    @php
+                                        $number++;
+                                    @endphp
+                                    @endforeach
+
+                                </section>
                             </div>
                         </section>
                         <section class="col-12 mb-3">
@@ -149,6 +157,7 @@
 <!-- category page category list area -->
 @endsection
 @section('script')
+<script src="{{ asset('admin-assets/js/plugin/form/price-format.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
 <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/form/select2-input-config.js') }}"></script>
