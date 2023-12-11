@@ -32,35 +32,63 @@
                 <a href="{{ route('admin.notify.email.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form action="" method="">
+                <form id="form" action="{{ route('admin.notify.email.store') }}" method="post">
+                    @csrf
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">عنوان ایمیل</label>
-                                <input class="form-control form-select-sm" type="text">
+                                <label for="subject">عنوان ایمیل</label>
+                                <input class="form-control form-select-sm" type="text" name="subject" id="subject" value="{{ old('subject') }}">
+                                @error('subject')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
-  
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">تاریخ انتشار</label>
-                                <input type="text" name="startdate" id="startdate" class="form-control form-control-sm" autocomplete="off" />
+                                <label for="startdate">تاریخ انتشار</label>
+                                <input type="text" name="published_at" id="startdate_altField" class="form-control form-control-sm d-none" autocomplete="off"/>
+                                <input type="text" id="startdate" class="form-control form-control-sm" autocomplete="off"  value="{{ old('published_at') }}" />
+                                @error('published_at')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">وضعیت</label>
-                                <select class="form-select form-select-sm" name="" id="">
-                                    <option>وضعیت را انتخاب کنید</option>
-                                    <option value="1">فعال</option>
-                                    <option value="0">غیر فعال</option>
+                                <label for="status">وضعیت</label>
+                                <select class="form-select form-select-sm" name="status" id="status">
+                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
                                 </select>
+                                @error('status')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 mb-3">
                             <div class="form-group">
                                 <label for="">متن ایمیل</label>
-                                <textarea id="product-desc"></textarea>
+                                <textarea id="body" name="body">{{ old('body') }}</textarea>
+                                @error('body')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                                </div>
                         </section>
                         <section class="col-12">
@@ -82,6 +110,6 @@
 <script src="{{ asset('admin-assets/js/plugin/form/datepicker-config.js') }}"></script>
 <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
 <script>
-        CKEDITOR.replace( 'product-desc');
+        CKEDITOR.replace( 'body');
 </script>
 @endsection

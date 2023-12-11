@@ -4,7 +4,7 @@
 <!-- status switch on list -->
 <link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
 
-<title>اطلاعیه ایمیلی | پنل مدیریت</title>
+<title>فایل های اطلاعیه ایمیلی | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -13,7 +13,9 @@
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">اطلاع رسانی</a></li>
-    <li class="breadcrumb-item active" aria-current="page">اطلاعیه ایمیلی</li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.notify.email.index') }}">اطلاعیه ایمیلی</a></li>
+    <li class="breadcrumb-item active" aria-current="page">فایل های اطلاعیه ایمیلی</li>
+    <li class="breadcrumb-item active" aria-current="page">{{$email->subject}}</li>
 </ol>
 </nav>
 <!-- email page Breadcrumb area -->
@@ -24,12 +26,15 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                اطلاعیه ایمیلی
+                 فایل های اطلاعیه ایمیلی ({{$email->subject}})
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.notify.email.create') }}" class="btn btn-sm btn-info text-white">ایجاد اطلاعیه ایمیلی</a>
+                <div>
+                    <a href="{{ route('admin.notify.email.index') }}" class="btn btn-sm btn-primary text-white ms-2">بازگشت</a>
+                    <a href="{{ route('admin.notify.email-file.create', $email->id) }}" class="btn btn-sm btn-info text-white">افزودن فایل به اطلاعیه ایمیلی</a>
+                </div>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -38,38 +43,39 @@
                 <table class="table table-striped table-hover">
                     <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
-                        <th>عنون اطلاعیه</th>
-                        <th>تاریخ ارسال</th>
+                        <th>عنوان ایمیل</th>
+                        <th>سایز ایمیل</th>
+                        <th>نوع فایل</th>
                         <th>وضعیت</th>
                         <th class=" text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
-                        @forelse($emails as $email)
+                        @forelse($email->files as $key => $file)
                         <tr class="align-middle">
-                            <th>{{ $email->id }}</th>
+                            <th>{{ $key + 1 }}</th>
                             <td>{{ $email->subject }}</td>
-                            <td>{{ jalaliDate($email->published_at) }}</td>
+                            <td>{{ $file->file_size }}</td>
+                            <td>{{ $file->file_type }}</td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.notify.email.status', $email->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $email->id }}" name="status" type="checkbox" @if($email->status) checked @endif >
-                                        <label class="custom-switch-btn" for="{{ $email->id }}"></label>
+                                        <input data-url="{{ route('admin.notify.email-file.status', $file->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $file->id }}" name="status" type="checkbox" @if($file->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $file->id }}"></label>
                                     </div>
                                 </section>
                             </td>
                             <td class="text-start">
-                                <a href="{{ route('admin.notify.email-file.index', $email->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-file ms-2"></i>فایل های ضمیمه شده</a>
-                                <a href="{{ route('admin.notify.email.edit', $email->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <form class="d-inline" action="{{ route('admin.notify.email.destroy', $email->id) }}" method="post">
+                                <a href="{{ route('admin.notify.email-file.edit', $file->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.notify.email-file.destroy', $file->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" id="{{ $email->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                    <button type="submit" id="{{ $file->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
                             </td>
                         </tr>
                         @empty
                         <tr class="align-middle">
-                            <th colspan="" class="text-center emptyTable  py-4">جدول اطلاعیه های ایمیلی خالی می باشد</th>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول فایل های اطلاعیه ایمیلی خالی می باشد</th>
                         </tr>
                         @endforelse
                     </tbody>

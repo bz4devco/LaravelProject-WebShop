@@ -15,10 +15,11 @@ class CreatePublicMailFilesTable extends Migration
     {
         Schema::create('public_mail_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('brand_id')->constrained('brands')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('public_mail_id')->constrained('email')->onUpdate('cascade')->onDelete('cascade');
             $table->text('file_path');
             $table->bigInteger('file_size');
             $table->string('file_type');
+            $table->tinyInteger('storage_path')->default(0)->comment('0 => public path , 1 => storage path');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();       

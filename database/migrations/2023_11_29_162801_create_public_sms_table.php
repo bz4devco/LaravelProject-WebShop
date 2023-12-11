@@ -18,7 +18,7 @@ class CreatePublicSmsTable extends Migration
             $table->string('title');
             $table->text('body');
             $table->tinyInteger('status')->default(0);
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();;
             $table->timestamps();
             $table->softDeletes();
         });
