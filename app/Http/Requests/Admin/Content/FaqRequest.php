@@ -26,14 +26,14 @@ class FaqRequest extends FormRequest
         if($this->isMethod('post')){
             return [
                 'qusetion' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,؟!،?! ]+$/u',
-                'answer' => 'required|max:300|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r&?!؟!، ]+$/u',
+                'answer' => 'required|max:300|min:5',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required',
             ];
         }else{
             return [
                 'qusetion' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,؟!،?! ]+$/u',
-                'answer' => 'required|max:300|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r&?!؟!، ]+$/u',
+                'answer' => 'required|max:300|min:5',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required',
             ];

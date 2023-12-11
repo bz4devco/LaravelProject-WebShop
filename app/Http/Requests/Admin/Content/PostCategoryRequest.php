@@ -26,7 +26,7 @@ class PostCategoryRequest extends FormRequest
         if($this->isMethod('post')){
             return [
                 'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-                'description' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+                'description' => 'required|max:500|min:5',
                 'image' => 'required|image|mimes:png,jpg,jpeg,gif,ico,svg',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
@@ -35,7 +35,7 @@ class PostCategoryRequest extends FormRequest
         }else{
             return [
                 'name' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',
-                'description' => 'required|max:500|min:5|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,><\/;\n\r& ]+$/u',
+                'description' => 'required|max:500|min:5',
                 'image' => 'required|image|mimes:png,jpg,jpeg,gif,ico,svg',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي., ]+$/u',

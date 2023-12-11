@@ -24,7 +24,7 @@ class CreatePostsTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('commentable')->default(0)->comment('0 => uncommentable, 1 => commentable');
             $table->string('tags')->nullable();
-            $table->timestamp('published_at');
+            $table->timestamp('published_at')->nullable();
             $table->foreignId('author_id')->constrained('users');
             $table->foreignId('category_id')->constrained('post_categories');
             $table->timestamps();
