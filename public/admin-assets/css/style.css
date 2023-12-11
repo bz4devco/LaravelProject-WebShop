@@ -285,6 +285,10 @@
     article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
         display: block;
     }
+    
+    .reset {
+        all: revert;
+    }
 /* /////////////////////////// */
 
 
@@ -299,6 +303,16 @@
         padding-right: 0;
         padding-left: 0.5rem;
     }
+
+
+/* fieldset style for input group */
+fieldset { 
+    background-color: #fff !important;
+    border: 1px solid #ced4da !important;
+    border-radius: 0.25rem !important;
+    padding: 1rem !important;
+    margin-left: 0 !important;
+}
 
 /* file input costum style */
   .custom-file-button input[type=file] {
@@ -410,3 +424,51 @@
         border: 3px solid rgb(101, 206, 255);
         box-shadow: 0 3px 18px 3px rgba(103, 103, 103, 0.185);
     }
+
+
+/* table notif icon for new comments and un seen */
+
+@keyframes notif-alarm {
+    0% {    
+        box-shadow: 0 0 0px 0px transparent;
+        background-color: rgb(220, 13, 13);
+    }
+    20% {    
+        background-color: rgb(255, 23, 23);
+        box-shadow: 0 0 4px 1px rgb(172, 55, 55);
+    }
+    35% {    
+        box-shadow: 0 0 0px 0px transparent;
+        background-color: rgb(220, 13, 13);
+    }
+    60% {    
+        background-color: rgb(255, 23, 23);
+        box-shadow: 0 0 4px 1px rgb(172, 55, 55);
+    }
+    60% , 100% {    
+        box-shadow: 0 0 0px 0px transparent;
+        background-color: rgb(220, 13, 13);
+    }
+  }
+
+table .icon-before-notif::before{
+    content: '';
+
+    display: inline-block;
+    
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    animation: notif-alarm 1s linear infinite alternate;
+    
+}
+
+.table-striped>tbody>tr.bg-new-notif:nth-of-type(odd) {
+    --bs-table-accent-bg: rgba(96, 191, 109, 0.45);
+}
+
+.table-striped>tbody>tr.bg-new-notif:nth-of-type(even) {
+    --bs-table-accent-bg: rgb(225, 255, 229);
+}

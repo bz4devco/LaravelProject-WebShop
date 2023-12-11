@@ -165,5 +165,9 @@ return [
         "qusetion"                  => "پرسش",
         "answer"                    => "پاسخ",
         "parent_id"                 => "منوی والد", 
+        "subject"                   => "منوی والد", 
+        "base_url"                  => "آدرس URL سایت", 
+        "logo"                      => "لوگو", 
+        "icon"                      => "آیکونicon", 
     ],
 ];
