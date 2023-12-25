@@ -26,96 +26,52 @@
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="#" class="btn btn-sm btn-info text-white disabled">ایجاد تیکت جدید</a>
+            <a href="{{ route('admin.ticket.index') }}" class="btn btn-sm btn-info text-white">لیست تمام تیکت ها</a>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
+                        <th></th>
                         <th>#</th>
                         <th>نویسنده تیکت</th>
                         <th>عنوان تیکت</th>
                         <th>دسته تیکت</th>
                         <th>اولویت تیکت</th>
                         <th>ارجاع شده</th>
-                        <th>وضعیت</th>
+                        <th>وضعیت پاسخ</th>
                         <th class="text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
-                        <tr class="align-middle">
-                            <th>1</th>
-                            <td>حامد محمدی</td>
-                            <td>پرداخت انجام نمیشه!</td>
-                            <td>دسته فروش</td>
-                            <td>فوری</td>
-                            <td>-</td>
-                            <td>
-                                <section class="row flex-wrap">
-                                    <div class="col-md-8 px-1">
-                                        <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                            <option value="1">فعال</option>
-                                            <option value="0">غیر فعال</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 px-1">
-                                        <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                    </div>
-                                </section>
-                            </td>
-                            <td class="text-start">
-                                <a href="{{ route('admin.ticket.show') }}" class="btn btn-primary btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
+                        @forelse($tickets as $key => $ticket )
+
+                        {{-- notif for unseen comment --}}
+                        @php
+                        $bg_notif = ($ticket->seen == 0) ? 'bg-new-notif' : '';
+                        $icon_notif = ($ticket->seen == 0) ? 'icon-before-notif' : '';
+                        
+                        @endphp
+
+                        <tr class="align-middle {{$bg_notif}}">
+                            <td class="position-relative {{$icon_notif}}"></td>
+                            <th>{{ $key + 1 }}</th>
+                            <td>{{ $ticket->user->full_name }}</td>
+                            <td class="text-truncate" style="max-width: 120px;">{{ strip_tags($ticket->description) }}</td>
+                            <td>{{ $ticket->category->name }}</td>
+                            <td>{{ $ticket->priority->name }}</td>
+                            <td>{{ $ticket->admin->user->full_name }}</td>
+                            <td>{{ $ticket->answer == null ? 'در انتظار پاسخ' : 'پاسخ داده شد'}}</td>
+                            <td class="width-16-rem text-start">
+                                <a href="{{ route('admin.ticket.show', $ticket->id) }}" class="btn bg-custom-blue border-0 text-white btn-sm d-inline-flex align-items-center "><i class="fa fa-eye ms-2"></i><span>نمایش تیکت</span></a>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>مهرداد ایمانی</td>
-                            <td>مشکل در پرداخت!</td>
-                            <td>دسته فروش</td>
-                            <td>فوری</td>
-                            <td>کامران محمدی</td>
-                            <td>
-                                <section class="row flex-wrap">
-                                    <div class="col-md-8 px-1">
-                                        <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                            <option value="1">فعال</option>
-                                            <option value="0">غیر فعال</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 px-1">
-                                        <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                    </div>
-                                </section>
-                            </td>
-                            <td class="text-start">
-                                <a href="{{ route('admin.ticket.show') }}" class="btn btn-primary btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول تیکت های جدید خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>حامد محمدی</td>
-                            <td>مشکل سبد خرید!</td>
-                            <td>دسته فروش</td>
-                            <td>فوری</td>
-                            <td>-</td>
-                            <td>
-                                <section class="row flex-wrap">
-                                    <div class="col-md-8 px-1">
-                                        <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                            <option value="1">فعال</option>
-                                            <option value="0">غیر فعال</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 px-1">
-                                        <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                    </div>
-                                </section>
-                            </td>
-                            <td class="text-start">
-                                <a href="{{ route('admin.ticket.show') }}" class="btn btn-primary btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>

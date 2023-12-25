@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Admin\Ticket;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Ticket\Ticket;
+use App\Models\Ticket\TicketFile;
+use App\Http\Controllers\Controller;
+use App\Http\Services\File\FileService;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\Admin\Ticket\TicketRequest;
+use Carbon\Carbon;
 
 class TicketController extends Controller
 {
@@ -14,7 +20,11 @@ class TicketController extends Controller
      */
     public function index()
     {
-        return view('admin.ticket.index');
+        $tickets = Ticket::orderBy('seen', 'asc')
+        ->orderBy('status', 'desc')
+        ->orderBy('created_at', 'desc')
+        ->simplePaginate(15);
+        return view('admin.ticket.index', compact('tickets'));
     }
 
     /**
@@ -24,7 +34,16 @@ class TicketController extends Controller
      */
     public function newTickets()
     {
-        return view('admin.ticket.new-ticket');
+        
+        $tickets = Ticket::where('status', 0)
+        ->orderBy('seen', 'asc')
+        ->orderBy('created_at', 'desc')->simplePaginate(15);
+
+        foreach($tickets as $newTicket){
+            $newTicket->status = 1;
+            $result = $newTicket->save();
+        }
+        return view('admin.ticket.new-ticket', compact('tickets'));
     }
 
     /**
@@ -34,7 +53,15 @@ class TicketController extends Controller
      */
     public function openTickets()
     {
-        return view('admin.ticket.open-ticket');
+        $tickets = Ticket::where('seen', 1)
+        ->orderBy('seen', 'asc')
+        ->orderBy('created_at', 'desc')->simplePaginate(15);
+
+        foreach($tickets as $newTicket){
+            $newTicket->status = 1;
+            $result = $newTicket->save();
+        }
+        return view('admin.ticket.open-ticket', compact('tickets'));
     }
 
     /**
@@ -44,7 +71,15 @@ class TicketController extends Controller
      */
     public function closeTickets()
     {
-        return view('admin.ticket.close-ticket');
+        $tickets = Ticket::where('seen', 0)
+        ->orderBy('seen', 'asc')
+        ->orderBy('created_at', 'desc')->simplePaginate(15);
+
+        foreach($tickets as $newTicket){
+            $newTicket->status = 1;
+            $result = $newTicket->save();
+        }
+        return view('admin.ticket.close-ticket', compact('tickets'));
     }
 
     /**
@@ -53,9 +88,19 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Ticket $ticket)
     {
-        return view('admin.ticket.show');
+
+        // update seen comment when comment showed with admin
+        $ticket->where('id', $ticket->id)->update(['seen' => 1]);
+
+        $file = TicketFile::where('ticket_id' , $ticket->id)
+        ->where('user_id' , $ticket->user_id)
+        ->orWhere('user_id' , $ticket->refrence_id)->first();
+
+        $file = isset($file) ? $file : '';
+
+        return view('admin.ticket.show', compact(['ticket', 'file']));
     }
 
     /**
@@ -76,19 +121,44 @@ class TicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TicketRequest $request, Ticket $ticket ,FileService $fileService)
     {
-        //
+
+        if($request->hasFile('file')){
+            $fileService->setExclusiveDirectory('file'. DIRECTORY_SEPARATOR . 'ticket-files');
+            $fileService->setFileSize($request->file('file'));
+            $fileSize = $fileService->getFileSize();
+            $result = $fileService->moveToStorage($request->file('file'));
+
+            $fileFormat = $fileService->getFileFormat();
+
+            // set file properties to input value
+            $inputs['ticket_id'] = $ticket->id;
+            $inputs['user_id'] = 1;
+            $inputs['file_path'] = $result;
+            $inputs['file_size'] = $fileSize;
+            $inputs['file_type'] = $fileFormat;
+            $inputs['status'] = 1;
+
+            if($result === false){
+                return redirect()->route('admin.ticket.show', $ticket->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+            }
+            // store data in database
+            TicketFile::create($inputs);
+        }
+
+        $answer['answer'] = $request->answer;
+        $answer['answer_status'] = 1;
+        $answer['answer_at'] = Carbon::now();
+        
+        $ticket->update($answer);
+        return redirect()->route('admin.ticket.index')
+        ->with('alert-section-success', ' پاسخ تیتک شما به کاربر ' . $ticket->user->full_name . ' ارسال شد');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function download(TicketFile $file)
     {
-        //
-    }
+        return Storage::download($file->file_path);
+    }   
+
 }

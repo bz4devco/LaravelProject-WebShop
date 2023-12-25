@@ -30,32 +30,91 @@
             </section>
             <section>
                 <section class="card mb-3">
-                    <section class="card-header bg-custom-blue text-white font-size-14">
-                        کامران محمدی- 845362736
+                    <section class="card-header bg-custom-blue text-white font-size-14 d-flex justify-content-between">
+                    <span class="d-inline-flex align-items-center">
+                    {{$ticket->user->full_name}}  - {{$ticket->user->id}}
+                    </span>
+                    <section class="d-flex">
+                        <span class="badge p-2 bg-success ms-2"> دسته بندی : {{$ticket->category->name}}</span>
+                        <span class="badge p-2 bg-warning text-dark">اولویت : {{$ticket->priority->name}}</span>
+                    </section>
                     </section>
                     <section class="card-body">
-                        <h5 class="card-title mb-3">موضوع : عدم دسترسی به صفحه سفرشات من</h5>
+                        <h5 class="card-title mb-3">موضوع : {{$ticket->subject}}</h5>
                         <section class="d-flex">
                             <i class="far fa-comments ms-2"></i>
-                            <p class="card-text font-size-14">من دیروز خرید کردم، ولی به بخش سفارشات پنل نمی توانم برم و وضعیت سفارشم ر ببینم.</p>
+                            <p class="card-text font-size-14">{{strip_tags($ticket->description)}}</p>
                         </section>
                     </section>
+                    @if($file != '')
+                    <section class="card-body text-white  bg-primary py-2">
+                        <strong class="card-title d-block">فایل پیوست</strong>
+                        <a href="#" class="text-decoration-none text-white mt-3">
+                            <i class="fa fa-download text-white"></i>
+                            {{$file->file_type}} 
+                            - 
+                            اندازه فایل : {{$file->file_size}} 
+                        </a>
+                    </section>
+                    @endif
+                    <section class="card-footer">
+                        <small class="text-success"><i class="fa fa-calendar-alt ms-2"></i> {{jalaliDate($ticket->created_at)}}</small>
+                    </section>
                 </section>
+                @if($ticket->answer == null)
                 <section class="">
-                    <form action="" method="">
-                        <section class="row">
+                    <form id="form" action="{{ route('admin.ticket.update', $ticket->id) }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <section class="row">
                         <section class="col-12">
                                 <div class="form-group mb-3">
-                                    <label for="">پاسخ تیکت</label>
-                                    <textarea class="form-control form-control-sm d-block" name="" id="" rows="6"></textarea>
+                                    <label for="answer">پاسخ تیکت</label>
+                                    <textarea class="form-control form-control-sm d-block" name="answer" id="answer" rows="6">{{old('answer')}}</textarea>
+                                    <section class="col-12">
+                                        <div class="form-group mb-3">
+                                            <input class="form-control form-select-sm" type="file" name="file" id="file">
+                                            @error('file')
+                                                <span class="text-danger font-size-12">
+                                                    <strong>
+                                                        {{ $message }}
+                                                    </strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </section>
+                                    @error('answer')
+                                        <span class="text-danger font-size-12">
+                                            <strong>
+                                                {{ $message }}
+                                            </strong>
+                                        </span>
+                                    @enderror
                                 </div>
                             </section>
                             <section class="col-12">
-                                <button class="btn btn-primary btn-sm">ثبت</button>
+                                <button type="submit" class="btn btn-primary btn-sm">ثبت</button>
                             </section>
                         </section>
                     </form>
                 </section>
+                @else
+                <section class="card mb-3">
+                    <section class="card-header bg-custom-green text-white font-size-14 d-flex justify-content-between">
+                        <span>ادمین - {{$ticket->admin->user->full_name}}</span>
+                    </section>
+                    <section class="card-body">
+                        <h5 class="card-title mb-3">پاسخ ادمین</h5>
+                        <section class="d-flex">
+                            <i class="far fa-comments ms-2"></i>
+                            <p class="card-text font-size-14">{{strip_tags($ticket->answer)}}</p>
+                        </section>
+                    </section>
+                    <section class="card-footer">
+                        <small class="text-success"><i class="fa fa-calendar-alt ms-2"></i> {{jalaliDate($ticket->answer_at)}}</small>
+                    </section>
+                </section>
+                @endif
             </section>
         </section>
     </section>
