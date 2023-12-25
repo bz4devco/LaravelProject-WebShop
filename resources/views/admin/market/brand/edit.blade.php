@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
-<title> ایجاد روش ارسال | پنل مدیریت</title>
+<title> ویرایش برند | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -10,8 +10,9 @@
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.delivery.index') }}">روش ارسال</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ایجاد روش ارسال</li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.brand.index') }}">برند</a></li>
+    <li class="breadcrumb-item active" aria-current="page">ویرایش برند</li>
+    <li class="breadcrumb-item active" aria-current="page">{{$brand->orginal_name}}</li>
 </ol>
 </nav>
 <!-- category page Breadcrumb area -->
@@ -22,50 +23,22 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 ایجاد روش ارسال
+                 ویرایش برند
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.market.delivery.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
+                <a href="{{ route('admin.market.brand.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form id="form" action="{{ route('admin.market.delivery.store') }}" method="post">
+                <form id="form" action="{{ route('admin.market.brand.update', $brand->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="name">نام روش ارسال</label>
-                                <input class="form-control form-control-sm" type="text" name="name" id="name" value="{{ old('name') }}">
-                                @error('name')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </section>
-                        <section class="col-12 col-md-6">
-                            <div class="form-group">
-                                <label for="amount">هزینه ارسال</label>
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-price form-control-sm  number money" name="amount" id="amount" value="{{ old('amount') }}" placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
-                                    <span class="input-group-text" id="deliver-price">تومان</span>
-                                </div>
-                                @error('amount')
-                                <span class="text-danger font-size-12">
-                                    <strong>
-                                        {{ $message }}
-                                    </strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </section>
-                        <section class="col-12 col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="delivery_time">زمان ارسال</label>
-                                <input class="form-control form-control-sm number" type="text" name="delivery_time" id="delivery_time" value="{{ old('delivery_time') }}">
-                                @error('delivery_time')
+                                <label for="persian_name">نام فارسی</label>
+                                <input class="form-control form-select-sm" type="text" name="persian_name" id="persian_name" value="{{old('persian_name', $brand->persian_name)}}">
+                                @error('persian_name')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -76,9 +49,41 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="delivery_time_unit">زمان ارسال</label>
-                                <input class="form-control form-control-sm" type="text" name="delivery_time_unit" id="delivery_time_unit" value="{{ old('delivery_time_unit') }}">
-                                @error('delivery_time_unit')
+                                <label for="orginal_name">نام لاتین</label>
+                                <input class="form-control form-select-sm" type="text" name="orginal_name" id="orginal_name" value="{{old('orginal_name', $brand->orginal_name)}}">
+                                @error('orginal_name')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="logo">لگو</label>
+                                <input class="form-control form-select-sm" type="file" name="logo" id="logo">
+                                @error('logo')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                                <section class="row">
+                                    <section class="col-md-6 mt-2">
+                                        <img src="{{asset($brand->logo)}}" class="rounded-3" width="100" alt="avatar">
+                                    </section>
+                                </section>
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="tags">برچسب ها</label>
+                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags', $brand->tags) }}">
+                                <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
+                                @error('tags')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -91,8 +96,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                                    <option value="0" @if (old('status', $brand->status) == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status', $brand->status) == 1) selected @endif>فعال</option>
                                 </select>
                                 @error('status')
                                     <span class="text-danger font-size-12">
@@ -115,7 +120,5 @@
 <!-- category page category list area -->
 @endsection
 @section('script')
-<script type="text/javascript" src="{{ asset('admin-assets/js/mask-input/jquery.maskedinput.js') }}"></script>
-<script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
-<script src="{{ asset('admin-assets/js/plugin/form/price-format.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/select2-input-config.js') }}"></script>
 @endsection

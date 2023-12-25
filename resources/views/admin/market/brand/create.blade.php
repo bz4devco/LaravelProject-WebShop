@@ -29,28 +29,76 @@
                 <a href="{{ route('admin.market.brand.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form action="" method="">
+                <form id="form" action="{{ route('admin.market.brand.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">نام دسته</label>
-                                <input class="form-control form-select-sm" type="text">
+                                <label for="persian_name">نام فارسی</label>
+                                <input class="form-control form-select-sm" type="text" name="persian_name" id="persian_name" value="{{old('persian_name')}}">
+                                @error('persian_name')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">لگو</label>
-                                <input class="form-control form-select-sm" type="file" name="" id="">
+                                <label for="orginal_name">نام لاتین</label>
+                                <input class="form-control form-select-sm" type="text" name="orginal_name" id="orginal_name" value="{{old('orginal_name')}}">
+                                @error('orginal_name')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">وضعیت</label>
-                                <select class="form-select form-select-sm" name="" id="">
-                                    <option>وضعیت را انتخاب کنید</option>
-                                    <option value="1">فعال</option>
-                                    <option value="0">غیر فعال</option>
+                                <label for="logo">لگو</label>
+                                <input class="form-control form-select-sm" type="file" name="logo" id="logo">
+                                @error('logo')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="tags">برچسب ها</label>
+                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags') }}">
+                                <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
+                                @error('tags')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="status">وضعیت</label>
+                                <select class="form-select form-select-sm" name="status" id="status">
+                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
                                 </select>
+                                @error('status')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12">
@@ -63,4 +111,7 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/form/select2-input-config.js') }}"></script>
 @endsection

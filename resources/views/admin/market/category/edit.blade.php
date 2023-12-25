@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
-<title> ایجاد دسته بندی | پنل مدیریت</title>
+<title> ویرایش دسته بندی | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -11,7 +11,8 @@
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.category.index') }}">دسته بندی</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ایجاد دسته بندی</li>
+    <li class="breadcrumb-item active" aria-current="page">ویرایش دسته بندی</li>
+    <li class="breadcrumb-item active" aria-current="page">{{ $productCategory->name }}</li>
 </ol>
 </nav>
 <!-- category page Breadcrumb area -->
@@ -22,20 +23,21 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 ایجاد دسته بندی
+                 ویرایش دسته بندی
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.market.category.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form id="form" action="{{ route('admin.market.category.store') }}" method="post" enctype="multipart/form-data">
+                <form id="form" action="{{ route('admin.market.category.update', $productCategory->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="name">نام دسته</label>
-                                <input class="form-control form-select-sm" type="text" name="name" id="name" value="{{ old('name') }}">
+                                <input class="form-control form-select-sm" type="text" name="name" id="name" value="{{ old('name', $productCategory->name) }}">
                                 @error('name')
                                     <span class="text-danger font-size-12">
                                         <strong>
@@ -51,7 +53,9 @@
                                 <select class="form-select form-select-sm" name="parent_id" id="parent_id">
                                     <option disabled readonly selected>والد دسته را انتخاب کنید</option>
                                     @forelse($parent_names as $parent_name)
-                                    <option value="{{$parent_name->id}}" @if (old('parent_id') == $parent_name->id) selected @endif>{{$parent_name->name}}</option>
+                                        @if($parent_name->id != $productCategory->id)
+                                        <option value="{{$parent_name->id}}" @if (old('parent_id', $productCategory->parent_id) == $parent_name->id) selected @endif>{{$parent_name->name}}</option>
+                                        @endif
                                     @empty
                                     <option class="text-center" disabled readonly>دسته ای در جدول دسته بندی وجود ندارد</option>
                                     @endforelse
@@ -68,7 +72,7 @@
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="tags">برچسب ها</label>
-                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags') }}">
+                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags', $productCategory->tags) }}">
                                 <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
                                 @error('tags')
                                     <span class="text-danger font-size-12">
@@ -90,12 +94,33 @@
                                         </strong>
                                     </span>
                                 @enderror
+                                <section class="row mt-2">
+                                    @php   
+                                        $number = 1;
+                                    @endphp
+
+                                    @foreach($productCategory->image['indexArray'] as $key => $value)
+                                    <section class="col-{{ 6 / $number }}">
+                                        <div class="form-check p-0">
+                                            <input type="radio" class="form-check-input d-none set-image" name="currentImage" value="{{ $key }}" id="{{ $number }}"
+                                            @if($productCategory->image['currentImage']  == $key) checked @endif>
+                                            <label for="{{ $number }}" class="form-check-label">
+                                                <img src="{{ asset($value) }}" class="w-100 max-h" alt="">
+                                            </label>
+                                        </div>
+                                    </section>
+                                    @php
+                                        $number++;
+                                    @endphp
+                                    @endforeach
+
+                                </section>
                             </div>
                         </section>
                         <section class="col-12 mb-3">
                             <div class="form-group">
                                 <label for="description">توضیحات</label>
-                                <textarea id="description" name="description">{{ old('description') }}</textarea>
+                                <textarea id="description" name="description">{{ old('description', $productCategory->description) }}</textarea>
                                 @error('description')
                                     <span class="text-danger font-size-12">
                                         <strong>
@@ -109,8 +134,8 @@
                             <div class="form-group mb-3">
                                 <label for="show_in_menu">نمایش در منو</label>
                                 <select class="form-select form-select-sm" name="show_in_menu" id="show_in_menu">
-                                    <option value="0" @if (old('show_in_menu') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('show_in_menu') == 1) selected @endif>فعال</option>
+                                    <option value="0" @if (old('show_in_menu', $productCategory->show_in_menu) == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('show_in_menu', $productCategory->show_in_menu) == 1) selected @endif>فعال</option>
                                 </select>
                                 @error('show_in_menu')
                                     <span class="text-danger font-size-12">
@@ -125,8 +150,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                                    <option value="0" @if (old('status', $productCategory->status) == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status', $productCategory->status) == 1) selected @endif>فعال</option>
                                 </select>
                                 @error('status')
                                     <span class="text-danger font-size-12">

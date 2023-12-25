@@ -1,6 +1,9 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<!-- status switch on list -->
+<link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
+
 <title>دسته بندی | پنل مدیریت</title>
 @endsection
 
@@ -24,6 +27,7 @@
                  دسته بندی
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.market.category.create') }}" class="btn btn-sm btn-info text-white">ایجاد دسته بندی</a>
                 <div class="max-width-16-rem">
@@ -32,76 +36,58 @@
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام دسته بندی</th>
                         <th>دسته والد</th>
+                        <th>تصویر</th>
+                        <th>عنوان مسیر</th>
                         <th>وضعیت</th>
+                        <th>نمایش در منو</th>
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                        @forelse($productCategorys as $productCategory)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>نمایشگر</td>
-                            <td>کالای الکترونیک</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
+                            <th>{{ $productCategory->id }}</th>
+                            <td>{{ $productCategory->name }}</td>
+                            <td>{{ $productCategory->parent_id ? $productCategory->parent->name : 'دسته اصلی'}}</td>
+                            <td>
+                                <img src="{{ asset($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}" height="50" alt="{{ $productCategory->name }}">
+                            </td>
+                            <td  class="text-truncate" style="max-width: 150px;" title="{{ $productCategory->slug }}">
+                                {{ $productCategory->slug }}
+                            </td>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.market.category.status', $productCategory->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $productCategory->id }}" name="status" type="checkbox" @if($productCategory->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $productCategory->id }}"></label>
+                                    </div>
+                                </section>
+                            </td>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.market.category.show-in-menu', $productCategory->id) }}" onchange="showInMenu(this.id)" class="custom-switch-input" id="{{ $productCategory->id }}-showinmenu" name="show-in-menu" type="checkbox" @if($productCategory->show_in_menu) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $productCategory->id }}-showinmenu"></label>
+                                    </div>
+                                </section>
                             </td>
                             <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                <a href="{{ route('admin.market.category.edit', $productCategory->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.market.category.destroy', $productCategory->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $productCategory->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>نمایشگر</td>
-                            <td>کالای الکترونیک</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm d-block w-100">ثبت</button>
-                                </div>
-
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول دسته بندی خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>نمایشگر</td>
-                            <td>کالای الکترونیک</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm d-block w-100">ثبت</button>
-                                </div>
-
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
@@ -110,3 +96,12 @@
 </section>
 <!-- category page category list area -->
 @endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/show-in-menu-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'دسته بندی'])
+
+
+@endsection
+

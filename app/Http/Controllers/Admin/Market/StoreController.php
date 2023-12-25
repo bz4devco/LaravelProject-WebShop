@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Market\Product;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Market\StoreRequest;
 
 class StoreController extends Controller
 {
@@ -14,18 +18,10 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return view('admin.market.store.index');
+        $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.market.store.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.market.store.create');
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -33,21 +29,20 @@ class StoreController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request, Product $product)
     {
-        //
+        $product->marketable_number += $request->marketable_number;
+        $product->save();
+
+        // now time for Log info
+        $date = jalaliDate(Carbon::now());
+
+        Log::info("Inventory Increase : receiver => {$request->receiver}, deliverer => {$request->deliverer}, description => {$request->description}, add => {$request->marketable_number}, date => {$date}");
+
+        return redirect()->route('admin.market.store.index')
+        ->with('alert-section-success', 'موجودی جدید کالای '. $product->name .' با موفقیت ثبت شد');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -55,9 +50,9 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.market.store.edit', compact('product'));
     }
 
     /**
@@ -67,37 +62,28 @@ class StoreController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreRequest $request, Product $product)
     {
-        //
+
+        $product->update($request->all());
+
+        // now time for Log info
+        $date = jalaliDate(Carbon::now());
+
+        Log::info("
+        Inventory Modification : marketable_number => {$request->marketable_number}, sold_number => {$request->sold_number}, frozen_number => {$request->frozen_number}, date => {$date} ");
+
+        return redirect()->route('admin.market.store.index')
+        ->with('alert-section-success', 'موجودی کالای '. $product->name .' با موفقیت ویرایش شد');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 
 
-    public function indexAddToStore()
+
+    public function addToStore(Product $product)
     {
-        return view('admin.market.store.index-add-to-store');
+        return view('admin.market.store.add-to-store', compact('product'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function addToStore(Request $request)
-    {
-        //
-    }
 
 }
