@@ -30,9 +30,10 @@
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="table-responsive overflow-x-auto">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>کد تراکنش</th>
                         <th>بانک</th>
@@ -42,45 +43,25 @@
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                        @forelse($payments as $payment)    
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>6588929</td>
-                            <td>ملت</td>
-                            <td>کامران محمدی</td>
-                            <td>تایید شده</td>
-                            <td>آنلاین</td>
+                            <th>{{$loop->iteration}}</th>
+                            <td>{{$payment->paymentable->transaction_id ?? 'بدون کد تراکنش'}}</td>
+                            <td>{{$payment->paymentable->gateway ?? '-'}}</td>
+                            <td>{{$payment->user->fullname}}</td>
+                            <td>{{$payment->status == 0 ? 'پرداخت نشده' : ($payment->status == 1 ? 'پرداخت شده' : ($payment->status == 2 ? 'باطل شده' : 'برگشت داده شده'))}}</td>
+                            <td>{{$payment->type == 0 ? 'آنلاین' : ($payment->type == 1 ? 'آفلاین' : 'در محل')}}</td>
                             <td class="width-22-rem text-start">
-                                <a href="" class="btn btn-info btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
-                                <a href="" class="btn btn-warning btn-sm">باطل کردن</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-reply ms-2"></i>برگرداندن</button>
+                            <a href="{{ route('admin.market.payment.show', $payment->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
+                                <a href="{{ route('admin.market.payment.canceled', $payment->id) }}" class="btn btn-warning btn-sm">باطل کردن</a>
+                                <a href="{{ route('admin.market.payment.returned', $payment->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-reply ms-2"></i>برگرداندن</a>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>6775765767</td>
-                            <td>ملت</td>
-                            <td>علیرضا اسفندیاری</td>
-                            <td>تایید شده</td>
-                            <td>آفلاین</td>
-                            <td class="width-22-rem text-start">
-                                <a href="" class="btn btn-info btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
-                                <a href="" class="btn btn-warning btn-sm">باطل کردن</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-reply ms-2"></i>برگرداندن</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول پرداخت های آنلاین خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>847675837</td>
-                            <td>سپه</td>
-                            <td>محمد تبریزی</td>
-                            <td>تایید شده</td>
-                            <td>آنلاین</td>
-                            <td class="width-22-rem text-start">
-                                <a href="" class="btn btn-info btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
-                                <a href="" class="btn btn-warning btn-sm">باطل کردن</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-reply ms-2"></i>برگرداندن</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>

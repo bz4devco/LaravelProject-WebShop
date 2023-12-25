@@ -32,11 +32,15 @@
             </section>
             <section class="table-responsive overflow-x-auto">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>کد سفارش</th>
-                        <th>مبلغ سفارش</th>
-                        <th>مبلغ تخفیف</th>
+                        <th>مجموع مبلغ سفارش
+                            <br>
+                            <small>(بدون اعمال تخفیف)</small>
+                        </th>
+                        <th>مجموع تمامی مبلغ تخفبفات</th>
+                        <th>مبلغ تخفیف همه محصولات</th>
                         <th>مبلغ نهایی</th>
                         <th>وضعیت پرداخت</th>
                         <th>شیوه پرداخت</th>
@@ -47,78 +51,45 @@
                         <th class=""><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                        @forelse($orders as $order)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>9908-273645</td>
-                            <td><span>381,000<span>تومان</span></span></td>
-                            <td><span>34,000<span>تومان</span></span></td>
-                            <td><span>347,000<span>تومان</span></span></td>
-                            <td><i class="far fa-cart ms-2"></i>پرداخت شده</td>
-                            <td>آنلاین</td>
-                            <td>ملت</td>
-                            <td><i class="fas fa-clock ms-1"></i>در حال ارسال</td>
-                            <td>پیک موتوری</td>
-                            <td>درحال ارسال</td>
+                            <th>{{$loop->iteration}}</th>
+                            <td>{{$order->id}}</td>
+                            <td>{{number_format($order->order_final_amount)}}<span>تومان</span></td>
+                            <td>{{number_format($order->order_discount_amount)}}<span>تومان</span></td>
+                            <td>{{number_format($order->order_total_products_discount_amount)}}<span>تومان</span></td>
+                            <td>{{number_format($order->order_final_amount - $order->order_discount_amount)}}<span>تومان</span></td>
+                            <td><i class="far fa-cart ms-2"></i>
+                                {{$order->payment_status_value}}
+                            </td>
+                            <td>
+                                {{$order->payment_type_value}}
+                            </td>
+                            <td>{{$order->payment->paymentable->gateway ?? '-'}}</td>
+                            <td><i class="fas fa-clock ms-1"></i>
+                                {{$order->delivery_status_value}}
+                            </td>
+                            <td>{{$order->delivery->name}}</td>
+                            <td>
+                                {{$order->order_status_value}}
+                            </td>
                             <td>
                                 <a class="btn btn-success btn-sm btn-block dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa fa-tools ms-1"></i>عملیات
                                 </a>
                                 <div class="dropdown-menu">
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>مشاهده فاکتور</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>تغییر وضعیت ارسال</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>تغییر وضعیت سفارش</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-times ms-3 me-1"></i>باطل کردن سفارش</a>
+                                    <a href="{{ route('admin.market.order.show-order', $order->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>مشاهده فاکتور</a>
+                                    <a href="{{ route('admin.market.order.change-send-status', $order->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>تغییر وضعیت ارسال</a>
+                                    <a href="{{ route('admin.market.order.change-order-status', $order->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>تغییر وضعیت سفارش</a>
+                                    <a href="{{ route('admin.market.order.cancel-order', $order->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-times ms-3 me-1"></i>باطل کردن سفارش</a>
                                 </div>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>9908-273646</td>
-                            <td><span>452,000<span>تومان</span></span></td>
-                            <td><span>51,000<span>تومان</span></span></td>
-                            <td><span>301,000<span>تومان</span></span></td>
-                            <td><i class="far fa-cart ms-2"></i>پرداخت شده</td>
-                            <td>آفلاین</td>
-                            <td>تجارت</td>
-                            <td><i class="fas fa-check ms-1"></i>ارسال شده</td>
-                            <td>پست پیشتاز</td>
-                            <td>تحویل شده</td>
-                            <td>
-                                <a class="btn btn-success btn-sm btn-block dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-tools ms-1"></i>عملیات
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>مشاهده فاکتور</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>تغییر وضعیت ارسال</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>تغییر وضعیت سفارش</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-times ms-3 me-1"></i>باطل کردن سفارش</a>
-                                </div>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول سفارشات پرداخت نشده خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>9908-273647</td>
-                            <td><span>860,000<span>تومان</span></span></td>
-                            <td><span>110,000<span>تومان</span></span></td>
-                            <td><span>750,000<span>تومان</span></span></td>
-                            <td><i class="far fa-cart ms-2"></i>پرداخت نشده</td>
-                            <td>حضوری</td>
-                            <td>-</td>
-                            <td><i class="fas fa-clock ms-1"></i>در حال ارسال</td>
-                            <td>پیک موتوری</td>
-                            <td>درحال ارسال</td>
-                            <td>
-                                <a class="btn btn-success btn-sm btn-block dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-tools ms-1"></i>عملیات
-                                </a>
-                                <div class="dropdown-menu">
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>مشاهده فاکتور</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>تغییر وضعیت ارسال</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>تغییر وضعیت سفارش</a>
-                                    <a href="" class="dropdown-item text-end ms-2"><i class="fa fa-times ms-3 me-1"></i>باطل کردن سفارش</a>
-                                </div>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
