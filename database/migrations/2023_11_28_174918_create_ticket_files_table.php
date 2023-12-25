@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTicketsFilesTable extends Migration
+class CreateTicketFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTicketsFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tickets_files', function (Blueprint $table) {
+        Schema::create('ticket_files', function (Blueprint $table) {
             $table->id();
             $table->text('file_path')->comment("ticket attachment");
             $table->bigInteger('file_size');
@@ -32,6 +32,6 @@ class CreateTicketsFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tickets_files');
+        Schema::dropIfExists('ticket_files');
     }
 }
