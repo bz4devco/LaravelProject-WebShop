@@ -83,7 +83,7 @@
 @section('script')
 <script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
 
-@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'اطلاعیه'])
 
 
 @endsection

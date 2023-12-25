@@ -80,7 +80,7 @@
                         </tr>
                         @empty
                         <tr class="align-middle">
-                            <th colspan="" class="text-center emptyTable  py-4">جدول اطلاعیه های پیامکی خالی می باشد</th>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول تنظیمات خالی می باشد</th>
                         </tr>
                         @endforelse
                     </tbody>
@@ -94,7 +94,7 @@
 @section('script')
 <script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
 
-@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'تنظیمات'])
 
 
 @endsection

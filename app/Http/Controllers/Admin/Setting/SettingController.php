@@ -70,7 +70,7 @@ class SettingController extends Controller
             // update image of icon
             if ($request->hasFile('icon')) {
                 if (!empty($setting->icon)) {
-                    $imageservice->deleteDirectoryAndFiles($setting->logo);
+                    $imageservice->deleteImage($setting->icon);
                 }
                 $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'setting');
                 $imageservice->setImageName('icon');
@@ -85,7 +85,7 @@ class SettingController extends Controller
             // update image of logo
             if ($request->hasFile('logo')) {
                 if (!empty($setting->logo)) {
-                    $imageservice->deleteDirectoryAndFiles($setting->logo);
+                    $imageservice->deleteImage($setting->logo);
                 }
                 $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'setting');
                 $imageservice->setImageName('logo');

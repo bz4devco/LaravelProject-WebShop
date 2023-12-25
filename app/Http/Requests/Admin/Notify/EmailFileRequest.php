@@ -23,7 +23,7 @@ class EmailFileRequest extends FormRequest
      */
     public function rules()
     {
-        if($this->method() == 'post'){
+        if($this->isMethod('post')){
             return [
                 'file' => 'required|mimes:png,jpg,jpeg,gif,zip,pdf,docx,doc',
                 'storage_path' => 'required|numeric|in:0,1',

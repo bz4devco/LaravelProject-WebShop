@@ -34,11 +34,11 @@
                 </section>
                 <section class="sidebar-dropdown">
                     <a href="{{ route('admin.market.order.new-order') }}"> تازه ها</a>
+                    <a href="{{ route('admin.market.order.total-order') }}">تمام سفارشات</a>
                     <a href="{{ route('admin.market.order.sending-order') }}">در حال ارسال</a>
                     <a href="{{ route('admin.market.order.unpaind-order') }}">پرداخت نشده</a>
                     <a href="{{ route('admin.market.order.canceled-order') }}">باطل شده</a>
                     <a href="{{ route('admin.market.order.returned-order') }}">مرجوعی</a>
-                    <a href="{{ route('admin.market.order.total-order') }}">تمام سفارشات</a>
                 </section>
             </section>
 
@@ -52,7 +52,7 @@
                     <a href="{{ route('admin.market.payment.total-payment') }}">تمام پرداخت ها</a>
                     <a href="{{ route('admin.market.payment.online-payment') }}">پرداخت های آنلاین</a>
                     <a href="{{ route('admin.market.payment.offline-payment') }}">پرداخت های آفلاین</a>
-                    <a href="{{ route('admin.market.payment.attendance-payment') }}">پرداخت در محل</a>
+                    <a href="{{ route('admin.market.payment.cash-payment') }}">پرداخت در محل</a>
                 </section>
             </section>
 
@@ -63,7 +63,7 @@
                     <i class="fas fa-angle-left angle"></i>
                 </section>
                 <section class="sidebar-dropdown">
-                    <a href="{{ route('admin.market.discount.copan.index') }}">کپن تخفیف</a>
+                    <a href="{{ route('admin.market.discount.copan.index') }}">کوپن تخفیف</a>
                     <a href="{{ route('admin.market.discount.common-discount.index') }}">تخفیف عمومی</a>
                     <a href="{{ route('admin.market.discount.amazing-sale.index') }}">فروش شگفت انگیز</a>
                 </section>
@@ -121,6 +121,18 @@
 
 
             <section class="sidebar-part-title">تیکت ها</section>
+            <a href="{{ route('admin.ticket.admin.index') }}" class="sidebar-link">
+                <i class="fas fa-bars"></i>
+                <span>مسئولین تیکت</span>
+            </a>
+            <a href="{{ route('admin.ticket.category.index') }}" class="sidebar-link">
+                <i class="fas fa-bars"></i>
+                <span>دسته بندی تیکت ها</span>
+            </a>
+            <a href="{{ route('admin.ticket.priority.index') }}" class="sidebar-link">
+                <i class="fas fa-bars"></i>
+                <span>اولویت تیکت ها</span>
+            </a>
             <a href="{{ route('admin.ticket.new-ticket') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>تیکت های جدید</span>
