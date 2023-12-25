@@ -55,9 +55,10 @@ class CommentController extends Controller
     public function show(Comment $comment)
     {
 
-        // update seen comment when comment showed with admin
-        Comment::where('id', $comment->id)->update(['seen' => 1]);
-
+        if( $comment->seen == 0){
+            // update seen comment when comment showed with admin
+            Comment::where('id', $comment->id)->update(['seen' => 1]);
+        }
 
 
         return view('admin.content.comment.show', compact('comment'));

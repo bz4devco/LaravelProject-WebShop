@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
-use App\Http\Controllers\Controller;
+use App\Models\Market\Brand;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\Market\BrandRequest;
 
 class BrandController extends Controller
 {
@@ -14,8 +17,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        return view('admin.market.brand.index');
-
+        $brands = Brand::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.market.brand.index', compact('brands'));
     }
 
     /**
@@ -34,9 +37,26 @@ class BrandController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BrandRequest $request, Brand $brand, ImageService $imageservice)
     {
-        //
+        $inputs = $request->all();
+
+        // create image of logo
+        if ($request->hasFile('logo')) {
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
+            $imageservice->setImageName('logo');
+            $result = $imageservice->save($request->file('logo'));
+
+            if ($result === false) {
+                return redirect()->route('admin.brand.edit')->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
+            }
+            $inputs['logo'] = $result;
+        }
+
+
+        $brand->create($inputs);
+        return redirect()->route('admin.market.brand.index')
+        ->with('alert-section-success', 'برند جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -50,15 +70,15 @@ class BrandController extends Controller
         //
     }
 
-    /**
+      /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Brand $brand)
     {
-        //
+        return view('admin.market.brand.edit', compact('brand'));    
     }
 
     /**
@@ -68,9 +88,28 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BrandRequest $request, Brand $brand, ImageService $imageservice)
     {
-        //
+        $inputs = $request->all();
+
+          // update image of logo
+          if ($request->hasFile('logo')) {
+            if (!empty($brand->logo)) {
+                $imageservice->deleteImage($brand->logo);
+            }
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
+            $imageservice->setImageName('logo');
+            $result = $imageservice->save($request->file('logo'));
+
+            if ($result === false) {
+                return redirect()->route('admin.brand.edit')->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
+            }
+            $inputs['logo'] = $result;
+        }
+
+        $brand->update($inputs);
+        return redirect()->route('admin.market.brand.index')
+        ->with('alert-section-success', 'ویرایش برند شماره   '.$brand->id .' با موفقیت انجام شد');
     }
 
     /**
@@ -79,8 +118,33 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Brand $brand)
     {
-        //
+        $result = $brand->delete();
+        return redirect()->route('admin.market.brand.index')
+        ->with('alert-section-success', ' برند شماره '.$brand->id.' با موفقیت حذف شد');
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status(Brand $brand)
+    {
+        $brand->status = $brand->status == 0 ? 1 : 0;
+        $result = $brand->save();
+
+        if($result){
+            if($brand->status == 0){
+                return response()->json(['status' => true, 'checked' => false, 'id' => $brand->id]);
+            }else{
+                return response()->json(['status' => true, 'checked' => true, 'id' => $brand->id]);
+            }
+        }else{
+            return response()->json(['status' => false]);
+        }
     }
 }

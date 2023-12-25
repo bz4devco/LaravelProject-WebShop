@@ -74,7 +74,7 @@
                             <th >{{$comment->id}}</th>
                             <td>{{$comment->author->fullname}}</td>
                             <td>{{$comment->author_id}}</td>
-                            <td class="text-truncate" style="max-width: 120px;">{{$comment->commentable->title}}</td>
+                            <td class="text-truncate" style="max-width: 120px;" title="{{$comment->commentable->title}}">{{$comment->commentable->title}}</td>
                             <td>{{$comment->commentable->id}}</td>
                             <td>{{jalaliDate($comment->created_date)}}</td>
                             <td>
@@ -94,7 +94,7 @@
                         </tr>
                         @empty
                         <tr class="align-middle">
-                            <th colspan="" class="text-center emptyTable  py-4">جدول دسته بندی خالی می باشد</th>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول نظرات خالی می باشد</th>
                         </tr>
                         @endforelse
                 </table>

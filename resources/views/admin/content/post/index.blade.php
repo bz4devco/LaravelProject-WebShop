@@ -96,7 +96,7 @@
 <script src="{{ asset('admin-assets/js/plugin/ajaxs/commentable-ajax.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
 
-@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete'])
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'پست'])
 
 
 @endsection

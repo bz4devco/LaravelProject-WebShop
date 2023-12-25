@@ -10,7 +10,7 @@
     <ol class="breadcrumb m-0 font-size-12">
         <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
         <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
-        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.comment.index') }}">نظرات</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.content.comment.index') }}">نظرات</a></li>
         <li class="breadcrumb-item active" aria-current="page">نمایش نظر</li>
     </ol>
 </nav>
@@ -30,7 +30,7 @@
             </section>
             <section class="card mb-3">
                 <section class="card-header bg-custom-yellow text-white font-size-14">
-                    کامران محمدی - {{$comment->author->id}}
+                {{$comment->author->full_name}}  - {{$comment->author->id}}
                 </section>
                 <section class="card-body">
                     <h5 class="card-title mb-3">عنوان خبر : {{$comment->commentable->title}}  &nbsp;-&nbsp;  کد خبر: {{$comment->commentable->id}}</h5>

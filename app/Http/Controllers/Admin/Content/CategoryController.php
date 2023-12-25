@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Content\PostCategory;
 use App\Http\Requests\Admin\Content\PostCategoryRequest;
-use App\Http\Services\Image\ImageCacheService;
 use App\Http\Services\Image\ImageService;
-use Intervention\Image\ImageCache;
 
 class CategoryController extends Controller
 {
@@ -43,6 +41,8 @@ class CategoryController extends Controller
      */
     public function store(PostCategoryRequest $request, PostCategory $postCategory, ImageService $imageservice)
     {
+        $inputs = $request->all();
+
         // image Upload
         if($request->hasFile('image'))
         {
@@ -52,12 +52,11 @@ class CategoryController extends Controller
             {
                 return redirect()->route('admin.content.category.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
-            $inputs = $request->all();
+            $inputs['image'] = $result;
         }
      
 
         // store data in database
-        $inputs['image'] = $result;
         $postCategory->create($inputs);
         return redirect()->route('admin.content.category.index')
         ->with('alert-section-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
