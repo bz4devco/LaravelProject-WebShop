@@ -1,6 +1,8 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
+
 <title>کاربران ادمین | پنل مدیریت</title>
 @endsection
 
@@ -24,6 +26,7 @@
                 کاربران ادمین
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.user.admin-user.create') }}" class="btn btn-sm btn-info text-white">ایجاد ادمین جدید</a>
                 <div class="max-width-16-rem">
@@ -32,9 +35,10 @@
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
-                        <th>ایمل</th>
+                        <th>شماره شناسه</th>
+                        <th>ایمیل</th>
                         <th>شماره موبایل</th>
                         <th>نام</th>
                         <th>نام خانوادگی</th>
@@ -43,78 +47,38 @@
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                        @forelse($admins as $key => $admin)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>kamran@gmail.com</td>
-                            <td>09127683924</td>
-                            <td>کامران</td>
-                            <td>محمدی</td>
+                            <th>{{ $key + 1 }}</th>
+                            <td>{{ $admin->id }}</td>
+                            <td>{{ $admin->email }}</td>
+                            <td>{{ $admin->mobile }}</td>
+                            <td>{{ $admin->first_name }}</td>
+                            <td>{{ $admin->last_name }}</td>
                             <td>سوپر ادمین</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.user.admin-user.status', $admin->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $admin->id }}" name="status" type="checkbox" @if($admin->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $admin->id }}"></label>
+                                    </div>
+                                </section>
                             </td>
                             <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>نقش</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
+                                <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>نقش</a>
+                                <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $admin->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>alireza@gmail.com</td>
-                            <td>09127489876</td>
-                            <td>کامران</td>
-                            <td>محمدی</td>
-                            <td>مدیر محتوی</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>نقش</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول کاربران ادمین خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>bahram@gmail.com</td>
-                            <td>09129386712</td>
-                            <td>علیرضا</td>
-                            <td>اسفندیاری</td>
-                            <td>پشتیبانی فروش</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>نقش</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
@@ -123,3 +87,11 @@
 </section>
 <!-- category page category list area -->
 @endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'ادمین'])
+
+
+@endsection
+

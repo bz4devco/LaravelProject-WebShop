@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\User\AdminUserRequest;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserController extends Controller
 {
@@ -14,7 +18,9 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        return view('admin.user.admin-user.index');
+        $admins = User::where('user_type', 1)
+        ->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.user.admin-user.index', compact('admins'));
     }
 
     /**
@@ -33,9 +39,30 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminUserRequest $request, User $admin, ImageService $imageservice)
     {
-        //
+        $inputs = $request->all();
+
+        // image Upload
+        if($request->hasFile('avatar'))
+        {
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'admin-avatar');
+            $result = $imageservice->fitAndSave($request->file('avatar'));
+            if($result === false)
+            {
+                return redirect()->route('admin.user.admin-user.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['profile_photo_path'] = $result;
+        }
+    
+
+        // store data in database
+        $inputs['password'] = Hash::make($request->password);
+        $inputs['user_type'] = 1;
+        $inputs['activation'] = 1;
+        $admin->create($inputs);
+        return redirect()->route('admin.user.admin-user.index')
+        ->with('alert-section-success', 'ادمین جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -55,9 +82,9 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $admin)
     {
-        //
+        return view('admin.user.admin-user.edit', compact('admin'));        
     }
 
     /**
@@ -67,9 +94,30 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminUserRequest $request, User $admin, ImageService $imageservice)
     {
-        //
+        $inputs = $request->all();
+
+        // image Upload
+        if($request->hasFile('avatar'))
+        {
+            if(!empty($admin->profile_photo_path))
+            {
+                $imageservice->deleteImage($admin->profile_photo_path);
+            }
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'admin-avatar');
+            $result = $imageservice->fitAndSave($request->file('avatar'));
+            if($result === false)
+            {
+                return redirect()->route('admin.user.admin-user.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['profile_photo_path'] = $result;
+        }
+
+        // store data in database
+        $admin->update($inputs);
+        return redirect()->route('admin.user.admin-user.index')
+        ->with('alert-section-success', 'ادمین به شماره شناسه شماره '.$admin->id.' با موفقیت ویرایش شد');
     }
 
     /**
@@ -78,8 +126,37 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $admin)
     {
-        //
+        $result = $admin->delete();
+        return redirect()->route('admin.user.admin-user.index')
+        ->with('alert-section-success', 'ادمین به شماره شناسه'.$admin->email.' با موفقیت حذف شد');
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status(User $admin)
+    {
+        if($admin->user_type == 1){
+            $admin->status = $admin->status == 0 ? 1 : 0;
+            $result = $admin->save();
+
+            if($result){
+                if($admin->status == 0){
+                    return response()->json(['status' => true, 'checked' => false, 'id' => $admin->id]);
+                }else{
+                    return response()->json(['status' => true, 'checked' => true, 'id' => $admin->id]);
+                }
+            }else{
+                return response()->json(['status' => false]);
+            }
+        }else{
+            return response()->json(['status' => false]);
+        }
     }
 }

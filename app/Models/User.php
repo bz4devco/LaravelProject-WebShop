@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Content\Comment;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,6 +20,17 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use SoftDeletes;
+    use Sluggable;
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' =>[
+                'source' => ['first_name' , 'last_name']
+            ]
+        ];
+    } 
 
     /**
      * The attributes that are mass assignable.
@@ -25,9 +38,16 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'mobile',
+        'national_code',
+        'profile_photo_path',
+        'actiovation',
+        'user_type',
         'password',
+        'status',
     ];
 
     /**
@@ -63,5 +83,31 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+
+    public function tickets()
+    {
+        return $this->hasMany('App\Models\Ticket\Ticket', 'user_id');
+    }
+
+    public function ticketFiles()
+    {
+        return $this->hasMany('App\Models\Ticket\TicketFile', 'user_id');
+    }
+
+    public function ticketAdmin()
+    {
+        return $this->hasOne('App\Models\Ticket\TicketAdmin', 'user_id');
+    }
+
+
+    public function roles() {
+        return $this->belongsToMany('App\Models\User\Role');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany('App\Models\Payment');
     }
 }

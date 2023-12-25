@@ -20,7 +20,7 @@ class ImageService extends ImageToolsService
     }
 
 
-    public function fitAndSave($image, $width, $height)
+    public function fitAndSave($image, $width = 300, $height = 300)
     {
          //set image
          $this->setImage($image);
@@ -31,11 +31,14 @@ class ImageService extends ImageToolsService
          return $result ? $this->getImageAddress() : false;
     }
 
-    public function createIndexAndSave($image)
+    public function createIndexAndSave($image, $isSquareSize = null)
     {
             //get data from config
-            $imageSizes = Config::get('image.index-image-sizes');
-
+            if($isSquareSize){
+                $imageSizes = Config::get('image.square-image-sizes');
+            }else{
+                $imageSizes = Config::get('image.index-image-sizes');
+            }
             //set image
             $this->setImage($image);
 
@@ -95,8 +98,9 @@ class ImageService extends ImageToolsService
         {
             return false;
         }
-
+        
         $files = glob($directory . DIRECTORY_SEPARATOR . '*', GLOB_MARK);
+
         foreach($files as $file)
         {
             if(is_dir($file))

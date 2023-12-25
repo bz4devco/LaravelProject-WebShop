@@ -1,6 +1,8 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
+
 <title>نقش ها | پنل مدیریت</title>
 @endsection
 
@@ -24,6 +26,7 @@
                 نقش ها
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.user.role.create') }}" class="btn btn-sm btn-info text-white">ایجاد نقش جدید</a>
                 <div class="max-width-16-rem">
@@ -32,7 +35,7 @@
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام نقش</th>
                         <th>دسترسی ها</th>
@@ -40,95 +43,42 @@
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                    @forelse($roles as $key => $role)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>پشتیبانی فروش</td>
+                            <th>{{ $key + 1}}</th>
+                            <td>{{ $role->name}}</td>
                             <td>
-                                    1-مشاهده سفارشات
-                                    <br>
-                                    2-مشاهده پرداخت ها
-                                    <br>
-                                    3-مشاهده تخفیف ها
+                                @if(empty($role->permissions()->get()->toArray()))
+                                <span class="text-danger">برای این نقش هیچ سطح دسترسی تعریف نشده است</span>
+                                @else
+                                    @foreach($role->permissions as $key => $permision)
+                                        {{$key + 1}}- {{$permision->name}}<br>
+                                    @endforeach
+                                @endif
                             </td>
                             <td>
-                                <section class="row flex-wrap">
-                                    <div class="col-md-8 px-1">
-                                        <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                            <option value="1">فعال</option>
-                                            <option value="0">غیر فعال</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 px-1">
-                                        <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.user.role.status', $role->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $role->id }}" name="status" type="checkbox" @if($role->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $role->id }}"></label>
                                     </div>
                                 </section>
                             </td>
                             <td class="width-22-rem text-start">
-                                <a href="" class="btn btn-success btn-sm"><i class="fa fa-user-graduate ms-2"></i>دسترسی ها</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
+                                <a href="{{ route('admin.user.role.permission-form', $role->id) }}" class="btn btn-success btn-sm"><i class="fa fa-user-graduate ms-2"></i>دسترسی ها</a>
+                                <a href="{{ route('admin.user.role.edit', $role->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.user.role.destroy', $role->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $role->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>مدیریت محتوی</td>
-                            <td>
-                                    1-مشاهده پست ها
-                                    <br>
-                                    2-مشاهده پیج ها
-                                    <br>
-                                    3-مشاهده نظرات
-                            </td>
-                            <td>
-                                <section class="row">
-                                    <div class="col-md-8 px-1">
-                                        <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                            <option value="1">فعال</option>
-                                            <option value="0">غیر فعال</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 px-1">
-                                        <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                    </div>
-                                </section>
-                            </td>
-                            <td class="width-22-rem text-start">
-                                <a href="" class="btn btn-success btn-sm"><i class="fa fa-user-graduate ms-2"></i>دسترسی ها</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول نقش ها خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>اپراتور تیکت ها</td>
-                            <td>
-                                    1-مشاهده تیکت ها
-                                    <br>
-                                    2-بستن تیکت ها
-                                    <br>
-                                    3-پاسخ تیکت ها
-                                    <br>
-                                    4-ارجاع به ادمین
-                            </td>
-                            <td>
-                                <section class="row flex-wrap">
-                                    <div class="col-md-8 px-1">
-                                        <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                            <option value="1">فعال</option>
-                                            <option value="0">غیر فعال</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4 px-1">
-                                        <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                    </div>
-                                </section>
-                            </td>
-                            <td class="width-22-rem text-start">
-                                <a href="" class="btn btn-success btn-sm"><i class="fa fa-user-graduate ms-2"></i>دسترسی ها</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
@@ -136,4 +86,11 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'مشتری'])
+
+
 @endsection

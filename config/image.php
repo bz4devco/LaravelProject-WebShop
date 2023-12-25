@@ -37,7 +37,22 @@ return [
     'default-current-index-image' => 'medium',
 
 
+    //1:1 Square size
+    'square-image-sizes' => [
+        'large' => [
+            'width' => 800,
+            'height' => 800
+        ],
+         'medium' => [
+            'width' => 400,
+            'height' => 400
+        ],
+         'small' => [
+            'width' => 80,
+            'height' => 80
+        ],
 
+    ],
 
     
     //cache size

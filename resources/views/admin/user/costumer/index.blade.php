@@ -1,6 +1,8 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
+
 <title>مشتریان | پنل مدیریت</title>
 @endsection
 
@@ -10,7 +12,7 @@
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش کاربران</a></li>
-    <li class="breadcrumb-item active" aria-current="page">کاربران ادمین</li>
+    <li class="breadcrumb-item active" aria-current="page">مشتریان</li>
 </ol>
 </nav>
 <!-- category page Breadcrumb area -->
@@ -24,6 +26,7 @@
                 مشتریان
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.user.costumer.create') }}" class="btn btn-sm btn-info text-white">ایجاد مشتری جدید</a>
                 <div class="max-width-16-rem">
@@ -32,8 +35,9 @@
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
+                        <th>شناسه</th>
                         <th>ایمل</th>
                         <th>شماره موبایل</th>
                         <th>کد ملی</th>
@@ -43,75 +47,37 @@
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                    @forelse($costumers as $key => $costumer)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>kamran@gmail.com</td>
-                            <td>09127683924</td>
-                            <td>8567493874</td>
-                            <td>کامران</td>
-                            <td>محمدی</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
+                            <th>{{ $key + 1 }}</th>
+                            <th>{{ $costumer->id }}</th>
+                            <td>{{ $costumer->email }}</td>
+                            <td>{{ $costumer->mobile }}</td>
+                            <td>{{ $costumer->national_code }}</td>
+                            <td>{{ $costumer->first_name }}</td>
+                            <td>{{ $costumer->last_name }}</td>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.user.costumer.status', $costumer->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $costumer->id }}" name="status" type="checkbox" @if($costumer->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $costumer->id }}"></label>
+                                    </div>
+                                </section>
                             </td>
                             <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
+                                <a href="{{ route('admin.user.costumer.edit', $costumer->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.user.costumer.destroy', $costumer->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $costumer->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>alireza@gmail.com</td>
-                            <td>09127683924</td>
-                            <td>4869237738</td>
-                            <td>علیرضا</td>
-                            <td>اسفندیاری</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول مشتریان خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>bahram@gmail.com</td>
-                            <td>09127683924</td>
-                            <td>9837405837</td>
-                            <td>بهرام</td>
-                            <td>یمانی</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
@@ -119,4 +85,11 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'مشتری'])
+
+
 @endsection

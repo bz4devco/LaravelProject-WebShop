@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Admin\User;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\User\CostumerRequest;
+use App\Notifications\NewUserRegistered;
 
 class CostumerController extends Controller
 {
@@ -14,7 +19,9 @@ class CostumerController extends Controller
      */
     public function index()
     {
-        return view('admin.user.costumer.index');
+        $costumers  = User::where('user_type', 0)
+        ->orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.user.costumer.index', compact('costumers'));
     }
 
     /**
@@ -33,9 +40,35 @@ class CostumerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CostumerRequest $request, User $costumer, ImageService $imageservice)
     {
-        //
+        $inputs = $request->all();
+
+        // image Upload
+        if($request->hasFile('avatar'))
+        {
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'costumer-avatar');
+            $result = $imageservice->fitAndSave($request->file('avatar'));
+            if($result === false)
+            {
+                return redirect()->route('admin.user.costumer.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['profile_photo_path'] = $result;
+        }
+    
+
+        // store data in database
+        $inputs['password'] = Hash::make($request->password);
+        $inputs['user_type'] = 0;
+        $inputs['activation'] = 1;
+        $costumer->create($inputs);
+        $details = [
+            'message' => 'یک کاربر جدید در سایت ثبت نام کرد'
+        ];
+        $adminUser = User::find(1);
+        $adminUser->notify(new NewUserRegistered($details));
+        return redirect()->route('admin.user.costumer.index')
+        ->with('alert-section-success', 'مشتری جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -55,9 +88,9 @@ class CostumerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $costumer)
     {
-        //
+        return view('admin.user.costumer.edit', compact('costumer'));        
     }
 
     /**
@@ -67,9 +100,30 @@ class CostumerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CostumerRequest $request, User $costumer, ImageService $imageservice)
     {
-        //
+        $inputs = $request->all();
+
+        // image Upload
+        if($request->hasFile('avatar'))
+        {
+            if(!empty($costumer->profile_photo_path))
+            {
+                $imageservice->deleteImage($costumer->profile_photo_path);
+            }
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'costumer-avatar');
+            $result = $imageservice->fitAndSave($request->file('avatar'));
+            if($result === false)
+            {
+                return redirect()->route('admin.user.costumer.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['profile_photo_path'] = $result;
+        }
+
+        // update data in database
+        $costumer->update($inputs);
+        return redirect()->route('admin.user.costumer.index')
+        ->with('alert-section-success', 'مشتری به شماره شناسه شماره '.$costumer->id.' با موفقیت ویرایش شد');
     }
 
     /**
@@ -78,8 +132,37 @@ class CostumerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $costumer)
     {
-        //
+        $result = $costumer->delete();
+        return redirect()->route('admin.user.costumer.index')
+        ->with('alert-section-success', ' مشتری با ایمیل کاربری '.$costumer->email.' با موفقیت حذف شد');
+    }
+
+      /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status(User $costumer)
+    {
+        if($costumer->user_type == 0){
+            $costumer->status = $costumer->status == 0 ? 1 : 0;
+            $result = $costumer->save();
+
+            if($result){
+                if($costumer->status == 0){
+                    return response()->json(['status' => true, 'checked' => false, 'id' => $costumer->id]);
+                }else{
+                    return response()->json(['status' => true, 'checked' => true, 'id' => $costumer->id]);
+                }
+            }else{
+                return response()->json(['status' => false]);
+            }
+        }else{
+            return response()->json(['status' => false]);
+        }
     }
 }
