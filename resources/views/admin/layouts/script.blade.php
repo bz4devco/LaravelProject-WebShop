@@ -7,3 +7,4 @@
 <script src="{{ asset('admin-assets/js/sweetalert/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('admin-assets/js/grid.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/lists/config-show-alert.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/header-notif-ajax.js') }}"></script>

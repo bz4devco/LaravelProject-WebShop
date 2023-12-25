@@ -3,7 +3,7 @@
 <header class="header-main" id="header">
     <!-- header sidbar right area -->
     <!-- ** dashboard menu for transfer to admin pages ** -->
-    <section class="sidbar-header bg-gray"  id="header-sidbar">
+    <section class="sidbar-header bg-gray" id="header-sidbar">
         <section class="d-flex justify-content-between flex-md-row-reverse px-2">
             <span id="sidbar-toggle-show" class="d-inline d-md-none pointer"><i class="fas fa-toggle-off"></i></span>
             <span id="sidbar-toggle-hide" class="d-none d-md-inline pointer"><i class="fas fa-toggle-on"></i></span>
@@ -30,7 +30,7 @@
                     <i id="search-toggle" class="fas fa-search p-1 d-none d-md-inline pointer"></i>
                 </span>
                 <!-- search header area -->
-                
+
                 <!-- screen mode area -->
                 <span id="full-screen" class="pointer p-1 d-none d-md-inline me-5">
                     <i id="screen-compress" class="fas fa-compress d-none"></i>
@@ -45,10 +45,12 @@
             <sectopn class="d-flex">
                 <!-- notification area -->
                 <section id="header-notifications">
-                    <span id="header-notification-toggle" class="ms-2 ms-md-4 position-relative">
+                    <span id="header-notification-toggle" data-token="{{ csrf_token() }}" class="ms-2 ms-md-4 position-relative">
                         <span class="pointer">
                             <i class="far fa-bell"></i>
-                            <sup class="badge bg-danger">4</sup>
+                            @if($notifications->count() !== 0)
+                            <sup id="notif-count" class="badge bg-danger">{{$notifications->count()}}</sup>
+                            @endif
                         </span>
                         <section id="header-notification" class="heaeder-notification rounded">
                             <section class="d-flex justify-content-between">
@@ -60,46 +62,27 @@
                                 </span>
                             </section>
                             <ul class="list-group px-0 rounded">
+                                @forelse($notifications as $notification)
                                 <li class="list-group-item list-group-item-action">
-                                    <section class="media d-flex">
-                                        <section  class="media-left flex-shrink-0">
-                                            <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                        </section>
-                                        <section class="media-body flex-grow-1 pe-1">
-                                            <h5 class="notification-user">محمد هاسمی</h5>
-                                            <p class="notification-text">این یک پیام تستی است</p>
-                                            <p class="notification-time">30 دقیقه پیش</p>
+                                    <section class="media">
+                                        <section class="media-body">
+                                            <p class="notification-text mt-3 text-center">{{$notification['data']['message']}}</p>
                                         </section>
                                     </section>
                                 </li>
+                                @empty
                                 <li class="list-group-item list-group-item-action">
-                                    <section class="media d-flex">
-                                        <section  class="media-left flex-shrink-0">
-                                            <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                        </section>
-                                        <section class="media-body flex-grow-1 pe-1">
-                                            <h5 class="notification-user">محمد هاسمی</h5>
-                                            <p class="notification-text">این یک پیام تستی است</p>
-                                            <p class="notification-time">30 دقیقه پیش</p>
+                                    <section class="media">
+                                        <section class="media-body">
+                                            <small><strong class="d-block text-center">نوتیفیکیشن جدیدی موجود نیست</strong></small>
                                         </section>
                                     </section>
                                 </li>
-                                <li class="list-group-item list-group-item-action">
-                                    <section class="media d-flex">
-                                        <section  class="media-left flex-shrink-0">
-                                            <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                        </section>
-                                        <section class="media-body flex-grow-1 pe-1">
-                                            <h5 class="notification-user">محمد هاسمی</h5>
-                                            <p class="notification-text">این یک پیام تستی است</p>
-                                            <p class="notification-time">30 دقیقه پیش</p>
-                                        </section>
-                                    </section>
-                                </li>
+                                @endforelse
                             </ul>
                         </section>
                     </span>
-                </section>  
+                </section>
                 <!-- notification area -->
 
                 <!-- comments area -->
@@ -107,14 +90,16 @@
                     <span id="header-comment-toggle" class="ms-2 ms-md-4 position-relative">
                         <span class="pointer">
                             <i class="far fa-comment-alt"></i>
-                            <sup class="badge bg-danger">3</sup>
+                            @if($unseenComments->count() !== 0)
+                            <sup class="badge bg-danger">{{$unseenComments->count()}}</sup>
+                            @endif
                         </span>
                         <section id="header-comment" class="heaeder-comments rounded">
                             <section class="d-flex justify-content-between">
                                 <span class="px-2">
                                     کامنت ها
                                 </span>
-                                <span class="px-2">
+                                <span class="px-2 d-flex flex-column justify-content-center">
                                     <span class="badge bg-danger">جدید</span>
                                 </span>
                             </section>
@@ -123,113 +108,39 @@
                             </section>
                             <section class="header-comment-wrapper">
                                 <ul class="list-group px-0 rounded">
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media d-flex">
-                                            <section  class="media-left flex-shrink-0">
-                                                <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                            </section>
-                                            <section class="media-body flex-grow-1 pe-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i class="fas fa-circle text-success comment-user-status"></i></span>
+                                    @forelse($unseenComments as $unseenComment)
+                                        @if($unseenComment->commentable_type == "App\Models\Market\Product")
+                                        <a class="text-decoration-none" href="{{ route('admin.market.comment.show', $unseenComment->id) }}">
+                                        @else
+                                        <a class="text-decoration-none" href="{{ route('admin.content.comment.show', $unseenComment->id) }}">
+                                        @endif
+                                        <li class="list-group-item list-group-item-action border-0 border-bottom">
+                                            <section class="media d-flex">
+                                                <section class="media-left flex-shrink-0" style="display: inline-grid;">
+                                                    <img class="align-self-center notification-img" src="{{ asset($unseenComment->author->profile_photo_path) }}" alt="{{$unseenComment->author->full_name}}">
+                                                </section>
+                                                <section class="media-body flex-grow-1 pe-1" style="display: inline-grid;">
+                                                    <section class="d-flex justify-content-between"  style="display: inline-grid;">
+                                                        <section  style="display: inline-grid;">
+                                                            <h5 class="comment-user">{{$unseenComment->author->full_name}}</h5>
+                                                            @if($unseenComment->commentable_type == "App\Models\Market\Product")
+                                                            <span class="text-truncate d-inline-block mt-n3" style="max-width: 160px;margin-top:-20px">{{$unseenComment->commentable->name}}</span>
+                                                            @else
+                                                            <span class="text-truncate d-inline-block mt-n3" style="max-width: 160px;margin-top:-20px">{{$unseenComment->commentable->title}}</span>
+                                                            @endif
+                                                        </section>
+                                                        <span class="mt-2"><i class="fas fa-circle text-success comment-user-status"></i></span>
+                                                    </section>
                                                 </section>
                                             </section>
-                                        </section>
-                                    </li>
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media d-flex">
-                                            <section  class="media-left flex-shrink-0">
-                                                <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                            </section>
-                                            <section class="media-body flex-grow-1 pe-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>  
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media d-flex">
-                                            <section  class="media-left flex-shrink-0">
-                                                <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                            </section>
-                                            <section class="media-body flex-grow-1 pe-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>  
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media d-flex">
-                                            <section  class="media-left flex-shrink-0">
-                                                <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                            </section>
-                                            <section class="media-body flex-grow-1 pe-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>  <li class="list-group-item list-group-item-action">
-                                        <section class="media d-flex">
-                                            <section  class="media-left flex-shrink-0">
-                                                <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                            </section>
-                                            <section class="media-body flex-grow-1 pe-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>  
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media d-flex">
-                                            <section  class="media-left flex-shrink-0">
-                                                <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                            </section>
-                                            <section class="media-body flex-grow-1 pe-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>  
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media d-flex">
-                                            <section  class="media-left flex-shrink-0">
-                                                <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                            </section>
-                                            <section class="media-body flex-grow-1 pe-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li> 
-                                    <li class="list-group-item list-group-item-action">
-                                        <section class="media d-flex">
-                                            <section  class="media-left flex-shrink-0">
-                                                <img  class="align-self-center notification-img" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="تست">
-                                            </section>
-                                            <section class="media-body flex-grow-1 pe-1">
-                                                <section class="d-flex justify-content-between">
-                                                    <h5 class="comment-user">محمد هاشمی</h5>
-                                                    <span><i class="fas fa-circle text-success comment-user-status"></i></span>
-                                                </section>
-                                            </section>
-                                        </section>
-                                    </li>                                        
+                                        </li>
+                                    </a>
+                                   @empty
+                                   @endforelse
                             </section>
                         </section>
                     </span>
-                </section>  
+                </section>
                 <!-- comments area -->
 
                 <!-- user profile area -->
