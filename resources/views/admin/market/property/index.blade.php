@@ -24,6 +24,7 @@
                 فرم کالا
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.market.property.create') }}" class="btn btn-sm btn-info text-white">ایجاد فرم جدید</a>
                 <div class="max-width-16-rem">
@@ -32,86 +33,35 @@
             </section>
             <section class="table-responsive overflow-x-auto">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>عنوان فرم</th>
-                        <th>فرم والد</th>
-                        <th>وضعیت</th>
-                        <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
+                        <th>واحد اندازه گیری</th>
+                        <th>دسته والد</th>
+                        <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                        @forelse($category_attributes as $category_attribute)    
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>نمایشگر</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm d-block w-100">ثبت</button>
-                                </div>
-
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>ویژگی</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <form class="d-inline" action="" method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
+                            <th>{{ $category_attribute->id }}</th>
+                            <td>{{ $category_attribute->name }}</td>
+                            <td>{{ $category_attribute->unit }}</td>
+                            <td>{{ $category_attribute->category->name }}</td>
+                            <td class="width-22-rem text-start">
+                                <a href="{{ route('admin.market.property.value.index', $category_attribute->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>ویژگی</a>
+                                <a href="{{ route('admin.market.property.edit', $category_attribute->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.market.property.destroy', $category_attribute->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $category_attribute->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>موبایل</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm d-block w-100">ثبت</button>
-                                </div>
-
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>ویژگی</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <form class="d-inline" action="" method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                                </form>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول فرم کالا خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>لوازم جانبی</td>
-                            <td>کالای الکترونیکی</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm d-block w-100">ثبت</button>
-                                </div>
-
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>ویژگی</a>
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <form class="d-inline" action="" method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-alt ms-2"></i>حذف</button>
-                                </form>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
@@ -119,4 +69,9 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'کالا'])
+
 @endsection

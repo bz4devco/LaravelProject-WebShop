@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
-<title>ایجاد فرم جدید | پنل مدیریت</title>
+<title> ایجاد رنگ | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -10,8 +10,8 @@
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.property.index') }}">فرم کالا</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ایجاد فرم جدید</li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.product.color.index', $product->id) }}">رنگ</a></li>
+    <li class="breadcrumb-item active" aria-current="page">ایجاد رنگ</li>
 </ol>
 </nav>
 <!-- category page Breadcrumb area -->
@@ -22,20 +22,20 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 ایجاد فرم جدید
+                 ایجاد رنگ
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.market.property.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
+                <a href="{{ route('admin.market.product.color.index', $product->id) }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form id="form" action="{{ route('admin.market.property.store') }}" method="post">
+                <form id="form" action="{{ route('admin.market.product.color.store', $product->id) }}" method="post">
                     @csrf
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="name">عنوان فرم</label>
-                                <input class="form-control form-select-sm" type="text" name="name" id="name"  value="{{old('name')}}">
+                                <label for="name">نام رنگ</label>
+                                <input class="form-control form-select-sm" type="text" name="name" id="name" value="{{ old('name') }}">
                                 @error('name')
                                     <span class="text-danger font-size-12">
                                         <strong>
@@ -46,30 +46,29 @@
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
-                            <div class="form-group mb-3">
-                                <label for="unit">واحد اندازه گیری</label>
-                                <input class="form-control form-select-sm" type="text" name="unit" id="unit" value="{{old('unit')}}">
-                                @error('unit')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
+                            <div class="form-group">
+                                <label for="price_increase">افزایش قیمت</label>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control form-price form-control-sm  number money" name="price_increase" id="price_increase" value="{{old('price_increase')}}" placeholder="100,000" aria-label="100,000" aria-describedby="price_increase">                                
+                                    <span class="input-group-text" id="price_increase">تومان</span>
+                                </div>
+                                @error('price_increase')
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="category_id">دسته کالا</label>
-                                <select class="form-select form-select-sm" name="category_id" id="category_id">
-                                <option disabled readonly selected>دسته کالا را انتخاب کنید</option>
-                                    @forelse($productCategoreis as $productCategory)
-                                    <option value="{{ $productCategory->id }}" @if (old('category_id') == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
-                                    @empty
-                                    <option class="text-center" disabled readonly>دسته ای در جدول دسته بندی ها وجود ندارد</option>
-                                    @endforelse
+                                <label for="status">وضعیت</label>
+                                <select class="form-select form-select-sm" name="status" id="status">
+                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
                                 </select>
-                                @error('category_id')
+                                @error('status')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -83,9 +82,15 @@
                         </section>
                     </section>
                 </form>
+                    </section>
+                </form>
             </section>
         </section>
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/price-format.js') }}"></script>
 @endsection

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Market\CategoryAttributeRequest;
+use App\Models\Market\ProductCategory;
+use App\Models\Market\CategoryAttribute;
 
 class PropertyController extends Controller
 {
@@ -14,7 +17,8 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        return view('admin.market.property.index');
+        $category_attributes = CategoryAttribute::orderBy('created_at', 'desc')->simplePaginate(15);
+        return view('admin.market.property.index', compact('category_attributes'));
     }
 
     /**
@@ -24,7 +28,8 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        return view('admin.market.property.create');
+        $productCategoreis = ProductCategory::whereNotNull('parent_id')->get(['id', 'name']);
+        return view('admin.market.property.create', compact('productCategoreis'));
     }
 
     /**
@@ -33,9 +38,12 @@ class PropertyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryAttributeRequest $request)
     {
-        //
+        $inputs = $request->all();
+        $category_attribute = CategoryAttribute::create($inputs);
+        return redirect()->route('admin.market.property.index')
+        ->with('alert-section-success', 'فرم کالای جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -55,9 +63,10 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(CategoryAttribute $categoryAttribute)
     {
-        //
+        $productCategoreis = ProductCategory::whereNotNull('parent_id')->get(['id', 'name']);
+        return view('admin.market.property.edit', compact('categoryAttribute', 'productCategoreis'));    
     }
 
     /**
@@ -67,9 +76,18 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute)
     {
-        //
+
+        $inputs = $request->all();
+
+
+        
+    
+        $result  = $categoryAttribute->update($inputs);
+
+        return redirect()->route('admin.market.property.index')
+        ->with('alert-section-success', ' ویرایش فرم کالا شماره '.$categoryAttribute->id.' با موفقیت انجام شد');
     }
 
     /**
@@ -78,8 +96,10 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(CategoryAttribute $categoryAttribute)
     {
-        //
+        $result = $categoryAttribute->delete();
+        return redirect()->route('admin.market.property.index')
+        ->with('alert-section-success', ' فرم کالا شماره'.$categoryAttribute->id.' با موفقیت حذف شد');
     }
 }

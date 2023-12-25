@@ -4,7 +4,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/persian-datepicker/persian-datepicker.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/persian-datepicker/persian-datepicker-cheerup.min.css') }}">
 
-<title> ایجاد کالا | پنل مدیریت</title>
+<title> ویرایش کالا | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -14,7 +14,8 @@
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.brand.index') }}">کالا ها</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ایجاد کالا</li>
+    <li class="breadcrumb-item active" aria-current="page">ویرایش کالا</li>
+    <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
 </ol>
 </nav>
 <!-- category page Breadcrumb area -->
@@ -25,20 +26,21 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                ایجاد کالا
+                ویرایش کالا
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.market.product.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form id="form" action="{{ route('admin.market.product.store') }}" method="post" enctype="multipart/form-data">
+                <form id="form" action="{{ route('admin.market.product.update', $product->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="name">نام کالا</label>
-                                <input class="form-control form-select-sm" type="text" name="name" id="name"  value="{{ old('name') }}">
+                                <input class="form-control form-select-sm" type="text" name="name" id="name"  value="{{ old('name', $product->name) }}">
                                 @error('name')
                                     <span class="text-danger font-size-12">
                                         <strong>
@@ -54,7 +56,7 @@
                                 <select class="form-select form-select-sm" name="category_id" id="category_id">
                                 <option disabled readonly selected>دسته کالا را انتخاب کنید</option>
                                     @forelse($productCategoreis as $productCategory)
-                                    <option value="{{ $productCategory->id }}" @if (old('category_id') == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
+                                    <option value="{{ $productCategory->id }}" @if (old('category_id', $product->category_id) == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>دسته ای در جدول دسته بندی ها وجود ندارد</option>
                                     @endforelse
@@ -74,7 +76,7 @@
                                 <select class="form-select form-select-sm" name="brand_id" id="brand_id">
                                     <option disabled readonly selected>برند کالا را انتخاب کنید</option>
                                     @forelse($brands as $brand)
-                                    <option value="{{ $brand->id }}"  @if (old('brand_id') == $brand->id) selected @endif>{{ $brand->persian_name }}</option>
+                                    <option value="{{ $brand->id }}"  @if (old('brand_id', $product->brand_id) == $brand->id) selected @endif>{{ $brand->persian_name }}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>برندی در جدول برندها وجود ندارد</option>
                                     @endforelse
@@ -99,13 +101,34 @@
                                         </strong>
                                     </span>
                                 @enderror
+                                <section class="row mt-2">
+                                    @php   
+                                        $number = 1;
+                                    @endphp
+
+                                    @foreach($product->image['indexArray'] as $key => $value)
+                                    <section class="col-{{ 6 / $number }}">
+                                        <div class="form-check p-0">
+                                            <input type="radio" class="form-check-input d-none set-image" name="currentImage" value="{{ $key }}" id="{{ $number }}"
+                                            @if($product->image['currentImage']  == $key) checked @endif>
+                                            <label for="{{ $number }}" class="form-check-label">
+                                                <img src="{{ asset($value) }}" class="w-100 max-h" alt="">
+                                            </label>
+                                        </div>
+                                    </section>
+                                    @php
+                                        $number++;
+                                    @endphp
+                                    @endforeach
+
+                                </section>
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group">
                                 <label for="price">قیمت کالا</label>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control form-price form-control-sm  number money" name="price" id="price" value="{{old('price')}}" placeholder="100,000" aria-label="100,000" aria-describedby="product-price">                                
+                                    <input type="text" class="form-control form-price form-control-sm  number money" name="price" id="price" value="{{old('price', number_format($product->price))}}" placeholder="100,000" aria-label="100,000" aria-describedby="product-price">                                
                                     <span class="input-group-text" id="product-price">تومان</span>
                                 </div>
                                 @error('price')
@@ -120,9 +143,9 @@
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="startdate">تاریخ انتشار</label>
-                                <input type="text" name="published_at" id="startdate_altField" class="form-control form-control-sm d-none" autocomplete="off"/>
-                                <input type="text" id="startdate" class="form-control form-control-sm" autocomplete="off"  value="{{ old('published_at') }}" />
-                                @error('published_at')
+                                <input type="text" name="published_at" id="startdate_altField" class="form-control form-control-sm d-none" autocomplete="off"  value="{{ old('published_at', $product->published_at) }}"/>
+                                <input type="text" id="startdate" class="form-control form-control-sm" autocomplete="off"  />
+                                @error('summery')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -138,7 +161,7 @@
                                     <section class="col-12 col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="weight">وزن</label>
-                                            <input class="form-control form-select-sm" type="text" name="weight" id="weight" value="{{ old('weight') }}">
+                                            <input class="form-control form-select-sm" type="text" name="weight" id="weight" value="{{ old('weight', $product->weight) }}">
                                             @error('weight')
                                                 <span class="text-danger font-size-12">
                                                     <strong>
@@ -151,7 +174,7 @@
                                     <section class="col-12 col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="length">طول</label>
-                                            <input class="form-control form-select-sm" type="text" name="length" id="length" value="{{ old('length') }}">
+                                            <input class="form-control form-select-sm" type="text" name="length" id="length" value="{{ old('length', $product->length) }}">
                                             @error('length')
                                                 <span class="text-danger font-size-12">
                                                     <strong>
@@ -164,7 +187,7 @@
                                     <section class="col-12 col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="width">عرض</label>
-                                            <input class="form-control form-select-sm" type="text" name="width" id="width" value="{{ old('width') }}">
+                                            <input class="form-control form-select-sm" type="text" name="width" id="width" value="{{ old('width', $product->width) }}">
                                             @error('width')
                                                 <span class="text-danger font-size-12">
                                                     <strong>
@@ -177,7 +200,7 @@
                                     <section class="col-12 col-md-6">
                                         <div class="form-group mb-3">
                                             <label for="height">ارتفاع</label>
-                                            <input class="form-control form-select-sm" type="text" name="height" id="height" value="{{ old('height') }}">
+                                            <input class="form-control form-select-sm" type="text" name="height" id="height" value="{{ old('height', $product->height) }}">
                                             @error('height')
                                                 <span class="text-danger font-size-12">
                                                     <strong>
@@ -193,7 +216,7 @@
                         <section class="col-12">
                             <div class="form-group mb-3">
                                 <label for="tags">برچسب ها</label>
-                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags') }}">
+                                <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags', $product->tags) }}">
                                 <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
                                 @error('tags')
                                     <span class="text-danger font-size-12">
@@ -208,8 +231,8 @@
                             <div class="form-group mb-3">
                                 <label for="marketable_number">وضعیت قابل فروش</label>
                                 <select class="form-select form-select-sm" name="marketable_number" id="marketable_number">
-                                    <option value="0" @if (old('marketable_number') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('marketable_number') == 1) selected @endif>فعال</option>
+                                    <option value="0" @if (old('marketable_number', $product->marketable_number) == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('marketable_number', $product->marketable_number) == 1) selected @endif>فعال</option>
                                 </select>
                                 @error('marketable_number')
                                     <span class="text-danger font-size-12">
@@ -224,8 +247,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                                    <option value="0" @if (old('status', $product->status) == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status', $product->status) == 1) selected @endif>فعال</option>
                                 </select>
                                 @error('status')
                                     <span class="text-danger font-size-12">
@@ -239,7 +262,7 @@
                         <section class="col-12 mb-3">
                             <div class="form-group">
                                 <label for="introduction">توضیحات کالا</label>
-                                <textarea id="introduction" name="introduction" id="introduction">{{old('introduction')}}</textarea>
+                                <textarea id="introduction" name="introduction" id="introduction">{{old('introduction', $product->introduction)}}</textarea>
                                 @error('introduction')
                                     <span class="text-danger font-size-12">
                                         <strong>
@@ -255,10 +278,9 @@
 
                                 {{-- compine key and value old metas --}}
                                 @php
-                                     $metas = array_combine(old('meta_key') , old('meta_value'));
-                                     $inc = 0;
+                                        $metas = array_combine(old('meta_key') , old('meta_value'));
                                 @endphp
-                                
+                        
                                 @foreach($metas as $key => $value)
                                 <section class="row">
                                     <section class="col-12 col-md-6">
@@ -272,7 +294,21 @@
                                         </div>
                                     </section>
                                 </section>
-                                @php $inc += 1 @endphp
+                                @endforeach
+                            @elseif($product->metas)
+                                @foreach($product->metas as $meta)
+                                <section class="row">
+                                    <section class="col-12 col-md-6">
+                                        <div class="form-group mb-3">
+                                            <input class="form-control form-select-sm" type="text" name="meta_key[]" id="meta_key" placeholder="ویژگی..." value="{{$meta->meta_key}}">
+                                        </div>
+                                    </section>
+                                    <section class="col-12 col-md-6">
+                                        <div class="form-group mb-3">
+                                            <input class="form-control form-select-sm" type="text" name="meta_value[]" id="meta_value" placeholder="مقدار..." value="{{$meta->meta_value}}">
+                                        </div>
+                                    </section>
+                                </section>
                                 @endforeach
                             @else
                             <section class="row">
@@ -319,4 +355,9 @@
         CKEDITOR.replace( 'introduction');
 </script>
 
+<script>
+    let publishedAtTime = new persianDate(parseInt($('#startdate_altField').val())).format("YYYY/MM/DD hh:mm:ss");
+    $('#startdate').val(publishedAtTime);
+
+</script>
 @endsection

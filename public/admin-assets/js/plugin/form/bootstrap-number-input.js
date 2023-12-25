@@ -67,3 +67,15 @@ $(document).on('blur', '.number-spinner .input-step-number', function () {
 
 		input.val(newVal + char);
 });
+
+
+$('#form.num-input-check').submit(function (evt) {
+
+	if($('.number-spinner .input-step-number').val() != undefined){
+		oldValue = $('.number-spinner .input-step-number').val().trim();
+		char = ($('.number-spinner .input-step-number').attr('data-char') != '') ? $('.number-spinner .input-step-number').attr('data-char') : '';
+		oldValue = oldValue.replace(char,'');
+		$('.number-spinner .input-step-number').val(oldValue);
+		$('#form').submit(evt);
+	}
+});

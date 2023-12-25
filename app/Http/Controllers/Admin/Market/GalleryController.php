@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Market;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Market\Product;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Market\GalleryRequest;
+use App\Http\Services\Image\ImageService;
+use App\Models\Market\Gallery;
 
 class GalleryController extends Controller
 {
@@ -12,9 +16,9 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Product $product)
     {
-        return view('admin.market.gallery.index');
+        return view('admin.market.product.gallery.index', compact('product'));
     }
 
     /**
@@ -22,9 +26,9 @@ class GalleryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Product $product)
     {
-        return view('admin.market.gallery.create');
+        return view('admin.market.product.gallery.create', compact('product'));
     }
 
     /**
@@ -33,44 +37,40 @@ class GalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GalleryRequest $request, Product $product, ImageService $imageservice)
     {
-        //
+        $inputs = $request->all();
+
+        // image Upload
+        if($request->hasFile('image'))
+        {
+            if (!empty($product)) {
+                $imageservice->deleteDirectoryAndFiles($product->image['directory']);
+            }
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-gallery');
+            $result = $imageservice->createIndexAndSave($request->file('image'), true);
+            if($result === false)
+            {
+                return redirect()->route('admin.market.gallery.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            }
+            $inputs['image'] = $result;
+        } else {
+            if (isset($inputs['currentImage']) && !empty($product->image)) {
+                $image = $product->image;
+                $image['currentImage'] = $inputs['currentImage'];
+                $inputs['image'] = $image;
+            }
+        }
+
+        $inputs['product_id'] = $product->id;
+
+
+        // store data in database
+        $gallery = Gallery::create($inputs);
+        return redirect()->route('admin.market.product.gallery.index', $product->id)
+        ->with('alert-section-success', 'تصویر جدید شما برای محصول با موفقیت ثبت شد');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +78,10 @@ class GalleryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product, Gallery $gallery)
     {
-        //
+        $result = $gallery->delete();
+        return redirect()->route('admin.market.product.gallery.index', $product->id)
+        ->with('alert-section-success', ' تصویر گالری به شناسه '.$gallery->id.' این محصول با موفقیت حذف شد');
     }
 }
