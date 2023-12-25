@@ -1,6 +1,9 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<!-- status switch on list -->
+<link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
+
 <title>فروش شگفت انگیز | پنل مدیریت</title>
 @endsection
 
@@ -25,14 +28,15 @@
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.market.discount.amazing-sale.create') }}" class="btn btn-sm btn-info text-white">ایجاد کالا به لیست فروش شگفت انگیز</a>
+                <a href="{{ route('admin.market.discount.amazing-sale.create') }}" class="btn btn-sm btn-info text-white">افزودن کالا به لیست فروش شگفت انگیز</a>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="table-responsive overflow-x-auto">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام کالا</th>
                         <th>درصد تخفیف</th>
@@ -42,72 +46,35 @@
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                        @forelse($amazingSales as $amazingSale)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>موبایل سامسونگ</td>
-                            <td>42%</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
+                            <th>{{$amazingSale->id}}</th>
+                            <td class="text-truncate" style="max-width: 160px;" title="{{$amazingSale->product->name}}">{{$amazingSale->product->name}}</td>
+                            <td>{{$amazingSale->percentage}}%</td>
+                            <td>{{jalaliDate($amazingSale->start_date)}}</td>
+                            <td>{{jalaliDate($amazingSale->end_date)}}</td>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.market.discount.amazing-sale.status', $amazingSale->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $amazingSale->id }}" name="status" type="checkbox" @if($amazingSale->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $amazingSale->id }}"></label>
+                                    </div>
+                                </section>
                             </td>
                             <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                <a href="{{ route('admin.market.discount.amazing-sale.edit', $amazingSale->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.market.discount.amazing-sale.destroy', $amazingSale->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $amazingSale->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>لپ تاپ سامسونگ</td>
-                            <td>30%</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول فروش شگفت انگیز خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>LED سامسونگ</td>
-                            <td>20%</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
@@ -115,4 +82,10 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'فروش فوق شگفت انگیز'])
+
 @endsection

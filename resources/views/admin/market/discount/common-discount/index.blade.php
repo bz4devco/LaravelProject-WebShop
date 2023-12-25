@@ -1,6 +1,9 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<!-- status switch on list -->
+<link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
+
 <title>تخفیف عمومی | پنل مدیریت</title>
 @endsection
 
@@ -24,6 +27,7 @@
                 تخفیف عمومی
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.market.discount.common-discount.create') }}" class="btn btn-sm btn-info text-white">ایجاد تخفیف عمومی</a>
                 <div class="max-width-16-rem">
@@ -32,7 +36,7 @@
             </section>
             <section class="table-responsive overflow-x-auto">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>درصد تخفیف</th>
                         <th>سقف تخفیف</th>
@@ -43,75 +47,36 @@
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                    @forelse($commonDiscounts as $commonDiscount)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>15%</td>
-                            <td>ندارد</td>
-                            <td>دهه مبارکه فجر</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
+                            <th>{{$commonDiscount->id}}</th>
+                            <td>{{$commonDiscount->percentage}}%</td>
+                            <td>{{$commonDiscount->minimal_order_amount ? number_format($commonDiscount->minimal_order_amount) . ' تومان': 'ندارد'}}</td>
+                            <td>{{$commonDiscount->title}}</td>
+                            <td>{{jalaliDate($commonDiscount->start_date)}}</td>
+                            <td>{{jalaliDate($commonDiscount->end_date)}}</td>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.market.discount.common-discount.status', $commonDiscount->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $commonDiscount->id }}" name="status" type="checkbox" @if($commonDiscount->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $commonDiscount->id }}"></label>
+                                    </div>
+                                </section>
                             </td>
                             <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                <a href="{{ route('admin.market.discount.common-discount.edit', $commonDiscount->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.market.discount.common-discount.destroy', $commonDiscount->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $commonDiscount->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>10%</td>
-                            <td>ندارد</td>
-                            <td>میلاد با سعادت امام علی (ع)</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول تخفیف های عمومی خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>12%</td>
-                            <td><span>30,000<span>تومان</span></span></td>
-                            <td>ندارد</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
@@ -119,4 +84,10 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'تخفیف عمومی'])
+
 @endsection

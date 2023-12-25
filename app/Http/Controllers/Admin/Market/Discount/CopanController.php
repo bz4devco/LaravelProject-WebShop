@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Market\Discount;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Market\Copan;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Market\CopanRequest;
 
 class CopanController extends Controller
 {
@@ -14,7 +17,9 @@ class CopanController extends Controller
      */
     public function index()
     {
-        return view('admin.market.discount.copan.index');
+        $copans = Copan::orderBy('created_at', 'desc')->simplePaginate(15);
+
+        return view('admin.market.discount.copan.index', compact('copans'));
     }
 
     /**
@@ -24,7 +29,11 @@ class CopanController extends Controller
      */
     public function create()
     {
-        return view('admin.market.discount.copan.create');
+        
+        $costumers  = User::where('user_type', 0)
+        ->orderBy('created_at', 'desc')->get();
+
+        return view('admin.market.discount.copan.create', compact('costumers'));
     }
 
     /**
@@ -33,9 +42,22 @@ class CopanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CopanRequest $request, Copan $copan)
     {
-        //
+        $inputs = $request->all();
+
+        // start date fixed
+        $realTimestampStart = substr($request->start_date, 0, 10);
+        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
+        
+        // end date fixed
+        $realTimestampend = substr($request->end_date, 0, 10);
+        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampend);
+
+        // store data in database
+        $copan->create($inputs);
+        return redirect()->route('admin.market.discount.copan.index')
+        ->with('alert-section-success', 'کوپن تخفیف جدید شما با موفقیت ثبت شد');
     }
 
     /**
@@ -55,9 +77,20 @@ class CopanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Copan $copan)
     {
-        //
+   
+        $costumers  = User::where('user_type', 0)
+        ->orderBy('created_at', 'desc')->get();
+
+        // convert date to timestamp
+        $timestampStart = strtotime($copan['start_date']);
+        $copan['start_date'] = $timestampStart . '000';
+        
+        $timestampEnd = strtotime($copan['end_date']);
+        $copan['end_date'] = $timestampEnd . '000';
+
+        return view('admin.market.discount.copan.edit', compact('copan', 'costumers'));
     }
 
     /**
@@ -67,9 +100,25 @@ class CopanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CopanRequest $request, Copan $copan)
     {
-        //
+        $inputs = $request->all();
+
+        // start date fixed
+        $realTimestampStart = substr($request->start_date, 0, 10);
+        $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
+        
+        // end date fixed
+        $realTimestampStart = substr($request->end_date, 0, 10);
+        $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
+
+        if(!isset($inputs['user_id'])){
+            $inputs['user_id'] = null;
+        }
+
+        $copan->update($inputs);
+        return redirect()->route('admin.market.discount.copan.index')
+        ->with('alert-section-success', 'ویرایش کوپن تخفیف با شماره شناسه   '.$copan['id'].' با موفقیت انجام شد');
     }
 
     /**
@@ -78,8 +127,33 @@ class CopanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Copan $copan)
     {
-        //
+        $result = $copan->delete();
+        return redirect()->route('admin.market.discount.copan.index')
+        ->with('alert-section-success', ' کوپن تخفیف با شماره شناشه '.$copan->id.' با موفقیت حذف شد');
+    }
+
+         /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status(Copan $copan)
+    {
+        $copan->status = $copan->status == 0 ? 1 : 0;
+        $result = $copan->save();
+
+        if($result){
+            if($copan->status == 0){
+                return response()->json(['status' => true, 'checked' => false, 'id' => $copan->id]);
+            }else{
+                return response()->json(['status' => true, 'checked' => true, 'id' => $copan->id]);
+            }
+        }else{
+            return response()->json(['status' => false]);
+        }
     }
 }

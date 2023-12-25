@@ -1,6 +1,9 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
+<!-- status switch on list -->
+<link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
+
 <title>کوپن تخفیف | پنل مدیریت</title>
 @endsection
 
@@ -24,6 +27,7 @@
                 کوپن تخفیف
                 </h5>
             </section>
+            @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.market.discount.copan.create') }}" class="btn btn-sm btn-info text-white">ایجاد کپن تخفیف </a>
                 <div class="max-width-16-rem">
@@ -32,10 +36,11 @@
             </section>
             <section class="table-responsive overflow-x-auto">
                 <table class="table table-striped table-hover">
-                    <thead class="border-bottom border-dark">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>کد کوپن</th>
-                        <th>درصد تخفیف</th>
+                        <th>میزان تخفیف</th>
+                        <th>نوع تخفیف</th>
                         <th>سقف تخفیف</th>
                         <th>نوع کوپن</th>
                         <th>تاریخ شروع</th>
@@ -44,78 +49,38 @@
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
+                        @forelse($copans as $copan)
                         <tr class="align-middle">
-                            <th>1</th>
-                            <td>hd84d8d</td>
-                            <td>15%</td>
-                            <td><span>25,000<span>تومان</span></span></td>
-                            <td>خصوصی</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
+                            <th>{{$copan->id}}</th>
+                            <td>{{$copan->code}}</td>
+                            <td>{{($copan->amount_type == 0) ? $copan->amount . '%' : number_format($copan->amount) . 'تومان'}}</td>
+                            <td>{{$copan->type == 0 ? 'درصدی' : 'عددی'}}</td>
+                            <td><span>{{number_format($copan->discount_ceiling ?? 0)}}<span>تومان</span></span></td>
+                            <td>{{$copan->type == 0 ? 'عمومی' : 'خصوصی'}}</td>
+                            <td>{{jalaliDate($copan->start_date)}}</td>
+                            <td>{{jalaliDate($copan->end_date)}}</td>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.market.discount.copan.status', $copan->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $copan->id }}" name="status" type="checkbox" @if($copan->status) checked @endif >
+                                        <label class="custom-switch-btn" for="{{ $copan->id }}"></label>
+                                    </div>
+                                </section>
                             </td>
                             <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                <a href="{{ route('admin.market.discount.copan.edit', $copan->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.market.discount.copan.destroy', $copan->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" id="{{ $copan->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                </form>
                             </td>
                         </tr>
+                        @empty
                         <tr class="align-middle">
-                            <th>2</th>
-                            <td>hd84d8d</td>
-                            <td>75%</td>
-                            <td><span>85,000<span>تومان</span></span></td>
-                            <td>عمومی</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول کوپن تخفیف خالی می باشد</th>
                         </tr>
-                        <tr class="align-middle">
-                            <th>3</th>
-                            <td>hd84d8d</td>
-                            <td>25%</td>
-                            <td><span>56,000<span>تومان</span></span></td>
-                            <td>عمومی</td>
-                            <td>24 اردیبهشت 1402</td>
-                            <td>31 اردیبهشت 1402</td>
-                            <td class="row m-0 align-items-center">
-                                <div class="col-md-8 px-1">
-                                    <select class="form-select form-select-sm form-select" style="min-width:3rem" name="status" id="status">
-                                        <option value="1">فعال</option>
-                                        <option value="0">غیر فعال</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 px-1">
-                                    <button type="submit" class="btn btn-success btn-sm w-100">ثبت</button>
-                                </div>
-                            </td>
-                            <td class="width-16-rem text-start">
-                                <a href="" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash ms-2"></i>حذف</button>
-                            </td>
-                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </section>
@@ -123,4 +88,10 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'کوپن تخفیف'])
+
 @endsection

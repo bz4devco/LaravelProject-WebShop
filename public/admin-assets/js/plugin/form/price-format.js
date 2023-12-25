@@ -1,4 +1,8 @@
 $(function() {
+    isMoney();
+});
+
+function isMoney(){
     var numberInputs = $("input.money");
     var convertToCurrencyDisplayFormat = function(str) {
         var regex = /(-?[0-9]+)([0-9]{3})/;
@@ -13,17 +17,17 @@ $(function() {
         str = str.replace(/[^0-9]/g, '');
         return str;
     };
-  
+    
     numberInputs.blur(function() {
-		 this.value = convertToCurrencyDisplayFormat( this.value );
+         this.value = convertToCurrencyDisplayFormat( this.value );
     });
-	    numberInputs.focus(function() {
+        numberInputs.focus(function() {
        this.value = convertToCurrencyDisplayFormat( this.value );
-		
+        
     });
     numberInputs.keyup(function() {
-	 this.value = stripNonNumeric( this.value );
-	  this.value = convertToCurrencyDisplayFormat( this.value );
+     this.value = stripNonNumeric( this.value );
+      this.value = convertToCurrencyDisplayFormat( this.value );
       
     });
     $("form").submit(function() {
@@ -31,7 +35,7 @@ $(function() {
             this.value = stripNonNumeric( this.value );
         });
     });
-});
+}
 
 $(".number").on("keypress", function(event) {
 	

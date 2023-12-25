@@ -32,57 +32,119 @@
                 <a href="{{ route('admin.market.discount.common-discount.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form action="" method="">
+                <form id="form" class="num-input-check" action="{{ route('admin.market.discount.common-discount.store') }}" method="post">
+                    @csrf
                     <section class="row">
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">درصد تخفیف</label>
+                                <label for="percentage">درصد تخفیف</label>
                                 <div class="input-group  input-group-sm number-spinner">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default btn-border p-btn-num rounded-end" data-dir="up">+</button>
                                     </span>
-                                    <input class="input-step-number form-control number text-center rounded-0" data-char="%" type="text" step="5" value="0" min="0" max="100">
+                                    <input class="input-step-number form-control number text-center rounded-0" name="percentage" id="percentage" value="{{ old('percentage') ?? 0 }}" data-char="%" type="text" step="5" min="0" max="100">
                                     <span class="input-group-btn ">
                                         <button type="button" class="btn btn-default btn-border p-btn-num rounded-start" data-dir="dwn">-</button>
                                     </span>
                                 </div>
+                                @error('percentage')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">حداکثر تخفیف</label>
+                                <label for="discount_ceiling">حداقل مبلغ خرید</label>
                                 <div class="input-group input-group-sm mb-3">
-                                    <input type="text" class="form-control form-price form-control-sm  number money" placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
+                                    <input type="text" class="form-control form-price form-control-sm  number money" name="discount_ceiling" id="discount_ceiling" value="{{ old('discount_ceiling')}}"  placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
                                     <span class="input-group-text" id="deliver-price">تومان</span>
+                                    <small class="text-secondary position-absolute top-100 user-select-none d-block w-100 mb-1">فیلد اختیاری</small>
+                                    @error('discount_ceiling')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                    @enderror
                                 </div>
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">عنوان مناسبت</label>
-                                <input class="form-control form-control-sm" type="text">
+                                <label for="minimal_order_amount">حداکثر تخفیف</label>
+                                <div class="input-group input-group-sm mb-3">
+                                    <input type="text" class="form-control form-price form-control-sm  number money" name="minimal_order_amount" id="minimal_order_amount" value="{{ old('minimal_order_amount')}}"  placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
+                                    <span class="input-group-text" id="deliver-price">تومان</span>
+                                    <small class="text-secondary position-absolute top-100 user-select-none d-block w-100 mb-1">فیلد اختیاری</small>
+                                    @error('minimal_order_amount')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                    @enderror
+                                </div>
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">تاریخ شروع</label>
-                                <input type="text" name="startdate" id="startdate" class="form-control form-control-sm" autocomplete="off" />
+                                <label for="title">عنوان مناسبت</label>
+                                <input class="form-control form-control-sm" type="text" name="title" id="title"  value="{{ old('title') }}">
+                                @error('title')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">تاریخ پایان</label>
-                                <input type="text" name="enddate" id="enddate" class="form-control form-control-sm" autocomplete="off" />
+                                <label for="startdate">تاریخ شروع</label>
+                                <input type="text" name="start_date" id="startdate_altField" class="form-control form-control-sm d-none"  value="{{ old('start_date') }}" autocomplete="off"/>
+                                <input type="text" id="startdate" class="form-control form-control-sm" autocomplete="off" />
+                                @error('start_date')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="">وضعیت</label>
-                                <select class="form-select form-select-sm" name="" id="">
-                                    <option>وضعیت را انتخاب کنید</option>
-                                    <option value="1">فعال</option>
-                                    <option value="0">غیر فعال</option>
+                                <label for="enddate">تاریخ پایان</label>
+                                <input type="text" name="end_date" id="enddate_altField" class="form-control form-control-sm d-none" value="{{ old('end_date') }}" autocomplete="off"/>
+                                <input type="text" id="enddate" class="form-control form-control-sm" autocomplete="off" />
+                                @error('end_date')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="status">وضعیت</label>
+                                <select class="form-select form-select-sm" name="status" id="status">
+                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
+                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
                                 </select>
+                                @error('status')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
                             </div>
                         </section>
                         <section class="col-12">
@@ -103,6 +165,15 @@
 <script type="text/javascript" src="{{ asset('admin-assets/js/persian-datepicker/persian-datepicker.js') }}"></script>
 <script type="text/javascript" src="{{ asset('admin-assets/js/mask-input/jquery.maskedinput.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/price-format.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/form/generate-discount-code.js') }}"></script>
 <script src="{{ asset('admin-assets/js/plugin/form/datepicker-config.js') }}"></script>
+<script>
+    let startDateTime = new persianDate(parseInt($('#startdate_altField').val())).format("YYYY/MM/DD hh:mm:ss");
+    $('#startdate').val(startDateTime);
+    
+    let endDateTime = new persianDate(parseInt($('#enddate_altField').val())).format("YYYY/MM/DD hh:mm:ss");
+    $('#enddate').val(endDateTime);
+
+</script>
 @endsection

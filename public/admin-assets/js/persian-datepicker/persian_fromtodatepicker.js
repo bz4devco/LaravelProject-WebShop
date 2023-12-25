@@ -56,6 +56,8 @@ $(function(){
 				}
 			},
 			format: 'YYYY/MM/DD HH:mm:ss',
+			altField:'#enddate_altField',
+
 //            minDate: new persianDate().subtract('day', 3).valueOf(),
             onSelect: function (unix) {
                 to.touched = true;

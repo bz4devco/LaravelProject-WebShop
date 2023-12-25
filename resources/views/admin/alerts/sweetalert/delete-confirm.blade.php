@@ -1,6 +1,7 @@
 <script>
     $(document).ready(function() {
         let className = '{{ $className }}',
+            fieldTitle  = '{{ $fieldTitle }}',
             element = $('.' + className);
             
 
@@ -17,7 +18,7 @@
 
 
             swalWithBootstrapButtons.fire({
-                title: "آیا از حذف دسته بندی شماره "+ id + " مطمئن هستید؟ ",
+                title: "آیا از حذف " + fieldTitle + " با شماره شناسه "+ id + " مطمئن هستید؟ ",
                 text: "شما میتوانید درخواست خود را لغو نمایید",
                 icon: "warning",
                 showCancelButton: true,
