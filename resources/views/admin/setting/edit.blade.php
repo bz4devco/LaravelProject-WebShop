@@ -70,6 +70,13 @@
                                         </strong>
                                     </span>
                                 @enderror
+                                @if($setting->logo != null)
+                                <section class="row">
+                                    <section class="col-md-6 mt-2">
+                                        <img src="{{asset($setting->logo)}}" class="rounded-3" width="100" alt="logo">
+                                    </section>
+                                </section>
+                                @endif
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
@@ -83,6 +90,13 @@
                                         </strong>
                                     </span>
                                 @enderror
+                                @if($setting->icon != null)
+                                <section class="row">
+                                    <section class="col-md-6 mt-2">
+                                        <img src="{{asset($setting->icon)}}" class="rounded-3" width="100" alt="icon">
+                                    </section>
+                                </section>
+                                @endif
                             </div>
                         </section>
                         <section class="col-12">

@@ -52,7 +52,7 @@
                             <th>{{$product->id}}</th>
                             <td class="text-truncate" style="max-width: 120px;" title="{{$product->name}}">{{$product->name}}</td>
                             <td>
-                                <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}" height="50" alt="{{ $product->name }}">
+                                <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}" width="50" height="50" alt="{{ $product->name }}">
                             </td>
                             <td><span>{{number_format($product->price)}}<span>تومان</span></span></td>
                             <td>{{$product->category->parent->name ?? '-'}}</td>

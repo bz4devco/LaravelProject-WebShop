@@ -53,12 +53,12 @@
                             <td>{{ $setting->base_url }}</td>
                             <td>
                                 @isset($setting->logo)
-                                <img src="{{ asset($setting->logo) }}" height="50" alt="logo">
+                                <img src="{{ asset($setting->logo) }}" width="50" height="50" alt="logo">
                                 @endisset
                             </td>
                             <td>
                                 @isset($setting->icon)
-                                <img src="{{ asset($setting->icon) }}" height="50" alt="icon">
+                                <img src="{{ asset($setting->icon) }}" width="50" height="50" alt="icon">
                                 @endisset
                             </td>
                             <td>

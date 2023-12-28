@@ -53,7 +53,7 @@
                             <th>{{ $loop->iteration }}</th>
                             <td class="text-truncate" style="max-width: 150px;">{{ $product->name }}</td>
                             <td>
-                                <img src="{{ asset($gallery->image['indexArray'][$gallery->image['currentImage']]) }}" height="50" alt="{{ $product->name }}">
+                                <img src="{{ asset($gallery->image['indexArray'][$gallery->image['currentImage']]) }}" width="50" height="50" alt="{{ $product->name }}">
                             </td>
                             <td class="width-16-rem text-start">
                                 <form class="d-inline" action="{{ route('admin.market.product.gallery.destroy',['product' => $product->id, 'gallery' => $gallery->id]) }}" method="post">

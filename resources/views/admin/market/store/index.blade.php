@@ -47,7 +47,7 @@
                         <tr class="align-middle">
                             <th>{{$product->id}}</th>
                             <td>{{$product->name}}</td>
-                            <td><img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}" class="max-height-2rem"  alt="{{ $product->name }}"></td>
+                            <td><img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}" width="50" height="50" class="max-height-2rem"  alt="{{ $product->name }}"></td>
                             <td>{{$product->marketable_number}}</td>
                             <td>{{$product->frozen_number}}</td>
                             <td>{{$product->sold_number}}</td>
