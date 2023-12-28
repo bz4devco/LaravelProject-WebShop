@@ -1,7 +1,7 @@
 @font-face {
 	font-family: IRANSans;
-	src: url('../fonts/IRANSans/IRANSansWeb_Light.woff'),
-	url('../fonts/IRANSans/IRANSansWeb_Light.woff') format('truetype');
+	src: url('../fonts/IRANSans/IRANSansWeb_Light.woff2'),
+	url('../fonts/IRANSans/IRANSansWeb_Light.woff2') format('truetype');
 	font-weight: normal;
 }
 
@@ -38,9 +38,30 @@ body {
   header
  -----------------------------------------------------------------------------------------------------------------------
 */
+@keyframes header-opacity {
+    from{
+        height: 0;
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+        height: auto;
+        
+    }
+}
+
 .header {
 	box-shadow: 0 7px 8px 0 rgba(0,0,0,0.04);
     background-color: #FFFFFF;
+}
+
+#header.sticky {
+    position: fixed;
+    top: 0rem;
+    left: 0;
+    right: 0;
+    z-index: 10000000;
+    animation: header-opacity 0.8s ;
 }
 
 .top-header {
