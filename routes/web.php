@@ -437,10 +437,37 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
     Route::post('/notification/read-all', 'NotificationController@readAll')->name('admin.notification.read-all');
 
-    
 });
 
 
+/*
+|--------------------------------------------------------------------------
+| Customer
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/', function() {
+    return view('customer.home');
+})->name('customer.home');
+
+
+/*
+|--------------------------------------------------------------------------
+| Customer Login Register
+|--------------------------------------------------------------------------
+*/
+
+Route::namespace('Auth\Customer')->group(function () {
+    Route::get('login-register', "LoginRegisterController@LoginRegisterForm")->name('auth.customer.login-register-form');
+    Route::post('/login-register', "LoginRegisterController@LoginRegister")->name('auth.customer.login-register');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Jetstream
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware([
     'auth:sanctum',
