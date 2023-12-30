@@ -77,7 +77,7 @@ class SettingController extends Controller
                 $result = $imageservice->save($request->file('icon'));
 
                 if ($result === false) {
-                    return redirect()->route('admin.setting.edit')->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
+                    return redirect()->route('admin.setting.edit', $setting->id)->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
                 }
                 $inputs['icon'] = $result;
             }

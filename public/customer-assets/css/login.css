@@ -16,6 +16,7 @@
     left: 0;
     right: 0;
 }
+
 .login-wrapper {
     border-radius: 0.50rem;
     padding: 2.5rem 2rem 2.5rem 2rem;
@@ -23,7 +24,11 @@
     border: 1px solid #e0e0e2;
     width: 23rem;
 }
-
+.back-to-login{
+    position: absolute;
+    top:3.5rem;
+    right: 2rem;
+}
 .login-logo {
     display: flex;
     justify-content: center;
@@ -79,6 +84,13 @@
     left: 10px;
     font-size: 0.9rem;
 }
+.login-input-text input.confirm-input{
+    padding: 0.3rem 0.3rem 0.3rem 1.9rem;
+    letter-spacing: 1.5rem;
+    font-size: 1rem;
+    color: rgb(12, 151, 132);
+    font-weight: bold;
+}
 .login-input-text input:focus{
     border: 1px solid #08a4cb;
     caret-color: #08a4cb;
@@ -101,6 +113,13 @@
         min-width: 100vw;
         min-height: 100vh;
     }
+    .choose-login-method{
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+}
+@media screen and (max-height: 480px) {
     .choose-login-method{
         bottom: 0;
         left: 0;

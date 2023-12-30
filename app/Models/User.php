@@ -42,6 +42,8 @@ class User extends Authenticatable
         'last_name',
         'email',
         'mobile',
+        'email_verified_at',
+        'mobile_verified_at',
         'national_code',
         'profile_photo_path',
         'actiovation',

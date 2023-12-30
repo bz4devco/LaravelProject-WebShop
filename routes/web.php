@@ -460,6 +460,11 @@ Route::get('/', function() {
 Route::namespace('Auth\Customer')->group(function () {
     Route::get('login-register', "LoginRegisterController@LoginRegisterForm")->name('auth.customer.login-register-form');
     Route::post('/login-register', "LoginRegisterController@LoginRegister")->name('auth.customer.login-register');
+    
+    Route::get('login-confirm/{token}', "LoginRegisterController@LoginConfirmForm")->name('auth.customer.login-confirm-form');
+    Route::post('/login-confirm/{token}', "LoginRegisterController@LoginConfirm")->name('auth.customer.login-confirm');
+
+    Route::get('/resend-code/{token}', "LoginRegisterController@LoginResendCode")->name('auth.customer.login-resend-code');
 });
 
 

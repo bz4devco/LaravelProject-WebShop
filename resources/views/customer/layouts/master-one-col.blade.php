@@ -3,7 +3,7 @@
 <head>
     @include('customer.layouts.seo')
     @include('customer.layouts.head-tag')
-    @yield('haed-tag', ['setting' => $setting])
+    @yield('haed-tag')
 </head>
 <body>
     @include('customer.layouts.header')

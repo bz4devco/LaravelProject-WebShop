@@ -2,6 +2,8 @@
 
 
 @section('haed-tag')
+<link rel="stylesheet" href="{{ asset('customer-assets/css/login.css') }}">
+
 <title>{{-- $setting->title --}} | ورود / ثبت نام</title>
 @endsection
 
@@ -11,12 +13,12 @@
         @csrf
         <section class="login-wrapper position-relative">
             <section class="choose-login-method position-absolute">
-                <ul class="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
+                <ul class="nav nav-tabs d-flex justify-content-center border-0" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="login-mobile-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="mobile" aria-selected="true">ورود با موبایل</button>
+                        <button class="nav-link  border-bottom-0 active" id="login-mobile-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="mobile" aria-selected="true">ورود با موبایل</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="login-email-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="email" aria-selected="true">ورود با ایمیل</button>
+                        <button class="nav-link  border-bottom-0" id="login-email-tab" data-bs-toggle="tab" type="button" role="tab" aria-controls="email" aria-selected="true">ورود با ایمیل</button>
                     </li>
                 </ul>
             </section>
@@ -26,6 +28,7 @@
                         <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="logo">
                     </section>
                 </section>
+                @include('customer.alerts.alert-section.error')
                 <section class="col-12">
                     <section class="login-title font-1-bold mb-4">ورود | ثبت نام</section>
                     <section class="login-info">سلام!</section>
@@ -61,17 +64,17 @@
     let isEmail = "{{ old('email')}}",
         isMobile = "{{ old('mobile') }}";
 
-    let mobileError = 
-    `@error('mobile')
+    let mobileError =
+        `@error('mobile')
         <span class="text-danger font-size-12">
             <strong>
                 {{ $message }}
             </strong>
         </span>
     @enderror`,
-    
-    emailError = 
-    `@error('email')
+
+        emailError =
+        `@error('email')
         <span class="text-danger font-size-12">
             <strong>
                 {{ $message }}
@@ -84,18 +87,16 @@
 <script src="{{ asset('customer-assets/js/forms/mask-input/jquery.inputmask.numeric.extensions.js') }}"></script>
 <script>
     // when on loaded page
-    $(document).ready(function(){
-        
-        if(isEmail != ""){
+    $(document).ready(function() {
+
+        if (isEmail != "") {
             emailShow();
-        }
-        else if(isMobile != ""){
+        } else if (isMobile != "") {
             mobileShow();
             $("#mobile").inputmask("mask", {
                 "mask": "(999) 999-9999"
             });
-        }
-        else{
+        } else {
             mobileShow();
             $("#mobile").inputmask("mask", {
                 "mask": "(999) 999-9999"
@@ -104,18 +105,24 @@
     });
 
     // when on change tabs
-    $("#login-email-tab").on("click", function () {
+    $("#login-email-tab").on("click", function() {
         emailShow();
         $("#mobile").inputmask("mask", {
             "mask": "(999) 999-9999"
         });
     });
-    $("#login-mobile-tab").on("click", function () {
+    $("#login-mobile-tab").on("click", function() {
         mobileShow();
         $("#mobile").inputmask("mask", {
             "mask": "(999) 999-9999"
         });
     });
 
+
+    if ($('.alert.alert-danger').length) {
+        $('.alert.alert-danger').addClass('show').delay(5000).queue(function() {
+            $(this).remove();
+        });
+    }
 </script>
 @endsection
