@@ -186,13 +186,6 @@ class LoginRegisterController extends Controller
 
 
 
-
-
-
-
-
-
-
     public function LoginResendCode($token){
         // check token
         $token = checkToken($token);
