@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::prefix('admin')->namespace('Admin')->group(function (){
+Route::prefix('admin')->namespace('Admin')->group(function () {
 
 
     // dashboard route
@@ -26,12 +26,12 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
 
     // Market Module
-    
+
     // section market in admin panel
-    Route::prefix('market')->namespace('Market')->group(function (){
+    Route::prefix('market')->namespace('Market')->group(function () {
 
         // section market and category side in admin panel
-        Route::prefix('category')->group(function (){
+        Route::prefix('category')->group(function () {
             Route::get('/', 'CategoryController@index')->name('admin.market.category.index');
             Route::get('/create', 'CategoryController@create')->name('admin.market.category.create');
             Route::post('/store', 'CategoryController@store')->name('admin.market.category.store');
@@ -42,9 +42,9 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/show-in-menu/{productCategory}', 'CategoryController@showInMenu')->name('admin.market.category.show-in-menu');
         });
 
-    
+
         // section market and brand side in admin panel
-        Route::prefix('brand')->group(function (){
+        Route::prefix('brand')->group(function () {
             Route::get('/', 'BrandController@index')->name('admin.market.brand.index');
             Route::get('/create', 'BrandController@create')->name('admin.market.brand.create');
             Route::post('/store', 'BrandController@store')->name('admin.market.brand.store');
@@ -56,7 +56,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
 
         // section market and comment side in admin panel
-        Route::prefix('comment')->group(function (){
+        Route::prefix('comment')->group(function () {
             Route::get('/', 'CommentController@index')->name('admin.market.comment.index');
             Route::get('/show/{comment}', 'CommentController@show')->name('admin.market.comment.show');
             Route::put('/update/{comment}', 'CommentController@update')->name('admin.market.comment.update');
@@ -64,10 +64,10 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/answershow/{comment}', 'CommentController@answershow')->name('admin.market.comment.answershow');
             Route::get('/approved/{comment}', 'CommentController@approved')->name('admin.market.comment.approved');
         });
-  
-  
+
+
         // section market and delivery side in admin panel
-        Route::prefix('delivery')->group(function (){
+        Route::prefix('delivery')->group(function () {
             Route::get('/', 'DeliveryController@index')->name('admin.market.delivery.index');
             Route::get('/create', 'DeliveryController@create')->name('admin.market.delivery.create');
             Route::post('/store', 'DeliveryController@store')->name('admin.market.delivery.store');
@@ -77,11 +77,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/status/{delivery}', 'DeliveryController@status')->name('admin.market.delivery.status');
         });
 
-        
-        // section market , discount  and copan side in admin panel
-        Route::prefix('discount')->namespace('Discount')->group(function (){
 
-            Route::prefix('copan')->group(function (){
+        // section market , discount  and copan side in admin panel
+        Route::prefix('discount')->namespace('Discount')->group(function () {
+
+            Route::prefix('copan')->group(function () {
                 Route::get('/', 'CopanController@index')->name('admin.market.discount.copan.index');
                 Route::get('/create', 'CopanController@create')->name('admin.market.discount.copan.create');
                 Route::post('/store', 'CopanController@store')->name('admin.market.discount.copan.store');
@@ -89,12 +89,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
                 Route::put('/update/{copan}', 'CopanController@update')->name('admin.market.discount.copan.update');
                 Route::delete('/destroy/{copan}', 'CopanController@destroy')->name('admin.market.discount.copan.destroy');
                 Route::get('/status/{copan}', 'CopanController@status')->name('admin.market.discount.copan.status');
-
             });
-            
-            
+
+
             // section market , discount  and common discount side in admin panel
-            Route::prefix('common-discount')->group(function (){
+            Route::prefix('common-discount')->group(function () {
                 Route::get('/', 'CommonDiscountController@index')->name('admin.market.discount.common-discount.index');
                 Route::get('/create', 'CommonDiscountController@create')->name('admin.market.discount.common-discount.create');
                 Route::post('/store', 'CommonDiscountController@store')->name('admin.market.discount.common-discount.store');
@@ -102,12 +101,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
                 Route::put('/update/{commonDiscount}', 'CommonDiscountController@update')->name('admin.market.discount.common-discount.update');
                 Route::delete('/destroy/{commonDiscount}', 'CommonDiscountController@destroy')->name('admin.market.discount.common-discount.destroy');
                 Route::get('/status/{commonDiscount}', 'CommonDiscountController@status')->name('admin.market.discount.common-discount.status');
-
             });
 
 
             // section market , discount  and amazing sale side in admin panel
-            Route::prefix('amazing-sale')->group(function (){
+            Route::prefix('amazing-sale')->group(function () {
                 Route::get('/', 'AmazingSaleController@index')->name('admin.market.discount.amazing-sale.index');
                 Route::get('/create', 'AmazingSaleController@create')->name('admin.market.discount.amazing-sale.create');
                 Route::post('/store', 'AmazingSaleController@store')->name('admin.market.discount.amazing-sale.store');
@@ -115,42 +113,39 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
                 Route::put('/update/{amazingSale}', 'AmazingSaleController@update')->name('admin.market.discount.amazing-sale.update');
                 Route::delete('/destroy/{amazingSale}', 'AmazingSaleController@destroy')->name('admin.market.discount.amazing-sale.destroy');
                 Route::get('/status/{amazingSale}', 'AmazingSaleController@status')->name('admin.market.discount.amazing-sale.status');
-
             });
-            
-
         });
 
         // section market and oders side in admin panel
-        Route::prefix('order')->group(function (){
-            Route::get('/', 'OrderController@total')->name('admin.market.order.total-order');         
-            Route::get('/new-order', 'OrderController@newOrder')->name('admin.market.order.new-order');         
-            Route::get('/sending', 'OrderController@sending')->name('admin.market.order.sending-order');         
-            Route::get('/unpaind', 'OrderController@unpaind')->name('admin.market.order.unpaind-order');         
-            Route::get('/canceled', 'OrderController@canceled')->name('admin.market.order.canceled-order');         
-            Route::get('/returned', 'OrderController@returned')->name('admin.market.order.returned-order');         
-            
-            
-            Route::get('/show/{order}', 'OrderController@show')->name('admin.market.order.show-order');         
-            Route::get('/show/{order}/detail', 'OrderController@detail')->name('admin.market.order.detail-order');         
-            Route::get('/change-send-status/{order}', 'OrderController@changeSendStatus')->name('admin.market.order.change-send-status');         
-            Route::get('/change-order-status/{order}', 'OrderController@changeOrderStatus')->name('admin.market.order.change-order-status');         
-            Route::get('/cancel-order/{order}', 'OrderController@cancelOrder')->name('admin.market.order.cancel-order');         
+        Route::prefix('order')->group(function () {
+            Route::get('/', 'OrderController@total')->name('admin.market.order.total-order');
+            Route::get('/new-order', 'OrderController@newOrder')->name('admin.market.order.new-order');
+            Route::get('/sending', 'OrderController@sending')->name('admin.market.order.sending-order');
+            Route::get('/unpaind', 'OrderController@unpaind')->name('admin.market.order.unpaind-order');
+            Route::get('/canceled', 'OrderController@canceled')->name('admin.market.order.canceled-order');
+            Route::get('/returned', 'OrderController@returned')->name('admin.market.order.returned-order');
+
+
+            Route::get('/show/{order}', 'OrderController@show')->name('admin.market.order.show-order');
+            Route::get('/show/{order}/detail', 'OrderController@detail')->name('admin.market.order.detail-order');
+            Route::get('/change-send-status/{order}', 'OrderController@changeSendStatus')->name('admin.market.order.change-send-status');
+            Route::get('/change-order-status/{order}', 'OrderController@changeOrderStatus')->name('admin.market.order.change-order-status');
+            Route::get('/cancel-order/{order}', 'OrderController@cancelOrder')->name('admin.market.order.cancel-order');
         });
 
         // section market and payment side in admin panel
-        Route::prefix('payment')->group(function (){
-            Route::get('/', 'PaymentController@total')->name('admin.market.payment.total-payment');         
-            Route::get('/online', 'PaymentController@online')->name('admin.market.payment.online-payment');         
-            Route::get('/offline', 'PaymentController@offline')->name('admin.market.payment.offline-payment');         
-            Route::get('/cash', 'PaymentController@cash')->name('admin.market.payment.cash-payment');         
-            Route::get('/canceled/{payment}', 'PaymentController@canceled')->name('admin.market.payment.canceled');         
-            Route::get('/returned/{payment}', 'PaymentController@returned')->name('admin.market.payment.returned');         
-            Route::get('/show/{payment}', 'PaymentController@show')->name('admin.market.payment.show');         
+        Route::prefix('payment')->group(function () {
+            Route::get('/', 'PaymentController@total')->name('admin.market.payment.total-payment');
+            Route::get('/online', 'PaymentController@online')->name('admin.market.payment.online-payment');
+            Route::get('/offline', 'PaymentController@offline')->name('admin.market.payment.offline-payment');
+            Route::get('/cash', 'PaymentController@cash')->name('admin.market.payment.cash-payment');
+            Route::get('/canceled/{payment}', 'PaymentController@canceled')->name('admin.market.payment.canceled');
+            Route::get('/returned/{payment}', 'PaymentController@returned')->name('admin.market.payment.returned');
+            Route::get('/show/{payment}', 'PaymentController@show')->name('admin.market.payment.show');
         });
 
         // section market and product side in admin panel
-        Route::prefix('product')->group(function (){
+        Route::prefix('product')->group(function () {
             Route::get('/', 'ProductController@index')->name('admin.market.product.index');
             Route::get('/create', 'ProductController@create')->name('admin.market.product.create');
             Route::post('/store', 'ProductController@store')->name('admin.market.product.store');
@@ -176,14 +171,14 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
         });
 
         // section market and property side in admin panel
-        Route::prefix('property')->group(function (){
+        Route::prefix('property')->group(function () {
             Route::get('/', 'PropertyController@index')->name('admin.market.property.index');
             Route::get('/create', 'PropertyController@create')->name('admin.market.property.create');
             Route::post('/store', 'PropertyController@store')->name('admin.market.property.store');
             Route::get('/edit/{categoryAttribute}', 'PropertyController@edit')->name('admin.market.property.edit');
             Route::put('/update/{categoryAttribute}', 'PropertyController@update')->name('admin.market.property.update');
             Route::delete('/destroy/{categoryAttribute}', 'PropertyController@destroy')->name('admin.market.property.destroy');
-            
+
 
             // section market and property values side in admin panel
             Route::get('/value/{categoryAttribute}', 'PropertyValueController@index')->name('admin.market.property.value.index');
@@ -193,28 +188,27 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::put('/value/update/{categoryAttribute}/{value}', 'PropertyValueController@update')->name('admin.market.property.value.update');
             Route::delete('/value/destroy/{categoryAttribute}/{value}', 'PropertyValueController@destroy')->name('admin.market.property.value.destroy');
         });
-        
 
-         // section market and store side in admin panel
-         Route::prefix('store')->group(function (){
+
+        // section market and store side in admin panel
+        Route::prefix('store')->group(function () {
             Route::get('/', 'StoreController@index')->name('admin.market.store.index');
             Route::get('/add-to-store/{product}', 'StoreController@addToStore')->name('admin.market.store.add-to-store');
             Route::post('/store/{product}', 'StoreController@store')->name('admin.market.store.store');
             Route::get('/edit/{product}', 'StoreController@edit')->name('admin.market.store.edit');
             Route::put('/update/{product}', 'StoreController@update')->name('admin.market.store.update');
-            
         });
     });
 
 
 
     // Content Module
-    
+
     // section content in admin panel
-    Route::prefix('content')->namespace('Content')->group(function (){
+    Route::prefix('content')->namespace('Content')->group(function () {
 
         // section content and category side in admin panel
-        Route::prefix('category')->group(function (){
+        Route::prefix('category')->group(function () {
             Route::get('/', 'CategoryController@index')->name('admin.content.category.index');
             Route::get('/create', 'CategoryController@create')->name('admin.content.category.create');
             Route::post('/store', 'CategoryController@store')->name('admin.content.category.store');
@@ -226,7 +220,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
 
         // section content and comment side in admin panel
-        Route::prefix('comment')->group(function (){
+        Route::prefix('comment')->group(function () {
             Route::get('/', 'CommentController@index')->name('admin.content.comment.index');
             Route::get('/show/{comment}', 'CommentController@show')->name('admin.content.comment.show');
             Route::put('/update/{comment}', 'CommentController@update')->name('admin.content.comment.update');
@@ -237,7 +231,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
 
         // section content and faq side in admin panel
-        Route::prefix('faq')->group(function (){
+        Route::prefix('faq')->group(function () {
             Route::get('/', 'FaqController@index')->name('admin.content.faq.index');
             Route::get('/create', 'FaqController@create')->name('admin.content.faq.create');
             Route::post('/store', 'FaqController@store')->name('admin.content.faq.store');
@@ -247,9 +241,9 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/status/{faq}', 'FaqController@status')->name('admin.content.faq.status');
         });
 
-        
+
         // section content and menu side in admin panel
-        Route::prefix('menu')->group(function (){
+        Route::prefix('menu')->group(function () {
             Route::get('/', 'MenuController@index')->name('admin.content.menu.index');
             Route::get('/create', 'MenuController@create')->name('admin.content.menu.create');
             Route::post('/store', 'MenuController@store')->name('admin.content.menu.store');
@@ -258,10 +252,10 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::delete('/destroy/{menu}', 'MenuController@destroy')->name('admin.content.menu.destroy');
             Route::get('/status/{menu}', 'MenuController@status')->name('admin.content.menu.status');
         });
-        
+
 
         // section content and post side in admin panel
-        Route::prefix('post')->group(function (){
+        Route::prefix('post')->group(function () {
             Route::get('/', 'PostController@index')->name('admin.content.post.index');
             Route::get('/create', 'PostController@create')->name('admin.content.post.create');
             Route::post('/store', 'PostController@store')->name('admin.content.post.store');
@@ -272,9 +266,9 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/commentable/{post}', 'PostController@commentable')->name('admin.content.post.commentable');
         });
 
-        
+
         // section content and page side in admin panel
-        Route::prefix('page')->group(function (){
+        Route::prefix('page')->group(function () {
             Route::get('/', 'PageController@index')->name('admin.content.page.index');
             Route::get('/create', 'PageController@create')->name('admin.content.page.create');
             Route::post('/store', 'PageController@store')->name('admin.content.page.store');
@@ -282,18 +276,29 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::put('/update/{page}', 'PageController@update')->name('admin.content.page.update');
             Route::delete('/destroy/{page}', 'PageController@destroy')->name('admin.content.page.destroy');
             Route::get('/status/{page}', 'PageController@status')->name('admin.content.page.status');
+        });
 
+        
+        // section content and banner side in admin panel
+        Route::prefix('banner')->group(function () {
+            Route::get('/', 'BannerController@index')->name('admin.content.banner.index');
+            Route::get('/create', 'BannerController@create')->name('admin.content.banner.create');
+            Route::post('/store', 'BannerController@store')->name('admin.content.banner.store');
+            Route::get('/edit/{banner}', 'BannerController@edit')->name('admin.content.banner.edit');
+            Route::put('/update/{banner}', 'BannerController@update')->name('admin.content.banner.update');
+            Route::delete('/destroy/{banner}', 'BannerController@destroy')->name('admin.content.banner.destroy');
+            Route::get('/status/{banner}', 'BannerController@status')->name('admin.content.banner.status');
         });
     });
 
 
     // User Module
-    
+
     // section user in admin panel
-    Route::prefix('user')->namespace('User')->group(function (){
-        
+    Route::prefix('user')->namespace('User')->group(function () {
+
         // section user and admin-user side in admin panel
-        Route::prefix('admin-user')->group(function (){
+        Route::prefix('admin-user')->group(function () {
             Route::get('/', 'AdminUserController@index')->name('admin.user.admin-user.index');
             Route::get('/create', 'AdminUserController@create')->name('admin.user.admin-user.create');
             Route::post('/store', 'AdminUserController@store')->name('admin.user.admin-user.store');
@@ -305,7 +310,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
 
         // section user and costumer side in admin panel
-        Route::prefix('costumer')->group(function (){
+        Route::prefix('costumer')->group(function () {
             Route::get('/', 'CostumerController@index')->name('admin.user.costumer.index');
             Route::get('/create', 'CostumerController@create')->name('admin.user.costumer.create');
             Route::post('/store', 'CostumerController@store')->name('admin.user.costumer.store');
@@ -313,12 +318,11 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::put('/update/{costumer}', 'CostumerController@update')->name('admin.user.costumer.update');
             Route::delete('/destroy/{costumer}', 'CostumerController@destroy')->name('admin.user.costumer.destroy');
             Route::get('/status/{costumer}', 'CostumerController@status')->name('admin.user.costumer.status');
-
         });
-    
+
 
         // section user and role side in admin panel
-        Route::prefix('role')->group(function (){
+        Route::prefix('role')->group(function () {
             Route::get('/', 'RoleController@index')->name('admin.user.role.index');
             Route::get('/create', 'RoleController@create')->name('admin.user.role.create');
             Route::post('/store', 'RoleController@store')->name('admin.user.role.store');
@@ -329,17 +333,16 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/permission-form/{role}', 'RoleController@permissionForm')->name('admin.user.role.permission-form');
             Route::put('/permission-upadte/{role}', 'RoleController@permissionUpadte')->name('admin.user.role.permission-update');
         });
-        
     });
-    
-    
+
+
     // Notify Module
-    
+
     // section notify in admin panel
-    Route::prefix('notify')->namespace('Notify')->group(function (){
+    Route::prefix('notify')->namespace('Notify')->group(function () {
 
         // section notify and email side in admin panel
-        Route::prefix('email')->group(function (){
+        Route::prefix('email')->group(function () {
             Route::get('/', 'EmailController@index')->name('admin.notify.email.index');
             Route::get('/create', 'EmailController@create')->name('admin.notify.email.create');
             Route::post('/store', 'EmailController@store')->name('admin.notify.email.store');
@@ -349,8 +352,8 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::get('/status/{email}', 'EmailController@status')->name('admin.notify.email.status');
         });
 
-          // section notify and email file side in admin panel
-          Route::prefix('email-file')->group(function (){
+        // section notify and email file side in admin panel
+        Route::prefix('email-file')->group(function () {
             Route::get('/{email}', 'EmailFileController@index')->name('admin.notify.email-file.index');
             Route::get('/{email}/create', 'EmailFileController@create')->name('admin.notify.email-file.create');
             Route::post('/{email}/store', 'EmailFileController@store')->name('admin.notify.email-file.store');
@@ -362,7 +365,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
 
         // section notify and sms side in admin panel
-        Route::prefix('sms')->group(function (){
+        Route::prefix('sms')->group(function () {
             Route::get('/', 'SmsController@index')->name('admin.notify.sms.index');
             Route::get('/create', 'SmsController@create')->name('admin.notify.sms.create');
             Route::post('/store', 'SmsController@store')->name('admin.notify.sms.store');
@@ -371,17 +374,16 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
             Route::delete('/destroy/{sms}', 'SmsController@destroy')->name('admin.notify.sms.destroy');
             Route::get('/status/{sms}', 'SmsController@status')->name('admin.notify.sms.status');
         });
-                
     });
 
 
     // Ticket Module
-    
+
     // section ticket in admin panel
-    Route::prefix('ticket')->namespace('Ticket')->group(function (){
+    Route::prefix('ticket')->namespace('Ticket')->group(function () {
 
         // section ticket and category side in admin panel
-        Route::prefix('category')->group(function (){
+        Route::prefix('category')->group(function () {
             Route::get('/', 'TicketCategoryController@index')->name('admin.ticket.category.index');
             Route::get('/create', 'TicketCategoryController@create')->name('admin.ticket.category.create');
             Route::post('/store', 'TicketCategoryController@store')->name('admin.ticket.category.store');
@@ -392,7 +394,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
         });
 
         // section ticket and priority side in admin panel
-        Route::prefix('priority')->group(function (){
+        Route::prefix('priority')->group(function () {
             Route::get('/', 'TicketPriorityController@index')->name('admin.ticket.priority.index');
             Route::get('/create', 'TicketPriorityController@create')->name('admin.ticket.priority.create');
             Route::post('/store', 'TicketPriorityController@store')->name('admin.ticket.priority.store');
@@ -404,7 +406,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
 
         // section ticket and admin tickets side in admin panel
-        Route::prefix('admin')->group(function (){
+        Route::prefix('admin')->group(function () {
             Route::get('/', 'TicketAdminController@index')->name('admin.ticket.admin.index');
             Route::get('/set/{admin}', 'TicketAdminController@set')->name('admin.ticket.admin.set');
         });
@@ -423,9 +425,9 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 
 
     // Setting Module
-    
+
     // section setting in admin panel
-    Route::prefix('setting')->namespace('Setting')->group(function (){
+    Route::prefix('setting')->namespace('Setting')->group(function () {
         Route::get('/', 'SettingController@index')->name('admin.setting.index');
         Route::get('/create', 'SettingController@create')->name('admin.setting.create');
         Route::post('/store', 'SettingController@store')->name('admin.setting.store');
@@ -436,7 +438,6 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
     });
 
     Route::post('/notification/read-all', 'NotificationController@readAll')->name('admin.notification.read-all');
-
 });
 
 
@@ -446,7 +447,7 @@ Route::prefix('admin')->namespace('Admin')->group(function (){
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function() {
+Route::get('/', function () {
     return view('customer.home');
 })->name('customer.home');
 
@@ -459,15 +460,18 @@ Route::get('/', function() {
 
 Route::namespace('Auth\Customer')->group(function () {
     Route::get('login-register', "LoginRegisterController@LoginRegisterForm")->name('auth.customer.login-register-form');
-    Route::post('/login-register', "LoginRegisterController@LoginRegister")->name('auth.customer.login-register');
-    
+    Route::middleware('throttle:customer-login-register-limiter')
+        ->post('/login-register', "LoginRegisterController@LoginRegister")->name('auth.customer.login-register');
+
     Route::get('login-confirm/{token}', "LoginRegisterController@LoginConfirmForm")->name('auth.customer.login-confirm-form');
-    Route::post('/login-confirm/{token}', "LoginRegisterController@LoginConfirm")->name('auth.customer.login-confirm');
+    Route::middleware('throttle:customer-login-confirm-limiter')
+        ->post('/login-confirm/{token}', "LoginRegisterController@LoginConfirm")->name('auth.customer.login-confirm');
 
-    Route::get('/resend-code/{token}', "LoginRegisterController@LoginResendCode")->name('auth.customer.login-resend-code');
+    Route::middleware('throttle:customer-login-resend-otp')
+        ->get('/resend-code/{token}', "LoginRegisterController@LoginResendCode")->name('auth.customer.login-resend-code');
+
+    Route::get('/logout', "LoginRegisterController@Logout")->name('auth.customer.logout');
 });
-
-
 /*
 |--------------------------------------------------------------------------
 | Jetstream
