@@ -62,7 +62,20 @@ $(document).ready(function () {
         dots: false,
         autoplay: false,
         autoHeight: false,
-        items: 5,
+        responsive:{
+            0:{
+                items:1,
+            },
+            425:{
+                items:2,
+            },
+            600:{
+                items:3,
+            },
+            1000:{
+                items:5,
+            }
+        }
     });
 
     $(".brands").owlCarousel({

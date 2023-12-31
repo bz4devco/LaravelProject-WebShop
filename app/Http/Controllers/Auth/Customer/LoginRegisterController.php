@@ -236,4 +236,10 @@ class LoginRegisterController extends Controller
             }
         }
     }
+
+    public function Logout(){
+        Auth::logout();
+        return redirect()->route('customer.home');
+    }
+
 }
