@@ -42,6 +42,7 @@ class User extends Authenticatable
         'last_name',
         'email',
         'mobile',
+        'slug',
         'email_verified_at',
         'mobile_verified_at',
         'national_code',
