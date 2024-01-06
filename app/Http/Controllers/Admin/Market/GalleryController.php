@@ -44,9 +44,6 @@ class GalleryController extends Controller
         // image Upload
         if($request->hasFile('image'))
         {
-            if (!empty($product)) {
-                $imageservice->deleteDirectoryAndFiles($product->image['directory']);
-            }
             $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-gallery');
             $result = $imageservice->createIndexAndSave($request->file('image'), true);
             if($result === false)

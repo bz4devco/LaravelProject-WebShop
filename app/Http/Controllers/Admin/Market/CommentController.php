@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Content\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Content\CommentRequest;
+use Carbon\Carbon;
 
 class CommentController extends Controller
 {
@@ -83,7 +84,11 @@ class CommentController extends Controller
      */
     public function update(CommentRequest $request, Comment $comment)
     {
-        $comment->update($request->all());
+        $inputs = $request->all();
+        $inputs['responder_id'] = 1;
+        $inputs['answer_date'] = Carbon::now();
+
+        $comment->update($inputs);
         return redirect()->route('admin.market.comment.index')
             ->with('alert-section-success', 'پاسخ نظر شماره ' . $comment['id'] . 'با موفقیت ثبت شد ');
     }

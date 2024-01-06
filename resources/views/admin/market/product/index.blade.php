@@ -67,7 +67,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.market.product.marketable', $product->id) }}" onchange="marketable(this.id)" class="custom-switch-input" id="{{ $product->id }}-marketable" name="show-in-menu" type="checkbox" @if($product->marketable_number) checked @endif >
+                                        <input data-url="{{ route('admin.market.product.marketable', $product->id) }}" onchange="marketable(this.id)" class="custom-switch-input" id="{{ $product->id }}-marketable" name="show-in-menu" type="checkbox" @if($product->marketable) checked @endif >
                                         <label class="custom-switch-btn" for="{{ $product->id }}-marketable"></label>
                                     </div>
                                 </section>
@@ -78,6 +78,7 @@
                                 </a>
                                 <div class="dropdown-menu">
                                     <a href="{{ route('admin.market.product.gallery.index', $product->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>گالری</a>
+                                    <a href="{{ route('admin.market.product.guarantee.index', $product->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-shield-alt ms-2"></i>گارانتی</a>
                                     <a href="{{ route('admin.market.product.color.index', $product->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>رنگ کالا</a>
                                     <a href="{{ route('admin.market.product.edit', $product->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>ویرایش</a>
                                     <form class="d-inline" action="{{ route('admin.market.product.destroy', $product->id) }}" method="post">

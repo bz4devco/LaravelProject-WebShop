@@ -42,6 +42,7 @@
                         <th>آدرس URL</th>
                         <th>تصویر</th>
                         <th>موقعیت</th>
+                        <th>ترتیب نمایش</th>
                         <th>وضعیت</th>
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
@@ -56,7 +57,8 @@
                             <td>
                                 <img src="{{ asset($banner->image) }}" width="100" height="50" alt="{{ $banner->title }}">
                             </td>
-                            <td>{{ $banner->position }}</td>
+                            <td>{{ $positions[$banner->position] }}</td>
+                            <td>{{ $banner->sort }}</td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">

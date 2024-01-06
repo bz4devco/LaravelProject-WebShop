@@ -13,7 +13,7 @@
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.product.product.index') }}">کالا ها</a></li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.product.index') }}">کالا ها</a></li>
     <li class="breadcrumb-item active" aria-current="page">گالری کالا</li>
     <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
 </ol>
@@ -32,7 +32,7 @@
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <div>
-                    <a href="{{ route('admin.market.product.product.index') }}" class="btn btn-sm btn-primary text-white">بازگشت</a>
+                    <a href="{{ route('admin.market.product.index') }}" class="btn btn-sm btn-primary text-white">بازگشت</a>
                     <a href="{{ route('admin.market.product.gallery.create', $product->id) }}" class="btn btn-sm btn-info text-white">ایجاد تصویر جدید </a>
                 </div>
                 <div class="max-width-16-rem">

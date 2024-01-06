@@ -16,7 +16,7 @@ class Banner extends Model
         'title', 'image', 'url', 'position', 'status', 'sort'
     ];
 
-    public static $position = [
+    public static $positions = [
         0 => 'اسلاید شو (صفحه اصلی)',
         1 => 'بنر کنار اسلاید شو (صفحه اصلی)',
         2 => 'دو بنر تبلیغی بین دو اسلایدر (صفحه اصلی)',

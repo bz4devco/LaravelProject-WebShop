@@ -32,7 +32,7 @@
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <div>
-                    <a href="{{ route('admin.market.product.product.index') }}" class="btn btn-sm btn-primary text-white">بازگشت</a>
+                    <a href="{{ route('admin.market.product.index') }}" class="btn btn-sm btn-primary text-white">بازگشت</a>
                     <a href="{{ route('admin.market.product.color.create', $product->id) }}" class="btn btn-sm btn-info text-white">ایجاد رنگ جدید </a>
                 </div>
                 <div class="max-width-16-rem">

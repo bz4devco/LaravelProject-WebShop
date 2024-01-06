@@ -18,7 +18,8 @@ class BannerController extends Controller
     public function index()
     {
         $banners = Banner::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.content.banner.index', compact('banners'));
+        $positions = Banner::$positions;
+        return view('admin.content.banner.index', compact('banners', 'positions'));
     }
 
     /**
@@ -28,7 +29,8 @@ class BannerController extends Controller
      */
     public function create()
     {
-        return view('admin.content.banner.create');
+        $positions = Banner::$positions;
+        return view('admin.content.banner.create', compact('positions'));
     }
 
     /**
@@ -79,8 +81,8 @@ class BannerController extends Controller
      */
     public function edit(Banner $banner)
     {
-
-        return view('admin.content.banner.edit', compact('banner'));        
+        $positions = Banner::$positions;
+        return view('admin.content.banner.edit', compact('banner', 'positions'));        
     }
 
     /**

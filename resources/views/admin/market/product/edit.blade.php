@@ -160,7 +160,7 @@
                                 <section class="row">
                                     <section class="col-12 col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="weight">وزن</label>
+                                        <label for="weight">وزن <small>(کیلوگرم)</small></label>
                                             <input class="form-control form-select-sm" type="text" name="weight" id="weight" value="{{ old('weight', $product->weight) }}">
                                             @error('weight')
                                                 <span class="text-danger font-size-12">
@@ -173,7 +173,7 @@
                                     </section>
                                     <section class="col-12 col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="length">طول</label>
+                                        <label for="length">طول <small>(سانتیمتر)</small></label>
                                             <input class="form-control form-select-sm" type="text" name="length" id="length" value="{{ old('length', $product->length) }}">
                                             @error('length')
                                                 <span class="text-danger font-size-12">
@@ -186,7 +186,7 @@
                                     </section>
                                     <section class="col-12 col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="width">عرض</label>
+                                        <label for="width">عرض <small>(سانتیمتر)</small></label>
                                             <input class="form-control form-select-sm" type="text" name="width" id="width" value="{{ old('width', $product->width) }}">
                                             @error('width')
                                                 <span class="text-danger font-size-12">
@@ -199,7 +199,7 @@
                                     </section>
                                     <section class="col-12 col-md-6">
                                         <div class="form-group mb-3">
-                                            <label for="height">ارتفاع</label>
+                                        <label for="height">ارتفاع <small>(سانتیمتر)</small></label>
                                             <input class="form-control form-select-sm" type="text" name="height" id="height" value="{{ old('height', $product->height) }}">
                                             @error('height')
                                                 <span class="text-danger font-size-12">

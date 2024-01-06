@@ -10,6 +10,7 @@
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.product.index') }}">محصولات</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.product.color.index', $product->id) }}">رنگ</a></li>
     <li class="breadcrumb-item active" aria-current="page">ایجاد رنگ</li>
 </ol>
@@ -37,6 +38,19 @@
                                 <label for="name">نام رنگ</label>
                                 <input class="form-control form-select-sm" type="text" name="name" id="name" value="{{ old('name') }}">
                                 @error('name')
+                                    <span class="text-danger font-size-12">
+                                        <strong>
+                                            {{ $message }}
+                                        </strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="color">رنگ</label>
+                                <input class="form-control form-select-sm" type="color" name="color" id="color" value="{{ old('color') }}">
+                                @error('color')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}

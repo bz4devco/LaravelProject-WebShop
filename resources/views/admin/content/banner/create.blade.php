@@ -73,16 +73,15 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="position">موقعیت</label>
-                                <div class="input-group  input-group-sm number-spinner">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default btn-border p-btn-num rounded-end" data-dir="up">+</button>
-                                    </span>
-                                    <input name="position" id="position" class="input-step-number form-control number text-center rounded-0" data-char="" type="text" step="1" value="@if (old('position')) {{old('position')}} @else {{0}} @endif" min="0" max="">
-                                    <span class="input-group-btn ">
-                                        <button type="button" class="btn btn-default btn-border p-btn-num rounded-start" data-dir="dwn">-</button>
-                                    </span>
-                                </div>
+                                <label for="position">مکان نمایش</label>
+                                <select class="form-select form-select-sm" name="position" id="position">
+                                    <option disabled selected>مکان نمایش را انتخاب کنید</option>
+                                    @forelse($positions as $key => $position)
+                                        <option value="{{$key}}" @if (old('position') == $key) selected @endif>{{ $position }}</option>
+                                    @empty
+                                        <option disabled class="text-center">مکانی درج نشده است</option>
+                                    @endforelse
+                                </select>
                                 @error('position')
                                     <span class="text-danger font-size-12">
                                         <strong>

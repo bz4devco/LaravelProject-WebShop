@@ -205,7 +205,7 @@
         <span class="input-group-btn">
             <button type="button" class="btn btn-default btn-border p-btn-num rounded-end" data-dir="up">+</button>
         </span>
-        <input class="input-step-number form-control number text-center rounded-0" name="amount" id="amount" value="{{ (old('amount_type') == 0) ? (old('amount') ?? 0) : 0 }}%" data-char="%" type="text" step="5" min="0" max="100">
+        <input class="input-step-number form-control number text-center rounded-0" name="amount" id="amount" value="{{ (old('amount_type') == 0) ? (old('amount') ?? 0) : 0 }}%" data-char="%" type="text" step="1" min="0" max="100">
         <span class="input-group-btn ">
             <button type="button" class="btn btn-default btn-border p-btn-num rounded-start" data-dir="dwn">-</button>
         </span>
