@@ -14,12 +14,12 @@ class CategoryValue extends Model
         'product_id', 'category_attribute_id', 'value', 'type',
     ];
 
-    protected $casts = ['value' => 'array'];
+    // protected $casts = ['value' => 'array'];
 
 
     public function attribute()
     {
-        return $this->belongsTo('App\Models\Market\CategoryAttribute');
+        return $this->belongsTo('App\Models\Market\CategoryAttribute', 'category_attribute_id');
     }
 
 

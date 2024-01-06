@@ -2,10 +2,10 @@
     <script>
         $(document).ready(function (){
             swal.fire({
-                title:                  'خطا',
+                title:                  'عملیات موفقیت آمیز',
                 text:                   '{{ session('swal-success') }}',
                 icon:                   'success',
-                confirmButtonText :     'دمت گرم',
+                confirmButtonText :     'خیلی هم عالی',
             });
         });
     </script>

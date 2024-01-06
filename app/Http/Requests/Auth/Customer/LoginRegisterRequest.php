@@ -28,7 +28,7 @@ class LoginRegisterRequest extends FormRequest
             if($route->getName() == 'auth.customer.login-register'){
             if(request()->mobile){
                 return [
-                    'mobile' => ['required','regex:/(0|\+98)?([ ]|-|[()]){0,2}9[0|1|2|3|4]([ ]|-|[()]){0,2}(?:[0-9]([ ]|-|[()]){0,2}){8}/']
+                    'mobile' => ['required','regex:/(0|\+98)?([ ]|-|[()]){0,2}9[0|1|2|3|4|9]([ ]|-|[()]){0,2}(?:[0-9]([ ]|-|[()]){0,2}){8}/']
                 ];
             }
             else if(request()->email){

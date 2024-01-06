@@ -121,22 +121,27 @@ $(document).ready(function () {
 //start cart
 $(document).ready(function () {
     $(".cart-number-up").click(function () {
-        var value = parseInt($(this).parent().find("input[type=number]").val());
-        if (value < 5) {
+        var value = parseInt($(this).parent().find("input[type=number]").val()),
+            max   = parseInt($(this).parent().find("input[type=number]").attr('max')),
+            step  = parseInt($(this).parent().find("input[type=number]").attr('step'));
+
+        if (value < max) {
             $(this)
                 .parent()
                 .find("input[type=number]")
-                .val(value + 1);
+                .val(value + step);
         }
     });
 
     $(".cart-number-down").click(function () {
-        var value = parseInt($(this).parent().find("input[type=number]").val());
-        if (value > 1) {
+        var value = parseInt($(this).parent().find("input[type=number]").val()),
+            min   = parseInt($(this).parent().find("input[type=number]").attr('min')),
+            step  = parseInt($(this).parent().find("input[type=number]").attr('step'));
+        if (value > min) {
             $(this)
                 .parent()
                 .find("input[type=number]")
-                .val(value - 1);
+                .val(value - step);
         }
     });
 });

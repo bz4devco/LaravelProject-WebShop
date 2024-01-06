@@ -18,7 +18,9 @@
             <section class="row">
                 <section class="col-12">
                     <section class="login-logo mb-3">
-                        <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="logo">
+                        <a class="text-decoration-none" href="{{route('customer.home')}}">
+                            <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="logo">
+                        </a>
                     </section>
                 </section>
                 <section class="col-12">

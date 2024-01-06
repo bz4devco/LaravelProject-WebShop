@@ -11,6 +11,9 @@
 	font-family:IRANSans;
 }
 
+.font-size-12{
+    font-size: 0.7rem;
+}
 
 /*
  -----------------------------------------------------------------------------------------------------------------------
@@ -60,9 +63,10 @@ body {
     top: 0rem;
     left: 0;
     right: 0;
-    z-index: 10000000;
+    z-index: 99999;
     animation: header-opacity 0.8s ;
 }
+
 
 .top-header {
 	border-bottom: 1px solid #efefef;
@@ -77,8 +81,14 @@ body {
 .search-wrapper {
     position: relative;
     width: 50%;
-    min-width: 280px;
+    min-width: 150px;
     height: 2rem;
+}
+
+@media screen and (max-width: 767px) {
+    .search-wrapper {
+        width: 100%;
+    }    
 }
 
 .search-box {
@@ -587,6 +597,7 @@ body {
 .content-header-title {
     font-size: 1rem;
     font-weight: bold;
+    line-height: 2.5rem;
 }
 
 .content-header-title-small {
@@ -787,7 +798,7 @@ body {
     padding: 0.2rem;
 }
 
-.product-add-to-cart a{
+.product-add-to-cart button{
     text-decoration: none;
     background-color: rgba(255,255,255, 0.2);
     padding: 0.2rem 0.4rem 0rem 0.4rem;
@@ -797,11 +808,14 @@ body {
     transition: 0.4s;
 }
 
-.product-add-to-cart-active, .product-add-to-cart a:hover {
+.product-add-to-cart-active, .product-add-to-cart button:hover {
     background-color: rgba(255,255,255, 1)!important;
     color: #ff253a!important;
     text-decoration: none;
     transition: 0.4s;
+}
+.product-add-to-cart-active, .product-add-to-cart button:hover .text-danger {
+    color: #000000!important;
 }
 
 .product-add-to-favorite {
@@ -811,7 +825,7 @@ body {
     padding: 0.2rem;
 }
 
-.product-add-to-favorite a{
+.product-add-to-favorite button{
     text-decoration: none;
     background-color: rgba(255,255,255, 0.2);
     padding: 0.2rem 0.4rem 0rem 0.4rem;
@@ -821,11 +835,15 @@ body {
     transition: 0.4s;
 }
 
-.product-add-to-favorite-active, .product-add-to-favorite a:hover {
+.product-add-to-favorite-active, .product-add-to-favorite button:hover {
     background-color: rgba(255,255,255, 1)!important;
     color: #ff253a!important;
     text-decoration: none;
     transition: 0.4s;
+}
+
+.product-add-to-favorite-active, .product-add-to-favorite button:hover .text-danger {
+    color: #000000!important;
 }
 
 
