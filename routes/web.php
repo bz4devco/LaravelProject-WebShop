@@ -166,8 +166,16 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             // section market and product gallerys side in admin panel
             Route::get('/gallery/{product}', 'GalleryController@index')->name('admin.market.product.gallery.index');
             Route::get('/gallery/create/{product}', 'GalleryController@create')->name('admin.market.product.gallery.create');
-            Route::post('/gallery/store/{product}', 'GalleryController@store')->name('admin.market.gallery.product.store');
+            Route::post('/gallery/store/{product}', 'GalleryController@store')->name('admin.market.product.gallery.store');
             Route::delete('/gallery/destroy/{product}/{gallery}', 'GalleryController@destroy')->name('admin.market.product.gallery.destroy');
+
+
+             // section market and product colors side in admin panel
+             Route::get('/guarantee/{product}', 'GuaranteeController@index')->name('admin.market.product.guarantee.index');
+             Route::get('/guarantee/create/{product}', 'GuaranteeController@create')->name('admin.market.product.guarantee.create');
+             Route::post('/guarantee/store/{product}', 'GuaranteeController@store')->name('admin.market.product.guarantee.store');
+             Route::delete('/guarantee/destroy/{product}/{guarantee}', 'GuaranteeController@destroy')->name('admin.market.product.guarantee.destroy');
+             Route::get('/guarantee/status/{guarantee}', 'GuaranteeController@status')->name('admin.market.product.guarantee.status');
         });
 
         // section market and property side in admin panel
@@ -278,7 +286,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/status/{page}', 'PageController@status')->name('admin.content.page.status');
         });
 
-        
+
         // section content and banner side in admin panel
         Route::prefix('banner')->group(function () {
             Route::get('/', 'BannerController@index')->name('admin.content.banner.index');
@@ -447,11 +455,47 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', function () {
-    return view('customer.home');
-})->name('customer.home');
+Route::namespace('customer')->group(function () {
+
+    Route::get('/', 'HomeController@home')->name('customer.home');
+    Route::get('/add-to-favorite/{product:slug}', 'HomeController@addToFavorite')->name('customer.add-to-favorite');
 
 
+    // section sales process
+    Route::namespace('SalesProcess')->group(function () {
+        // cart items
+        Route::get('/cart', 'CartController@cart')->name('customer.sales-process.cart');
+        Route::post('/cart', 'CartController@updateCart')->name('customer.sales-process.update-cart');
+        Route::post('/add-to-cart/{product:slug}', 'CartController@addToCart')->name('customer.sales-process.add-to-cart');
+        Route::get('/remove-from-cart/{cartItem}', 'CartController@removeFromCart')->name('customer.sales-process.remove-from-cart');
+
+        Route::middleware(['cart.items', 'profile.completion'])->group(function() {
+            // address
+            Route::get('/address-and-delivery', 'AddressAndDeliveryController@addressAndDelivery')->name('customer.sales-process.address-and-delivery');
+            Route::post('/add-address', 'AddressAndDeliveryController@addAddress')->name('customer.sales-process.add-address');
+            Route::get('/get-cities/{province}', 'AddressAndDeliveryController@getCities')->name('customer.sales-process.get-cities');
+            Route::get('/edit-address/{address}', 'AddressAndDeliveryController@editAddress')->name('customer.sales-process.edit-address');
+            Route::put('/update-address/{address}', 'AddressAndDeliveryController@updateAddress')->name('customer.sales-process.update-address');
+            Route::delete('/delete-address/{address}', 'AddressAndDeliveryController@deleteAddress')->name('customer.sales-process.delete-address');
+            
+            // payment
+            Route::get('/payment', 'PaymentController@payment')->name('customer.sales-process.payment');
+            Route::post('/payment', 'PaymentController@paymentUpdate')->name('customer.sales-process.payment-update');
+        });
+
+        // profile completion
+        Route::get('/profile-completion', 'ProfileCompletionController@profileCompletion')->name('customer.sales-process.profile-completion');
+        Route::post('/profile-completion', 'ProfileCompletionController@ProfileUpdate')->name('customer.sales-process.profile-completion-update');
+    });
+
+    // section products in customer view website
+    Route::namespace('Market')->group(function () {
+        Route::get('/product/{product:slug}', 'ProductController@product')->name('customer.market.product');
+        Route::post('/add-comment/product/{product:slug}', 'ProductController@addComment')->name('customer.market.add-comment');
+        Route::get('/add-to-favorite/product/{product:slug}', 'ProductController@addToFavorite')->name('customer.market.add-to-favorite');
+    });
+
+});
 /*
 |--------------------------------------------------------------------------
 | Customer Login Register

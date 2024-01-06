@@ -20,7 +20,7 @@
     transition: 0.4s;
 }
 
-.address-add-wrapper .modal{
+.modal{
     z-index: 999999;
 }
 
@@ -65,7 +65,8 @@
     transition: 0.4s;
 }
 
-.address-wrapper a{
+.address-wrapper a,
+.address-wrapper button{
     position: absolute;
     left: 0.4rem;
     top: 0.4rem;
@@ -74,11 +75,14 @@
     margin: 0.2rem;
     /*color: #00b5fe;*/
     color: #999999;
+    border: none;
+    outline: none;
     background-color: inherit;
     transition: 0.4s;
 }
 
-.address-wrapper:hover a{
+.address-wrapper:hover a,
+.address-wrapper:hover button{
     color: #00b3c3;
     transition: 0.4s;
 }
