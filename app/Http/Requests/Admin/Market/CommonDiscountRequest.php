@@ -25,8 +25,8 @@ class CommonDiscountRequest extends FormRequest
     {
         return [
             'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
-            'amount' => 'required|regex:/^\d{1,20}(\.\d{1,3})?$/',
-            'discount_ceiling' => 'nullable|regex:/^\d{1,20}(\.\d{1,3})?$/',
+            'minimal_order_amount' => 'required|regex:/^\d{1,20}(\.\d{1,3})?$/',
+            'discount_ceiling' => 'required|regex:/^\d{1,20}(\.\d{1,3})?$/',
             'start_date' => 'required|numeric|lt:end_date',
             'end_date' => 'required|numeric|gt:start_date',
             'percentage' => 'required|numeric|min:1|max:100',

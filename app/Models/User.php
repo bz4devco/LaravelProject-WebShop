@@ -26,11 +26,11 @@ class User extends Authenticatable
     public function sluggable(): array
     {
         return [
-            'slug' =>[
-                'source' => ['first_name' , 'last_name']
+            'slug' => [
+                'source' => ['first_name', 'last_name']
             ]
         ];
-    } 
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -105,12 +105,23 @@ class User extends Authenticatable
     }
 
 
-    public function roles() {
+    public function roles()
+    {
         return $this->belongsToMany('App\Models\User\Role');
     }
 
     public function payments()
     {
         return $this->hasMany('App\Models\Payment');
+    }
+
+
+    public function checkCompletionProfile()
+    {
+        if (($this->first_name != null) && ($this->last_name != null) && ($this->mobile != null) && ($this->national_code != null)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

@@ -62,20 +62,20 @@ $(document).ready(function () {
         dots: false,
         autoplay: false,
         autoHeight: false,
-        responsive:{
-            0:{
-                items:1,
+        responsive: {
+            0: {
+                items: 1,
             },
-            425:{
-                items:2,
+            425: {
+                items: 2,
             },
-            600:{
-                items:3,
+            600: {
+                items: 3,
             },
-            1000:{
-                items:5,
-            }
-        }
+            1000: {
+                items: 5,
+            },
+        },
     });
 
     $(".brands").owlCarousel({
@@ -122,8 +122,12 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(".cart-number-up").click(function () {
         var value = parseInt($(this).parent().find("input[type=number]").val()),
-            max   = parseInt($(this).parent().find("input[type=number]").attr('max')),
-            step  = parseInt($(this).parent().find("input[type=number]").attr('step'));
+            max = parseInt(
+                $(this).parent().find("input[type=number]").attr("max")
+            ),
+            step = parseInt(
+                $(this).parent().find("input[type=number]").attr("step")
+            );
 
         if (value < max) {
             $(this)
@@ -135,8 +139,12 @@ $(document).ready(function () {
 
     $(".cart-number-down").click(function () {
         var value = parseInt($(this).parent().find("input[type=number]").val()),
-            min   = parseInt($(this).parent().find("input[type=number]").attr('min')),
-            step  = parseInt($(this).parent().find("input[type=number]").attr('step'));
+            min = parseInt(
+                $(this).parent().find("input[type=number]").attr("min")
+            ),
+            step = parseInt(
+                $(this).parent().find("input[type=number]").attr("step")
+            );
         if (value > min) {
             $(this)
                 .parent()
@@ -149,9 +157,9 @@ $(document).ready(function () {
 
 //start address
 $(document).ready(function () {
-    $('input[name="address"]').change(function () {
-        var address = $('input[name="address"]').is(":checked");
-        var delivery_type = $('input[name="delivery_type"]').is(":checked");
+    $('input[name="addaddress_idress"]').change(function () {
+        var address = $('input[name="address_id"]').is(":checked");
+        var delivery_type = $('input[name="delivery_id"]').is(":checked");
 
         if (address == true && delivery_type == true) {
             $("#address-button").removeClass("d-block");
@@ -161,9 +169,9 @@ $(document).ready(function () {
         }
     });
 
-    $('input[name="delivery_type"]').change(function () {
-        var address = $('input[name="address"]').is(":checked");
-        var delivery_type = $('input[name="delivery_type"]').is(":checked");
+    $('input[name="delivery_id"]').change(function () {
+        var address = $('input[name="address_id"]').is(":checked");
+        var delivery_type = $('input[name="delivery_id"]').is(":checked");
 
         if (address == true && delivery_type == true) {
             $("#address-button").removeClass("d-block");
@@ -177,17 +185,21 @@ $(document).ready(function () {
 
 //start payment
 $(document).ready(function () {
+    isCheckedPaymentType();
     $('input[name="payment_type"]').change(function () {
-        var payment_type = $('input[name="payment_type"]').is(":checked");
-
-        if (payment_type == true) {
-            $("#payment-button").removeClass("d-block");
-            $("#payment-button").addClass("d-none");
-            $("#final-level").removeClass("d-none");
-            $("#final-level").addClass("d-block");
-        }
+        isCheckedPaymentType();
     });
 });
+function isCheckedPaymentType() {
+    var payment_type = $('input[name="payment_type"]').is(":checked");
+
+    if (payment_type == true) {
+        $("#payment-button").removeClass("d-block");
+        $("#payment-button").addClass("d-none");
+        $("#final-level").removeClass("d-none");
+        $("#final-level").addClass("d-block");
+    }
+}
 //end payment
 
 //start filter

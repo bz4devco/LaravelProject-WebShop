@@ -41,6 +41,7 @@
     @include('customer.layouts.footer')
     @include('customer.layouts.script')
     @yield('script')
+    @include('customer.alerts.sweetalert.logout-confirm', ['className' => 'logout'])
 </body>
 
 </html>

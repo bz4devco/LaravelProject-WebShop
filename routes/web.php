@@ -170,12 +170,12 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::delete('/gallery/destroy/{product}/{gallery}', 'GalleryController@destroy')->name('admin.market.product.gallery.destroy');
 
 
-             // section market and product colors side in admin panel
-             Route::get('/guarantee/{product}', 'GuaranteeController@index')->name('admin.market.product.guarantee.index');
-             Route::get('/guarantee/create/{product}', 'GuaranteeController@create')->name('admin.market.product.guarantee.create');
-             Route::post('/guarantee/store/{product}', 'GuaranteeController@store')->name('admin.market.product.guarantee.store');
-             Route::delete('/guarantee/destroy/{product}/{guarantee}', 'GuaranteeController@destroy')->name('admin.market.product.guarantee.destroy');
-             Route::get('/guarantee/status/{guarantee}', 'GuaranteeController@status')->name('admin.market.product.guarantee.status');
+            // section market and product colors side in admin panel
+            Route::get('/guarantee/{product}', 'GuaranteeController@index')->name('admin.market.product.guarantee.index');
+            Route::get('/guarantee/create/{product}', 'GuaranteeController@create')->name('admin.market.product.guarantee.create');
+            Route::post('/guarantee/store/{product}', 'GuaranteeController@store')->name('admin.market.product.guarantee.store');
+            Route::delete('/guarantee/destroy/{product}/{guarantee}', 'GuaranteeController@destroy')->name('admin.market.product.guarantee.destroy');
+            Route::get('/guarantee/status/{guarantee}', 'GuaranteeController@status')->name('admin.market.product.guarantee.status');
         });
 
         // section market and property side in admin panel
@@ -469,7 +469,7 @@ Route::namespace('customer')->group(function () {
         Route::post('/add-to-cart/{product:slug}', 'CartController@addToCart')->name('customer.sales-process.add-to-cart');
         Route::get('/remove-from-cart/{cartItem}', 'CartController@removeFromCart')->name('customer.sales-process.remove-from-cart');
 
-        Route::middleware(['cart.items', 'profile.completion'])->group(function() {
+        Route::middleware(['cart.items', 'profile.completion'])->group(function () {
             // address
             Route::get('/address-and-delivery', 'AddressAndDeliveryController@addressAndDelivery')->name('customer.sales-process.address-and-delivery');
             Route::post('/add-address', 'AddressAndDeliveryController@addAddress')->name('customer.sales-process.add-address');
@@ -477,16 +477,21 @@ Route::namespace('customer')->group(function () {
             Route::get('/edit-address/{address}', 'AddressAndDeliveryController@editAddress')->name('customer.sales-process.edit-address');
             Route::put('/update-address/{address}', 'AddressAndDeliveryController@updateAddress')->name('customer.sales-process.update-address');
             Route::delete('/delete-address/{address}', 'AddressAndDeliveryController@deleteAddress')->name('customer.sales-process.delete-address');
-            
-            // payment
-            Route::get('/payment', 'PaymentController@payment')->name('customer.sales-process.payment');
-            Route::post('/payment', 'PaymentController@paymentUpdate')->name('customer.sales-process.payment-update');
+            Route::post('/choose-address-and-delivery', 'AddressAndDeliveryController@chooseAddressAndDelivery')->name('customer.sales-process.choose-address-and-delivery');
+            Route::middleware('payment.order')->group(function () {
+                // payment
+                Route::get('/payment', 'PaymentController@payment')->name('customer.sales-process.payment');
+                Route::post('/copan-discount', 'PaymentController@copanDiscount')->name('customer.sales-process.copan-discount');
+                Route::post('/payment-submit', 'PaymentController@paymentSubmit')->name('customer.sales-process.payment-submit');
+                Route::any('/payment-callback/{order}/{onlinePayment}', 'PaymentController@paymentCallback')->name('customer.sales-process.payment-call-back');
+            });
         });
 
         // profile completion
         Route::get('/profile-completion', 'ProfileCompletionController@profileCompletion')->name('customer.sales-process.profile-completion');
         Route::post('/profile-completion', 'ProfileCompletionController@ProfileUpdate')->name('customer.sales-process.profile-completion-update');
     });
+
 
     // section products in customer view website
     Route::namespace('Market')->group(function () {
@@ -495,6 +500,28 @@ Route::namespace('customer')->group(function () {
         Route::get('/add-to-favorite/product/{product:slug}', 'ProductController@addToFavorite')->name('customer.market.add-to-favorite');
     });
 
+
+    // section profile in customer view website
+    Route::prefix('profile')->namespace('Profile')->group(function () {
+        // orders profile
+        Route::get('/orders', 'OrderController@index')->name('customer.profile.order.orders');
+
+        // account profile
+        Route::get('/', 'AccountProfileController@index')->name('customer.profile.my-profile');
+        Route::get('/edit-profile/{user:id}/{customer:slug}', 'AccountProfileController@edit')->name('customer.profile.edit-profile');
+        Route::put('/update-profile/{user}', 'AccountProfileController@update')->name('customer.profile.update-profile');
+
+        // address profile
+        Route::get('/my-address', 'AccountProfileController@index')->name('customer.profile.address.my-address');
+        Route::get('/edit-address/{address}', 'AccountProfileController@edit')->name('customer.profile.address.edit-address');
+        Route::put('/update-address/{address}', 'AccountProfileController@update')->name('customer.profile.address.update-address');
+        Route::delete('/destroy-address/{address}', 'AccountProfileController@update')->name('customer.profile.address.destroy-address');
+        Route::get('/get-cities/{province}', 'AccountProfileController@getCities')->name('customer.profile.address.get-cities');
+       
+        // favorites profile
+        Route::get('/my-favorite', 'FavoriteController@index')->name('customer.profile.favorite.my-favorite');
+        Route::delete('/destroy-favorite/{favorite}', 'FavoriteController@update')->name('customer.profile.favorite.destroy-favorite');
+    });
 });
 /*
 |--------------------------------------------------------------------------

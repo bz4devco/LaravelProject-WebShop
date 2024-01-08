@@ -204,7 +204,7 @@ return [
         "discount_ceiling"          => "حداقل مبلغ خرید", 
         "minimal_order_amount"      => "حداکثر تخفیف", 
         "percentage"                => "درصد تخفیف", 
-        "code"                      => "کد", 
+        "code"                      => "کد تخفیف", 
         "user_id"                   => "کاربر", 
         "otp"                       => "کد تایید", 
         "position"                  => "موقعیت", 
@@ -218,5 +218,8 @@ return [
         "recipient_last_name"       => "نام خانوادگی گیرنده", 
         "province_id"               => "استان", 
         "city_id"                   => "شهر", 
+        "delivery_id"               => "نحوه ارسال", 
+        "َaddress_id"                => "آدرس", 
+        "cash_receiver"             => "نام و نام خانوادگی دریافت کننده", 
     ],
 ];

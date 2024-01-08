@@ -18,16 +18,11 @@
                         <h2 class="content-header-title">
                             <span>تکمیل اطلاعات ارسال کالا (آدرس گیرنده، مشخصات گیرنده، نحوه ارسال) </span>
                         </h2>
-                        <section class="content-header-link">
-                            <!--<a href="#">مشاهده همه</a>-->
-                        </section>
                     </section>
                 </section>
 
                 <section class="row mt-4">
                     <section class="col-md-9">
-                        <form id="add-address-form" action="{{ route('customer.sales-process.add-address') }}" method="post">
-                            @csrf
                             <section class="content-wrapper bg-white p-3 rounded-2 mb-4">
 
                                 <!-- start vontent header -->
@@ -47,9 +42,8 @@
                                 </section>
 
                                 <section class="address-select">
-                                    <form action=""></form>
                                     @foreach ($addresses as $address)
-                                    <input type="radio" name="address" value="1" id="a{{$address->id}}" /> <!--checked="checked"-->
+                                    <input type="radio" name="address_id" value="{{$address->id}}" form="add-address-form" id="a{{$address->id}}" /> <!--checked="checked"-->
                                     <label for="a{{$address->id}}" class="address-wrapper mb-2 p-2">
                                         <section class="mb-2">
                                             <i class="fa fa-map-marker-alt mx-1"></i>
@@ -62,7 +56,11 @@
                                             @endisset
                                         </section>
                                         <section class="mb-2">
-                                            <i class="fa fa-user-tag mx-1"></i>
+                                            <i class="fas fa-inbox me-1"></i>
+                                            کد پستی : {{$address->postal_code}}
+                                        </section>
+                                        <section class="mb-2">
+                                            <i class="fa fa-user-tag me-1"></i>
                                             گیرنده : {{empty(trim($address->recipient_full_name)) ? auth()->user()->full_name : $address->recipient_full_name}}
                                         </section>
                                         <section class="mb-2">
@@ -73,7 +71,7 @@
                                         <form id="delete-address-{{$address->id}}" action="{{route('customer.sales-process.delete-address', $address->id)}}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" style="top:50%;" class="delete"><i class="fa fa-trash"></i> حذف آدرس</button>
+                                            <button type="submit" style="top:38%;" class="delete"><i class="fa fa-trash"></i> حذف آدرس</button>
                                         </form>
                                         <span class="address-selected">کالاها به این آدرس ارسال می شوند</span>
                                     </label>
@@ -96,9 +94,6 @@
                                         <h2 class="content-header-title content-header-title-small">
                                             انتخاب نحوه ارسال
                                         </h2>
-                                        <section class="content-header-link">
-                                            <!--<a href="#">مشاهده همه</a>-->
-                                        </section>
                                     </section>
                                 </section>
                                 <section class="delivery-select ">
@@ -110,7 +105,7 @@
                                         </secrion>
                                     </section>
                                     @forelse ($deliverys as $delivery)
-                                    <input type="radio" name="delivery_type" data-delivery-price="{{$delivery->amount}}" value="{{$delivery->id}}" id="d{{$delivery->id}}" />
+                                    <input type="radio" name="delivery_id" data-delivery-price="{{$delivery->amount}}" form="add-address-form" value="{{$delivery->id}}" id="d{{$delivery->id}}" />
                                     <label for="d{{$delivery->id}}" class="col-12 col-md-4 delivery-wrapper mb-2 pt-2">
                                         <section class="mb-2">
                                             <i class="fa fa-shipping-fast mx-1"></i>
@@ -131,7 +126,6 @@
 
                                 </section>
                             </section>
-                        </form>
                     </section>
 
                     @php
@@ -179,6 +173,10 @@
                                 <p class="text-muted">مبلغ قابل پرداخت</p>
                                 <p class="fw-bold"><span id="payment-price">{{number_format($totalProductPrice - $totalDiscount)}}</span> تومان</p>
                             </section>
+                            
+                            <form id="add-address-form" action="{{ route('customer.sales-process.choose-address-and-delivery') }}" method="post">
+                            @csrf
+                            </form>
 
                             <section class="">
                                 <section id="address-button" href="address.html" class="text-warning border border-warning text-center py-2 pointer rounded-2 d-block">آدرس و نحوه ارسال را انتخاب کن</section>

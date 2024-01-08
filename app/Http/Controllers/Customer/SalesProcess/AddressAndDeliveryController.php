@@ -10,6 +10,9 @@ use App\Models\Market\Delivery;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Customer\SalesProcess\AddressRequest;
+use App\Http\Requests\Customer\SalesProcess\ChooseAddressAndDeliveryRequest;
+use App\Models\Market\CommonDiscount;
+use App\Models\Market\Order;
 
 class AddressAndDeliveryController extends Controller
 {
@@ -34,6 +37,135 @@ class AddressAndDeliveryController extends Controller
     }
 
 
+
+
+
+    public function chooseAddressAndDelivery(ChooseAddressAndDeliveryRequest $request)
+    {
+        $user = auth()->user();
+        $inputs = $request->all();
+        
+        
+        ////////////////////////////////////////////////
+
+        // calc price order
+        $cartItems = CartItem::where('user_id', $user->id)->get();
+        $totalProductPrice = 0;
+        $totalDiscount = 0;
+        $totalFinalPrice = 0;
+        $totalFinalDiscountPriceWithNumbers = 0;
+
+        foreach($cartItems as $cartItem)
+        {
+            $totalProductPrice += $cartItem->cartItemProductPrice();
+            $totalDiscount += $cartItem->cartItemProductDiscount();
+            $totalFinalPrice += $cartItem->cartItemFinalPrice();
+            $totalFinalDiscountPriceWithNumbers += $cartItem->cartItemFinalDiscount();
+        }
+
+        // calc common discount
+        $commonDiscount = CommonDiscount::where([['status', 1],['end_date', '>', now()],['start_date', '<', now()]])->first();
+
+        if($commonDiscount){
+            // set address info fields to order talbe
+            $inputs['common_discount_id'] = $commonDiscount->id;
+            $inputs['common_discount_object'] = json_encode([
+                'title' => $commonDiscount->title,
+                'percentage' => $commonDiscount->percentage ,
+                'minimal_order_amount' => $commonDiscount->minimal_order_amount ,
+                'discount_ceiling' => $commonDiscount->discount_ceiling ,
+            ]);
+
+
+
+
+            $commonPercentageDiscountAmount = $totalFinalPrice * ($commonDiscount->percentage / 100);
+            if($commonPercentageDiscountAmount > $commonDiscount->discount_ceiling)
+            {
+                $commonPercentageDiscountAmount = $commonDiscount->discount_ceiling;
+            }
+
+            if($commonDiscount != null and $totalFinalPrice >= $commonDiscount->minimal_order_amount)
+            {
+                $finalPrice = $totalFinalPrice - $commonPercentageDiscountAmount;
+            }
+
+            else{
+                $finalPrice = $totalFinalPrice;
+            }
+        }else{
+            $commonPercentageDiscountAmount = 0;
+            $finalPrice = $totalFinalPrice;
+        }
+
+
+        //////////////////////////////////////////////
+        // set address info fields to order talbe
+        $user_address = Address::where('id', $request->address_id)
+        ->where('user_id', auth()->user()->id)
+        ->where('status', 1)
+        ->first();
+        $inputs['address_object'] = json_encode([
+            'province' => $user_address->city->province->name,
+            'city' => $user_address->city->name ,
+            'address' => $user_address->address ,
+            'no' => $user_address->no ,
+            'unit' => $user_address->unit ,
+            'postal_code' => $user_address->postal_code,
+            'recipient_first_name' => $user_address->recipient_first_name,
+            'recipient_last_name' => $user_address->recipient_last_name,
+            'mobile' => $user_address->mobile,
+        ]);
+
+
+        //////////////////////////////////////////////
+        // set delivery info fields to order talbe
+
+        $delivery_selected = Delivery::where('id', $request->delivery_id)
+        ->where('status', 1)
+        ->first();
+        $inputs['delivery_object'] = json_encode([
+            'name' => $delivery_selected->name,
+            'amount' => $delivery_selected->amount ,
+            'delivery_time' => $delivery_selected->delivery_time ,
+            'delivery_time_unit' => $delivery_selected->delivery_time_unit ,
+        ]);
+        
+        $inputs['delivery_amount'] = $delivery_selected->amount;
+        $inputs['delivery_stauts'] = 0;
+
+        // calc final price after increase delivery amount
+        // order_final_amount + dilicery_amount
+
+        $finalPrice += $inputs['delivery_amount']; 
+
+
+        //////////////////////////////////////////////
+        
+        $inputs['user_id'] = $user->id;
+        $inputs['order_final_amount'] = $finalPrice;
+        $inputs['order_discount_amount'] = $totalFinalDiscountPriceWithNumbers;
+        $inputs['order_common_discount_amount'] = $commonPercentageDiscountAmount;
+        $inputs['order_total_products_discount_amount'] = $inputs['order_discount_amount'] + $inputs['order_common_discount_amount'];
+
+
+
+        $order = Order::updateOrCreate(
+            ['user_id' => $user->id, 'order_status' => 0],
+            $inputs
+        );
+
+        return redirect()->route('customer.sales-process.payment');
+    }
+
+
+
+
+    //////////////////////////////////////////////////////
+
+
+
+    // start managment methods for cutomers adddress
     public function addAddress(AddressRequest $request)
     {
 
@@ -105,7 +237,7 @@ class AddressAndDeliveryController extends Controller
         }
 
         $result = $address->update($inputs);
-        return redirect()->route('customer.sales-process.address-and-delivery')->with('swal-success', 'آدرس  شما با موفیت ویرایش شد');
+        return redirect()->route('customer.sales-process.address-and-delivery')->with('swal-success', 'آدرس  شما با موفقیت ویرایش شد');
     }
 
     public function deleteAddress(Address $address)
@@ -114,4 +246,6 @@ class AddressAndDeliveryController extends Controller
 
         return redirect()->route('customer.sales-process.address-and-delivery')->with('swal-success', 'آدرس شما با موفقیت حذف شد');
     }
+    // start managment methods for cutomers adddress
+
 }

@@ -4,17 +4,12 @@ $(document).ready(function () {
         checkRecipientMe();
     });
     // input delivery
-    $('input[name="delivery_type"]').change(function () {
+    $('input[name="delivery_id"]').change(function () {
         bill();
     });
 });
 
 function bill() {
-    console.log(
-        $('input[name="delivery_type"]:checked')
-            .attr("data-delivery-price")
-            .replaceAll(",", "")
-    );
     let totalPrice = 0,
         deliveryPrice = 0;
     totalproductPrice = parseFloat(
@@ -22,9 +17,9 @@ function bill() {
     );
 
     // check change color price
-    if ($('input[name="delivery_type"]:checked').length != 0) {
+    if ($('input[name="delivery_id"]:checked').length != 0) {
         deliveryPrice = parseFloat(
-            $('input[name="delivery_type"]:checked')
+            $('input[name="delivery_id"]:checked')
                 .attr("data-delivery-price")
                 .replaceAll(",", "")
         );

@@ -10,7 +10,7 @@ class Order extends Model
 {
     use HasFactory,SoftDeletes;
 
-    protected $fillable = ['seen'];
+    protected $guarded = ['id'];
 
     public function payment()
     {
@@ -132,5 +132,13 @@ class Order extends Model
 
         return $result;
     }
+
+
+
+        // order_discount_amount + order_common_discount_amount + order_copan_discount_amount
+        public function sumDiscountOrder()
+        {
+            return $this->order_discount_amount + $this->order_common_discount_amount + $this->order_copan_discount_amount;
+        }
 
 }

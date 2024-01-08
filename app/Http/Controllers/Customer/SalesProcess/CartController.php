@@ -82,11 +82,10 @@ class CartController extends Controller
             if (!isset($request->guarantee)) {
                 $request->guarantee = null;
             }
-
             if($request->number > $product->marketable_number){
                 return back()->with('swal-error', 'تعداد انتخابی شما از تعداد موجودی محصول در انبار بیشتر است');
             }
-
+            
             foreach ($cartItems as $cartItem) {
                 if ($cartItem->color_id == $request->color && $cartItem->guarantee_id == $request->guarantee) {
                     if ($cartItem->number != $request->number) {
@@ -102,6 +101,7 @@ class CartController extends Controller
 
             $inputs['color_id'] = $request->color;
             $inputs['guarantee_id'] = $request->guarantee;
+            $inputs['number'] = $request->number;
             $inputs['user_id'] = auth()->user()->id;
             $inputs['product_id'] = $product->id;
 

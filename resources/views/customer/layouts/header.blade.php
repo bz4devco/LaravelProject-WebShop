@@ -64,13 +64,13 @@
                                  <i class="fa fa-user"></i>
                              </button>
                              <section class="dropdown-menu dropdown-menu-end custom-drop-down" aria-labelledby="dropdownMenuButton1">
-                                 <section><a class="dropdown-item" href="my-profile.html"><i class="fa fa-user-circle"></i>پروفایل کاربری</a></section>
-                                 <section><a class="dropdown-item" href="my-orders.html"><i class="fa fa-newspaper"></i>سفارشات</a></section>
-                                 <section><a class="dropdown-item" href="my-favorites.html"><i class="fa fa-heart"></i>لیست علاقه مندی</a></section>
+                                 <section><a class="dropdown-item" href="{{ route('customer.profile.my-profile') }}"><i class="fa fa-user-circle"></i>پروفایل کاربری</a></section>
+                                 <section><a class="dropdown-item" href="{{ route('customer.profile.order.orders') }}"><i class="fa fa-newspaper"></i>سفارشات</a></section>
+                                 <section><a class="dropdown-item" href="{{ route('customer.profile.favorite.my-favorite') }}"><i class="fa fa-heart"></i>لیست علاقه مندی</a></section>
                                  <section>
                                      <hr class="dropdown-divider">
                                  </section>
-                                 <section><a class="dropdown-item" href="{{ route('auth.customer.logout') }}"><i class="fa fa-sign-out-alt"></i>خروج</a></section>
+                                 <section><a class="dropdown-item logout" href="{{ route('auth.customer.logout') }}"><i class="fa fa-sign-out-alt"></i>خروج</a></section>
 
                              </section>
                          </section>
@@ -116,7 +116,7 @@
                                          <section>مبلغ قابل پرداخت</section>
                                          <section> {{number_format($totalProductPrice - $totalDiscount)}} تومان</section>
                                      </section>
-                                     <section class=""><a class="btn btn-danger btn-sm d-block" href="cart.html">ثبت سفارش</a></section>
+                                     <section class=""><a class="btn btn-danger btn-sm d-block" href="{{ route('customer.sales-process.cart') }}">ثبت سفارش</a></section>
                                  </section>
                                  @else
                                  <section class="header-cart-dropdown-body-item">

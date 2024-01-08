@@ -33,7 +33,7 @@
                 <a href="{{ route('admin.market.discount.common-discount.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section class="">
-                <form id="form" class="num-input-check" action="{{ route('admin.market.discount.common-discount.update', $commonDiscount->id) }}" method="post" enctype="multipart/form-data">
+                <form id="form" class="num-input-check" action="{{ route('admin.market.discount.common-discount.update', $commonDiscount->id) }}" method="post">
                     @csrf
                     @method('PUT')
                     <section class="row">
@@ -60,12 +60,12 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="discount_ceiling">حداقل مبلغ خرید</label>
+                                <label for="minimal_order_amount">حداقل مبلغ خرید</label>
                                 <div class="input-group input-group-sm mb-3">
-                                    <input type="text" class="form-control form-price form-control-sm  number money" name="discount_ceiling" id="discount_ceiling" value="{{ old('discount_ceiling', $commonDiscount->discount_ceiling)}}"  placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
+                                    <input type="text" class="form-control form-price form-control-sm  number money" name="minimal_order_amount" id="minimal_order_amount" value="{{ old('minimal_order_amount', $commonDiscount->minimal_order_amount)}}"  placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
                                     <span class="input-group-text" id="deliver-price">تومان</span>
                                     <small class="text-secondary position-absolute top-100 user-select-none d-block w-100 mb-1">فیلد اختیاری</small>
-                                    @error('discount_ceiling')
+                                    @error('minimal_order_amount')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -77,12 +77,12 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="minimal_order_amount">حداکثر تخفیف</label>
+                                <label for="discount_ceiling">حداکثر تخفیف</label>
                                 <div class="input-group input-group-sm mb-3">
-                                    <input type="text" class="form-control form-price form-control-sm  number money" name="minimal_order_amount" id="minimal_order_amount" value="{{ old('minimal_order_amount', $commonDiscount->minimal_order_amount)}}"  placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
+                                    <input type="text" class="form-control form-price form-control-sm  number money" name="discount_ceiling" id="discount_ceiling" value="{{ old('discount_ceiling', $commonDiscount->discount_ceiling)}}"  placeholder="100,000" aria-label="100,000" aria-describedby="deliver-price">
                                     <span class="input-group-text" id="deliver-price">تومان</span>
                                     <small class="text-secondary position-absolute top-100 user-select-none d-block w-100 mb-1">فیلد اختیاری</small>
-                                    @error('minimal_order_amount')
+                                    @error('discount_ceiling')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}

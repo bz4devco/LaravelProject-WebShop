@@ -233,4 +233,5 @@
 
 @include('customer.alerts.sweetalert.success')
 @include('customer.alerts.sweetalert.error')
+
 @endsection

@@ -97,7 +97,6 @@ class CommonDiscountController extends Controller
      
         $inputs = $request->all();
 
-
         // start date fixed
         $realTimestampStart = substr($request->start_date, 0, 10);
         $inputs['start_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);

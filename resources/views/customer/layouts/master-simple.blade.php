@@ -38,6 +38,7 @@
     
     @include('customer.layouts.script')
     @yield('script')
+    
 </body>
 
 </html>
