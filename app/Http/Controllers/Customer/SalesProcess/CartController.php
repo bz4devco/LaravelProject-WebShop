@@ -27,7 +27,7 @@ class CartController extends Controller
         }
         else
         {
-            return redirect()->route('auth.customer.login-register-form');
+            return to_route('auth.customer.login-register-form');
         }
     }
 
@@ -53,9 +53,9 @@ class CartController extends Controller
                     $cartItem->update(['number' => $inputs['number'][$cartItem->id]]);
                 }
             }
-            return redirect()->route('customer.sales-process.address-and-delivery');
+            return to_route('customer.sales-process.address-and-delivery');
         } else {
-            return redirect()->route('auth.customer.login-register-form');
+            return to_route('auth.customer.login-register-form');
         }
     }
 
@@ -109,7 +109,7 @@ class CartController extends Controller
 
             return back()->with('swal-success', 'محصول با موقیت به سبد خرید شما اضافه شد');
         } else {
-            return redirect()->route('auth.customer.login-register-form');
+            return to_route('auth.customer.login-register-form');
         }
     }
 

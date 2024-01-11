@@ -23,6 +23,18 @@ class Address extends Model
     {
         return "{$this->recipient_first_name} {$this->recipient_last_name}";
     }
+    
+    public function fullAddress()
+    {
+        $province = $this->city->province ? $this->city->province->name . "، " : "";
+        $city = $this->city ? $this->city->name . "، " : "";
+        $address = $this->address ? $this->address . '، ' : "";
+        $no = $this->no ? "پلاک " .$this->no . '، ' : "";
+        $unit = $this->unit ? "واحد " . $this->unit . '، ' : "";
+        $result = $province . $city . $address . $no . $unit;
+        
+        return $result;
+    }
 
 
 }

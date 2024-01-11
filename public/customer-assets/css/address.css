@@ -73,7 +73,6 @@
     text-decoration: none;
     font-size: 0.7rem;
     margin: 0.2rem;
-    /*color: #00b5fe;*/
     color: #999999;
     border: none;
     outline: none;
@@ -153,3 +152,4 @@
 .address-alert {
     font-size: 0.8rem;
 }
+

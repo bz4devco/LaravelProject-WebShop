@@ -56,6 +56,11 @@
     line-height: 2rem;
 }
 
+
+.product-introduction p:has(> img){
+    text-align: center;
+}
+
 .product-features {
 
 }

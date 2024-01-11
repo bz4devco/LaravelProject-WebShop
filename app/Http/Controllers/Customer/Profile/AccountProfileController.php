@@ -1,39 +1,66 @@
 <?php
 
-namespace App\Http\Controllers\Customer\SalesProcess;
+namespace App\Http\Controllers\Customer\Profile;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Customer\SalesProcess\ProfileCompletionRequest;
-use App\Models\Market\CartItem;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Customer\profile\ProfileRequest;
 
-class ProfileCompletionController extends Controller
+class AccountProfileController extends Controller
 {
-    public function profileCompletion()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
         if (Auth::check()) {
-            $user = Auth::user();
-            $cartItems = CartItem::where('user_id', $user->id)->get();
-            return view('customer.sales-process.profile-completion', compact('user', 'cartItems'));
+            $user = User::where('id', auth()->user()->id)
+                ->where('status', 1)
+                ->first();
+
+            return view('customer.profile.my-profile', compact('user'));
         } else {
             return to_route('auth.customer.login-register-form');
         }
     }
 
 
-    public function ProfileUpdate(ProfileCompletionRequest $request)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(User $user)
     {
         if (Auth::check()) {
-            $user = Auth::user();
+            return view('customer.profile.edit-profile', compact('user'));
+        } else {
+            return to_route('auth.customer.login-register-form');
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(ProfileRequest $request, User $user)
+    {
+        if (Auth::check()) {
+            $inputs = $request->all();
             
             isset($request->first_name) ? $inputs['first_name'] = $request->first_name : null;
             isset($request->last_name) ? $inputs['last_name'] = $request->last_name : null;
             isset($request->national_code) ? $inputs['national_code'] = $request->national_code : null;
             isset($request->mobile) ? $inputs['mobile'] = $request->mobile : null;
             isset($request->email) ? $inputs['email'] = $request->email : null;
-            
 
             // strat validation check
             // has mobile
@@ -48,25 +75,23 @@ class ProfileCompletionController extends Controller
                     return back()->with('alert-section-error', 'شماره موبایل وارد شده قبلاً در سیستم ثبت شده است');
                 }
             }
-            // incorect email
-            if (isset($inputs['email']) && !filter_var($inputs['email'], FILTER_VALIDATE_EMAIL)) {
-                return back()->with('alert-section-error', 'ایمیل وارد شده نا معتبر می باشد');
-            }
-            if(isset($inputs['email'])){
+
+            if (isset($inputs['email'])) {
                 $inputs['email'] = convertPersianToEnglish($inputs['email']);
             }
-            // end validation check
+            
+            $inputs['national_code'] = convertPersianToEnglish($inputs['national_code']);
+
 
             // set slug for user info
-            if(isset($inputs['first_name']) && isset($inputs['last_name'])){
+            if (isset($inputs['first_name']) && isset($inputs['last_name'])) {
                 $inputs['slug'] = str_replace(' ', '-', $inputs['first_name']) . '-' . str_replace(' ', '-', $inputs['last_name']);
             }
 
             $user->update($inputs);
 
 
-            return to_route('customer.sales-process.address-and-delivery');
-
+            return to_route('customer.profile.my-profile')->with('swal-success', 'پروفایل  شما با موفقیت ویرایش شد');
         } else {
             return to_route('auth.customer.login-register-form');
         }

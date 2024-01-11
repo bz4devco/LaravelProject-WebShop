@@ -10,6 +10,9 @@ class OrderItem extends Model
 {
     use HasFactory,SoftDeletes;
 
+    protected $guarded = ['id'];
+
+    
     public function order()
     {
         return $this->belongsTo('App\Models\Market\Order');

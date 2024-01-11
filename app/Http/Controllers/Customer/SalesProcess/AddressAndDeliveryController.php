@@ -32,7 +32,7 @@ class AddressAndDeliveryController extends Controller
 
             return view('customer.sales-process.address-and-delivery', compact('addresses', 'deliverys', 'provinces', 'cartItems'));
         } else {
-            return redirect()->route('auth.customer.login-register-form');
+            return to_route('auth.customer.login-register-form');
         }
     }
 
@@ -155,7 +155,7 @@ class AddressAndDeliveryController extends Controller
             $inputs
         );
 
-        return redirect()->route('customer.sales-process.payment');
+        return to_route('customer.sales-process.payment');
     }
 
 
@@ -184,14 +184,14 @@ class AddressAndDeliveryController extends Controller
             }
         }
 
-        $inputs['postal_code '] = convertPersianToEnglish($inputs['postal_code ']);
+        $inputs['postal_code'] = convertPersianToEnglish($inputs['postal_code']);
         $inputs['status'] = 1;
         $inputs['user_id'] = auth()->user()->id;
         $address = Address::create($inputs);
         return back()->with('swal-success', 'آدرس جدید شما با موفقیت ثبت شد');
     }
 
-        // return redirect()->route('customer.sales-process.payment');
+        // return to_route('customer.sales-process.payment');
 
     public function getCities(Province $province){
         $cities = $province->cities;
@@ -214,7 +214,7 @@ class AddressAndDeliveryController extends Controller
 
             return view('customer.sales-process.edit-address', compact('address', 'provinces'));
         } else {
-            return redirect()->route('auth.customer.login-register-form');
+            return to_route('auth.customer.login-register-form');
         }
     }
 
@@ -237,14 +237,14 @@ class AddressAndDeliveryController extends Controller
         }
 
         $result = $address->update($inputs);
-        return redirect()->route('customer.sales-process.address-and-delivery')->with('swal-success', 'آدرس  شما با موفقیت ویرایش شد');
+        return to_route('customer.sales-process.address-and-delivery')->with('swal-success', 'آدرس  شما با موفقیت ویرایش شد');
     }
 
     public function deleteAddress(Address $address)
     {
         $address->delete();
 
-        return redirect()->route('customer.sales-process.address-and-delivery')->with('swal-success', 'آدرس شما با موفقیت حذف شد');
+        return to_route('customer.sales-process.address-and-delivery')->with('swal-success', 'آدرس شما با موفقیت حذف شد');
     }
     // start managment methods for cutomers adddress
 

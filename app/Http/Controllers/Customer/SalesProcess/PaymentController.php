@@ -7,13 +7,15 @@ use App\Models\Market\Order;
 use Illuminate\Http\Request;
 use App\Models\Market\Payment;
 use App\Models\Market\CartItem;
+use App\Models\Market\OrderItem;
 use function PHPSTORM_META\type;
 use App\Models\Market\CashPayment;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Market\OnlinePayment;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\Market\OfflinePayment;
-
 use App\Http\Services\Payment\PaymentService;
 
 class PaymentController extends Controller
@@ -138,6 +140,7 @@ class PaymentController extends Controller
                 return redirect()->with('swal-error', 'اخطا در انتخاب نوع پرداخت ');
         }
 
+
         $paymented = $targetModel::create(
             [
                 'amount' => $order->order_final_amount,
@@ -171,61 +174,116 @@ class PaymentController extends Controller
 
 
         if ($request->payment_type == 1) {
-            $paymentService->zarinpal($order->order_final_amount, $order, $paymented, $payment_object);
+            $paymentService->zarinpal($order->order_final_amount, $order, $paymented);
         }
 
+        DB::transaction(function () use ($order, $payment, $payment_object, $cartItems) {
 
-        $order->update(
-            [
-                'order_status' => 2,
-                'payment_id' => $payment->id,
-                'payment_object' => $payment_object
-            ]
-        );
+            $order->update(
+                [
+                    'order_status' => 2,
+                    'payment_id' => $payment->id,
+                    'payment_object' => $payment_object
+                ]
+            );
+            foreach ($cartItems as $cartItem) {
+                // create order items
+                OrderItem::create([
+                    'order_id'                          => $order->id,
+                    'product_id'                        => $cartItem->product_id,
+                    'products'                          => $cartItem->product,
+                    'amazing_sale_id'                   => $cartItem->product->activeAmazingSales()->id ?? null,
+                    'amazing_sale_object'               => $cartItem->product->activeAmazingSales() ?? null,
+                    'amazing_sale_discount_amount'      => empty($cartItem->product->activeAmazingSales()) ? 0 :
+                        $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100),
 
-        foreach ($cartItems as $cartItem) {
-            $cartItem->delete();
-        }
+                    'number'                            => $cartItem->number,
+                    'final_product_price'               => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() :
+                        $cartItem->cartItemProductPrice() - ($cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100)),
 
-        return redirect()->route('customer.home')->with('swal-success', 'سفارش شما با موفقیت ثبت شد');
+                    'final_total_product_price'         => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() * ($cartItem->number) :
+                        $cartItem->cartItemProductPrice() - ($cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100) * ($cartItem->number)),
+
+                    'color_id'                          => $cartItem->color_id,
+                    'guarantee_id'                      => $cartItem->guarantee_id,
+                ]);
+
+
+                $cartItem->delete();
+            }
+        });
+        return to_route('customer.home')->with('swal-success', 'سفارش شما با موفقیت ثبت شد');
     }
 
 
 
-    public function paymentCallback(Order $order, OnlinePayment $onlinePayment, PaymentService $paymentService, $payment_object)
+    public function paymentCallback(Order $order, OnlinePayment $onlinePayment, PaymentService $paymentService)
     {
         $amount = $onlinePayment->amount;
         $result = $paymentService->zarinpalVerify($amount, $onlinePayment);
         $cartItems = CartItem::where('user_id', Auth::user()->id)->get();
 
+        DB::transaction(function () use ($onlinePayment, $order, $cartItems, $result) {
 
-        foreach ($cartItems as $cartItem) {
-            $cartItem->delete();
-        }
+
+            $payment_object = json_encode([
+                'amount' => $onlinePayment->amount,
+                'user_id' => $onlinePayment->user_id,
+                'status' => $onlinePayment->status,
+                'type' => $onlinePayment->type,
+                'paymentable_type' => $onlinePayment->paymentable_type,
+            ]);
+
+            foreach ($cartItems as $cartItem) {
+                // create order items
+                OrderItem::create([
+                    'order_id'                          => $order->id,
+                    'product_id'                        => $cartItem->product_id,
+                    'products'                          => $cartItem->product,
+                    'amazing_sale_id'                   => $cartItem->product->activeAmazingSales()->id ?? null,
+                    'amazing_sale_object'               => $cartItem->product->activeAmazingSales() ?? null,
+                    'amazing_sale_discount_amount'      => empty($cartItem->product->activeAmazingSales()) ? 0 :
+                        $cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100),
+
+                    'number'                            => $cartItem->number,
+                    'final_product_price'               => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() :
+                        $cartItem->cartItemProductPrice() - ($cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100)),
+
+                    'final_total_product_price'         => empty($cartItem->product->activeAmazingSales()) ? $cartItem->cartItemProductPrice() * ($cartItem->number) :
+                        $cartItem->cartItemProductPrice() - ($cartItem->cartItemProductPrice() * ($cartItem->product->activeAmazingSales()->percentage / 100) * ($cartItem->number)),
+
+                    'color_id'                          => $cartItem->color_id,
+                    'guarantee_id'                      => $cartItem->guarantee_id,
+                ]);
+
+                // delete all cart items for cutomer
+                $cartItem->delete();
+            }
+            if ($result['success']) {
+
+                $order->update(
+                    [
+                        'order_status' => 2,
+                        'payment_id' => $onlinePayment->payments[0]->id,
+                        'payment_object' => $payment_object
+                    ]
+                );
+
+            } else {
+                $order->update(
+                    [
+                        'order_status' => 1,
+                        'payment_id' => $onlinePayment->payments[0]->id,
+                        'payment_object' => $payment_object
+                    ]
+                );
+            }
+        });
 
         if ($result['success']) {
-
-            $order->update(
-                [
-                    'order_status' => 2,
-                    'payment_id' => $onlinePayment->id,
-                    'payment_object' => $payment_object
-                ]
-            );
-
-
-            return redirect()->route('customer.home')->with('swal-succrss', 'پرداخت شما با موفقیت انجام شد');
+            return to_route('customer.home')->with('swal-succrss', 'پرداخت شما با موفقیت انجام شد');
         } else {
-
-            $order->update(
-                [
-                    'order_status' => 1,
-                    'payment_id' => $onlinePayment->id,
-                    'payment_object' => $payment_object
-                ]
-            );
-
-            return redirect()->route('customer.sales-process.payment')->with('swal-error', 'پرداخت شما با شکست مواجه شد');
+            return to_route('customer.sales-process.cart')->with('swal-error', 'پرداخت شما با شکست مواجه شد');
         }
     }
 }
