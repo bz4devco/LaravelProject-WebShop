@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('slug')->unique()->nullable()->comment("full name for profile slug route");
             $table->text('profile_photo_path')->nullable()->comment("avatar");
             $table->timestamp('email_verified_at')->nullable();
-            $table->tinyInteger('actiovation')->default(0)->comment("this field is used to find out whether the user is active or inactive (email verified) (0 => inactive, 1 => active) ");
+            $table->tinyInteger('activation')->default(0)->comment("this field is used to find out whether the user is active or inactive (email verified) (0 => inactive, 1 => active) ");
             $table->timestamp('activation_date')->nullable()->comment('get user activity time');
             $table->tinyInteger('user_type')->default(0)->comment("to find out if the user is an admin or a regular user (0 => user, 1 => admin) ");
             $table->tinyInteger('status')->default(0)->comment('0 => inactive and does not have access, 1 => active and does have access');

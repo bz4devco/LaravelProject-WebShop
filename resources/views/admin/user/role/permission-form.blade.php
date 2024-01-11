@@ -23,7 +23,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 دسترسی های  نقش ({{$role->name}})
+                 دسترسی های  نقش ({{$role->title}})
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
@@ -47,7 +47,7 @@
                             <section class="col-md-3 col-sm-6 col-12">
                                 <div class="">
                                     <input type="checkbox" class="form-check-input" name="permissions[]" id="check{{$key + 1}}" value="{{$permission->id}}" {{ (is_array(old('permissions' , $rolePermissionsArray)) && in_array(old('permissions' ,$permission->id), $rolePermissionsArray)) ? ' checked' : '' }}>
-                                    <label for="check{{$key + 1}}" class="form-check-label">{{$permission->name}}</label>
+                                    <label for="check{{$key + 1}}" class="form-check-label">{{$permission->title}}</label>
                                 </div>
                                 <div class="mt-2">
                                     @error('permission' . $key)

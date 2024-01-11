@@ -38,6 +38,7 @@ class ProductRequest extends FormRequest
                 'published_at' => 'required|numeric',
                 'tags' => 'required',
                 'status' => 'required|numeric|in:0,1',
+                'marketable' => 'required|numeric|in:0,1',
             ];
         }
         else{
@@ -55,6 +56,7 @@ class ProductRequest extends FormRequest
                 'published_at' => 'required|numeric',
                 'tags' => 'required',
                 'status' => 'required|numeric|in:0,1',
+                'marketable' => 'required|numeric|in:0,1',
             ];
         }
     }

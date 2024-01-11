@@ -66,6 +66,6 @@ class Kernel extends HttpKernel
         'cart.items' => \App\Http\Middleware\HasCartItems::class,
         'profile.completion' => \App\Http\Middleware\ProfileCompletion::class,
         'payment.order' => \App\Http\Middleware\HasOrder::class,
-
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
     ];
 }

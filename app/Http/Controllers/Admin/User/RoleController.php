@@ -28,7 +28,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::all();
+        $permissions = Permission::where('status', 1)->get();
         return view('admin.user.role.create', compact('permissions'));
     }
 
@@ -45,7 +45,7 @@ class RoleController extends Controller
         $role = Role::create($inputs);
         $inputs['permissions'] = $inputs['permissions'] ?? [];
         $role->permissions()->sync($inputs['permissions']);
-        return redirect()->route('admin.user.role.index')
+        return to_route('admin.user.role.index')
         ->with('alert-section-success', 'نقش جدید شما با موفقیت ثبت شد');
     }
 
@@ -79,7 +79,7 @@ class RoleController extends Controller
      */
     public function permissionForm(Role $role)
     {
-        $permissions = Permission::all();
+        $permissions = Permission::where('status', 1)->get();
         return view('admin.user.role.permission-form', compact('role', 'permissions'));
     }
 
@@ -94,8 +94,8 @@ class RoleController extends Controller
     {
         $inputs = $request->all();
         $role->update($inputs);    
-        return redirect()->route('admin.user.role.index')
-        ->with('alert-section-success', 'نقش با عنوان '.$role->name.' با موفقیت ویرایش شد');
+        return to_route('admin.user.role.index')
+        ->with('alert-section-success', 'نقش با عنوان '.$role->title.' با موفقیت ویرایش شد');
     }
 
     /**
@@ -110,8 +110,8 @@ class RoleController extends Controller
         $inputs = $request->all();
         $inputs['permissions'] = $inputs['permissions'] ?? [];
         $role->permissions()->sync($inputs['permissions']);
-        return redirect()->route('admin.user.role.index')
-        ->with('alert-section-success', 'دسترسی های نقش  '.$role->name.' با موفقیت ویرایش شد');
+        return to_route('admin.user.role.index')
+        ->with('alert-section-success', 'دسترسی های نقش  '.$role->title.' با موفقیت ویرایش شد');
     }
 
     /**
@@ -123,8 +123,8 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $result = $role->delete();
-        return redirect()->route('admin.user.role.index')
-        ->with('alert-section-success', 'نقش با شماره شناسه'.$role->id.' با موفقیت حذف شد');
+        return to_route('admin.user.role.index')
+        ->with('alert-section-success', 'نقش با عنوان '.$role->title.' با موفقیت حذف شد');
     }
 
       /**

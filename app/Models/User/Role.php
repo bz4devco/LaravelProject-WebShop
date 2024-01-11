@@ -11,7 +11,7 @@ class Role extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'name', 'description', 'status'
+        'name', 'title', 'description', 'status'
     ];
 
     public function users() {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Content\Comment;
+use App\Traits\Permissions\HasPermissionsTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,6 +23,7 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
     use SoftDeletes;
     use Sluggable;
+    use HasPermissionsTrait;
 
     public function sluggable(): array
     {
@@ -47,7 +49,7 @@ class User extends Authenticatable
         'mobile_verified_at',
         'national_code',
         'profile_photo_path',
-        'actiovation',
+        'activation',
         'user_type',
         'password',
         'status',
@@ -105,14 +107,20 @@ class User extends Authenticatable
     }
 
 
-    public function roles()
-    {
-        return $this->belongsToMany('App\Models\User\Role');
-    }
 
     public function payments()
     {
         return $this->hasMany('App\Models\Payment');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Market\Order');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany('App\Models\Market\Product');
     }
 
 

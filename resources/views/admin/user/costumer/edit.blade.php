@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
-<title> ویرایش مشتری جدید | پنل مدیریت</title>
+<title> ویرایش مشتری  | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -11,7 +11,7 @@
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.user.costumer.index') }}">مشتریان</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ویرایش مشتری جدید</li>
+    <li class="breadcrumb-item active" aria-current="page">ویرایش مشتری </li>
     <li class="breadcrumb-item active" aria-current="page">{{$costumer->email}}</li>
 </ol>
 </nav>
@@ -23,7 +23,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                ویرایش مشتری جدید
+                ویرایش مشتری 
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
@@ -84,8 +84,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status', $costumer->status) == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status', $costumer->status) == 1) selected @endif>فعال</option>
+                                    <option value="0" @selected(old('status', $costumer->status) == 0) >غیر فعال</option>
+                                    <option value="1" @selected(old('status', $costumer->status) == 1) >فعال</option>
                                 </select>
                                 @error('status')
                                     <span class="text-danger font-size-12">

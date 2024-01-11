@@ -38,11 +38,12 @@
                 <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>شناسه</th>
-                        <th>ایمل</th>
+                        <th>ایمیل</th>
                         <th>شماره موبایل</th>
                         <th>کد ملی</th>
                         <th>نام</th>
                         <th>نام خانوادگی</th>
+                        <th>فعال سازی</th>
                         <th>وضعیت</th>
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
@@ -59,8 +60,16 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.user.costumer.status', $costumer->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $costumer->id }}" name="status" type="checkbox" @if($costumer->status) checked @endif >
-                                        <label class="custom-switch-btn" for="{{ $costumer->id }}"></label>
+                                        <input data-url="{{ route('admin.user.costumer.activation', $costumer->id) }}" onchange="changeActivation(this.id)" class="custom-switch-input" id="active-{{ $costumer->id }}" name="activation" type="checkbox" @checked($costumer->activation) >
+                                        <label class="custom-switch-btn" for="active-{{ $costumer->id }}"></label>
+                                    </div>
+                                </section>
+                            </td>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.user.costumer.status', $costumer->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="status-{{ $costumer->id }}" name="status" type="checkbox" @checked($costumer->status) >
+                                        <label class="custom-switch-btn" for="status-{{ $costumer->id }}"></label>
                                     </div>
                                 </section>
                             </td>
@@ -88,6 +97,7 @@
 @endsection
 @section('script')
 <script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/activation-ajax.js') }}"></script>
 
 @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'مشتری'])
 

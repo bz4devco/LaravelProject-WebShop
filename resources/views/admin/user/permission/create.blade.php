@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('haed-tag')
-<title> ویرایش نقش  | پنل مدیریت</title>
+<title> ایجاد سطح دسترسی جدید | پنل مدیریت</title>
 @endsection
 
 @section('content')
@@ -10,8 +10,8 @@
 <ol class="breadcrumb m-0 font-size-12">
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
     <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.user.role.index') }}">نقش ها</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ویرایش نقش </li>
+    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.user.permission.index') }}">دسترسی ها</a></li>
+    <li class="breadcrumb-item active" aria-current="page">ایجاد سطح دسترسی جدید</li>
 </ol>
 </nav>
 <!-- category page Breadcrumb area -->
@@ -22,22 +22,21 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                ویرایش نقش 
+                ایجاد سطح دسترسی جدید
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.user.role.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
+                <a href="{{ route('admin.user.permission.index') }}" class="btn btn-sm btn-info text-white">بازگشت</a>
             </section>
             <section>
-                <form id="form" action="{{ route('admin.user.role.update', $role->id) }}" method="post">
+                <form id="form" action="{{ route('admin.user.permission.store') }}" method="post">
                     @csrf
-                    @method('PUT')
                     <section class="mb-2 pb-3">
                         <section class="row">
-                            <section class="col-md-6">
+                            <section class="col-12 col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="title">عنوان نقش</label>
-                                    <input type="text" class="form-control form-control-sm" name="title" id="title" value="{{old('title', $role->title)}}">
+                                    <label for="title">عنوان سطح دسترسی</label>
+                                    <input type="text" class="form-control form-control-sm" name="title" id="title" value="{{old('title')}}">
                                     @error('title')
                                         <span class="text-danger font-size-12">
                                             <strong>
@@ -47,11 +46,11 @@
                                     @enderror
                                 </div>
                             </section>
-                            <section class="col-md-6">
+                            <section class="col-12 col-md-6">
                                 <div class="form-group mb-3 position-relative">
                                     <label for="name">نام لاتین</label>
-                                    <input type="text" class="form-control form-control-sm" name="name" id="name" value="{{old('name', $role->name)}}">
-                                    <small class="text-secondary position-absolute top-100 user-select-none d-block w-100 mb-1">نمونه: operator, titcket-admin</small>
+                                    <input type="text" class="form-control form-control-sm" name="name" id="name" value="{{old('name')}}">
+                                    <small class="text-secondary position-absolute top-100 user-select-none d-block w-100 mb-1">نمونه: create-post, update-post, read-post, delete-post</small>
                                     @error('name')
                                         <span class="text-danger font-size-12">
                                             <strong>
@@ -61,10 +60,10 @@
                                     @enderror
                                 </div>
                             </section>
-                            <section class="col-md-6">
+                            <section class="col-12 col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="description">توضیح نقش</label>
-                                    <input type="text" class="form-control form-control-sm" name="description" id="description" value="{{old('description', $role->description)}}">
+                                    <label for="description">توضیح سطح دسترسی</label>
+                                    <input type="text" class="form-control form-control-sm" name="description" id="description" value="{{old('description')}}">
                                     @error('description')
                                         <span class="text-danger font-size-12">
                                             <strong>

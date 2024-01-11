@@ -3,17 +3,17 @@
 @section('haed-tag')
 <link rel="stylesheet" href="{{ asset('admin-assets/css/component-custom-switch.css') }}">
 
-<title>نقش ها | پنل مدیریت</title>
+<title>دسترسی ها | پنل مدیریت</title>
 @endsection
 
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش کاربران</a></li>
-    <li class="breadcrumb-item active" aria-current="page">نقش ها</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش کاربران</a></li>
+        <li class="breadcrumb-item active" aria-current="page">دسترسی ها</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -23,12 +23,12 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                نقش ها
+                    دسترسی ها
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.user.role.create') }}" class="btn btn-sm btn-info text-white">ایجاد نقش جدید</a>
+                <a href="{{ route('admin.user.permission.create') }}" class="btn btn-sm btn-info text-white">ایجاد دسترسی جدید</a>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -37,46 +37,49 @@
                 <table class="table table-striped table-hover">
                     <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
-                        <th>عنوان نقش</th>
-                        <th>دسترسی ها</th>
+                        <th>عنوان سطح دسترسی</th>
+                        <th>نام نقش ها</th>
+                        <th>توضیحات دسترسی</th>
                         <th>وضعیت</th>
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
-                    @forelse($roles as $key => $role)
+                        @forelse($permissions as $key => $permission)
                         <tr class="align-middle">
                             <th>{{ $key + 1}}</th>
-                            <td>{{ $role->title}}</td>
+                            <td>{{ $permission->title}}</td>
                             <td>
-                                @if(empty($role->permissions()->get()->toArray()))
-                                <span class="text-danger">برای این نقش هیچ سطح دسترسی تعریف نشده است</span>
+                                @if(empty($permission->roles()->get()->toArray()))
+                                <span class="text-danger">این سطح دسترسی برای هیچ نقشی انتخاب نشده است</span>
                                 @else
-                                    @foreach($role->permissions as $key => $permision)
-                                        {{$key + 1}}- {{$permision->title}}<br>
+                                    @foreach($permission->roles as $key => $role)
+                                        {{$key + 1}}- {{$role->title}}<br>
                                     @endforeach
                                 @endif
+                            </td>
+                            <td class="text-truncate" style="max-width: 150px;" title="{{ $permission->description }}">
+                                {{ $permission->description}}
                             </td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.user.role.status', $role->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $role->id }}" name="status" type="checkbox" @checked($role->status) >
-                                        <label class="custom-switch-btn" for="{{ $role->id }}"></label>
+                                        <input data-url="{{ route('admin.user.permission.status', $permission->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $permission->id }}" name="status" type="checkbox" @checked($permission->status) >
+                                        <label class="custom-switch-btn" for="{{ $permission->id }}"></label>
                                     </div>
                                 </section>
                             </td>
                             <td class="width-22-rem text-start">
-                                <a href="{{ route('admin.user.role.permission-form', $role->id) }}" class="btn btn-success btn-sm"><i class="fa fa-user-graduate ms-2"></i>دسترسی ها</a>
-                                <a href="{{ route('admin.user.role.edit', $role->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
-                                <form class="d-inline" action="{{ route('admin.user.role.destroy', $role->id) }}" method="post">
+                                <a href="{{ route('admin.user.permission.edit', $permission->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                <form class="d-inline" action="{{ route('admin.user.permission.destroy', $permission->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" id="{{ $role->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
+                                    <button type="submit" id="{{ $permission->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
                             </td>
                         </tr>
                         @empty
                         <tr class="align-middle">
-                            <th colspan="" class="text-center emptyTable  py-4">جدول نقش ها خالی می باشد</th>
+                            <th colspan="" class="text-center emptyTable  py-4">جدول دسترسی ها خالی می باشد</th>
                         </tr>
                         @endforelse
                     </tbody>
@@ -90,7 +93,7 @@
 @section('script')
 <script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
 
-@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'نقش'])
+@include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'سطح دسترسی'])
 
 
 @endsection

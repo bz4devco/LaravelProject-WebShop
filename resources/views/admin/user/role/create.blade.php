@@ -33,10 +33,24 @@
                     @csrf
                     <section class="border-bottom mb-2 pb-3">
                         <section class="row">
-                            <section class="col-12 col-md-5">
+                            <section class="col-md-6">
                                 <div class="form-group mb-3">
-                                    <label for="name">عنوان نقش</label>
+                                    <label for="title">عنوان نقش</label>
+                                    <input type="text" class="form-control form-control-sm" name="title" id="title" value="{{old('title')}}">
+                                    @error('title')
+                                        <span class="text-danger font-size-12">
+                                            <strong>
+                                                {{ $message }}
+                                            </strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </section>
+                            <section class="col-md-6">
+                                <div class="form-group mb-3 position-relative">
+                                    <label for="name">نام لاتین</label>
                                     <input type="text" class="form-control form-control-sm" name="name" id="name" value="{{old('name')}}">
+                                    <small class="text-secondary position-absolute top-100 user-select-none d-block w-100 mb-1">نمونه: operator, titcket-admin</small>
                                     @error('name')
                                         <span class="text-danger font-size-12">
                                             <strong>
@@ -46,7 +60,7 @@
                                     @enderror
                                 </div>
                             </section>
-                            <section class="col-12 col-md-5">
+                            <section class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label for="description">توضیح نقش</label>
                                     <input type="text" class="form-control form-control-sm" name="description" id="description" value="{{old('description')}}">
@@ -59,7 +73,7 @@
                                     @enderror
                                 </div>
                             </section>
-                            <section class="col-12 col-md-2 d-flex flex-column justify-content-center">
+                            <section class="col-md-12 d-flex flex-column justify-content-center">
                                 <div class="form-group ">  
                                     <button class="btn btn-primary btn-sm">ثبت</button>
                                 </div>
@@ -76,7 +90,7 @@
                             <section class="col-md-3 col-sm-6 col-12">
                                 <div class="">
                                     <input type="checkbox" class="form-check-input" name="permissions[]" id="check{{$key + 1}}" value="{{$permission->id}}"  {{ (is_array(old('permissions')) && in_array($permission->id , old('permissions'))) ? ' checked' : '' }}>
-                                    <label for="check{{$key + 1}}" class="form-check-label">{{$permission->name}}</label>
+                                    <label for="check{{$key + 1}}" class="form-check-label">{{$permission->title}}</label>
                                 </div>
                                 <div class="mt-2">
                                     @error('permission' . $key)
