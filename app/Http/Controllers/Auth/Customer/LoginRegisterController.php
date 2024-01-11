@@ -105,7 +105,7 @@ class LoginRegisterController extends Controller
         $messageService->send();
 
 
-        return redirect()->route('auth.customer.login-confirm-form', $token);
+        return to_route('auth.customer.login-confirm-form', $token);
 
     }
 
@@ -124,12 +124,12 @@ class LoginRegisterController extends Controller
                 $user_login_id = Otp::where('token', $token)->get(['login_id', 'type'])->first();
             }
             if(!$user_login_id){
-                return redirect()->route('auth.customer.login-register')->with('alert-section-error', 'آدرس وارد شده نا معتبر می باشد');
+                return to_route('auth.customer.login-register')->with('alert-section-error', 'آدرس وارد شده نا معتبر می باشد');
             }
 
         } 
         else {
-            return redirect()->route('auth.customer.login-register')->with('alert-section-error', 'آدرس وارد شده نا معتبر می باشد');
+            return to_route('auth.customer.login-register')->with('alert-section-error', 'آدرس وارد شده نا معتبر می باشد');
         }
         return view('customer.auth.login-confirm', compact('user_login_id', 'token'));
     }
@@ -154,12 +154,12 @@ class LoginRegisterController extends Controller
 
             // if not found this token on otp table
             if(empty($otp)){
-                return redirect()->route('auth.customer.login-confirm', $token)->withErrors(['token-error' => 'کد مورد نظر منتقی شده است لطفاً کد جدید دریافت کنید']);
+                return to_route('auth.customer.login-confirm', $token)->withErrors(['token-error' => 'کد مورد نظر منتقی شده است لطفاً کد جدید دریافت کنید']);
             }
 
             // if otp not match
             if($otp->otp_code !== $inputs['otp']){
-                return redirect()->route('auth.customer.login-confirm', $token)->withErrors(['otp-error' => 'کد وارد شده صحیح نمی باشد']);
+                return to_route('auth.customer.login-confirm', $token)->withErrors(['otp-error' => 'کد وارد شده صحیح نمی باشد']);
             }
 
             // if everything is ok:
@@ -178,7 +178,7 @@ class LoginRegisterController extends Controller
             
             Auth::login($user);
 
-            return redirect()->route('customer.home');
+            return to_route('customer.home');
         } 
 
     }
@@ -239,7 +239,7 @@ class LoginRegisterController extends Controller
 
     public function Logout(){
         Auth::logout();
-        return redirect()->route('customer.home');
+        return to_route('customer.home');
     }
 
 }

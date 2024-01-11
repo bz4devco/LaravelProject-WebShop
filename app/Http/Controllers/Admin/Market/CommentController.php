@@ -89,7 +89,7 @@ class CommentController extends Controller
         $inputs['answer_date'] = Carbon::now();
 
         $comment->update($inputs);
-        return redirect()->route('admin.market.comment.index')
+        return to_route('admin.market.comment.index')
             ->with('alert-section-success', 'پاسخ نظر شماره ' . $comment['id'] . 'با موفقیت ثبت شد ');
     }
 

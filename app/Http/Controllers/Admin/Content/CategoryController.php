@@ -17,6 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        
         $postCategorys = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
         return view('admin.content.category.index', compact('postCategorys'));
        
@@ -50,7 +51,7 @@ class CategoryController extends Controller
             $result = $imageservice->createIndexAndSave($request->file('image'));
             if($result === false)
             {
-                return redirect()->route('admin.content.category.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.content.category.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
@@ -58,7 +59,7 @@ class CategoryController extends Controller
 
         // store data in database
         $postCategory->create($inputs);
-        return redirect()->route('admin.content.category.index')
+        return to_route('admin.content.category.index')
         ->with('alert-section-success', 'دسته بندی جدید شما با موفقیت ثبت شد');
     }
 
@@ -109,7 +110,7 @@ class CategoryController extends Controller
             
             if($result === false)
             {
-                return redirect()->route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.content.category.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
@@ -125,7 +126,7 @@ class CategoryController extends Controller
 
 
         $postCategory->update($inputs);
-        return redirect()->route('admin.content.category.index')
+        return to_route('admin.content.category.index')
         ->with('alert-section-success', 'ویرایش دسته بندی شماره   '.$postCategory['id'].' با موفقیت انجام شد');
     }
 
@@ -138,7 +139,7 @@ class CategoryController extends Controller
     public function destroy(PostCategory $postCategory)
     {
         $result = $postCategory->delete();
-        return redirect()->route('admin.content.category.index')
+        return to_route('admin.content.category.index')
         ->with('alert-section-success', ' دسته بندی شماره '.$postCategory->id.' با موفقیت حذف شد');
     }
 

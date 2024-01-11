@@ -4,7 +4,7 @@
 <head>
     @include('customer.layouts.seo')
     @include('customer.layouts.head-tag')
-    @yield('haed-tag', ['setting' => $setting])
+    @yield('haed-tag')
 </head>
 
 <body>
@@ -16,8 +16,13 @@
     <section class="">
         <section id="main-body-two-col" class="container-xxl body-container">
             <section class="row">
-                @include('customer.layouts.sidebar')
-                @yield('content')
+                <aside id="sidebar" class="sidebar col-md-3">
+                    @include('customer.layouts.sidebar')
+                </aside>
+                <main id="main-body" class="main-body col-md-9">
+                    @yield('content')
+                </main>
+
             </section>
         </section>
     </section>
@@ -25,8 +30,8 @@
 
 
     <!-- start toast alert -->
-    <section class="position-fixed p-4 flex-row-reverse" style="z-index: 1000000000; left: 0;bottom: 3rem;width: 26rem;max-width: 80%;">
-        <section class="toast" data-delay="7000" role="alert" aria-live="assertive" aria-atomic="true">
+    <section class="position-fixed flex-row-reverse" style="z-index: 1000000000; left: 0;bottom: 3rem;width: 24rem;max-width: 80%;">
+        <section class="toast fade hide" data-delay="7000" role="alert" aria-live="assertive" aria-atomic="true">
             <section class="toast-header">
                 <strong class="me-auto">فروشگاه</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -49,6 +54,7 @@
     @include('customer.layouts.footer')
     @include('customer.layouts.script')
     @yield('script')
+    @include('customer.alerts.sweetalert.logout-confirm', ['className' => 'logout'])
 </body>
 
 </html>

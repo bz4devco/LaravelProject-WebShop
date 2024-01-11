@@ -61,7 +61,7 @@ class ProductController extends Controller
             $result = $imageservice->createIndexAndSave($request->file('image'), true);
             if($result === false)
             {
-                return redirect()->route('admin.market.product.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.market.product.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
@@ -84,7 +84,7 @@ class ProductController extends Controller
                 }
             }   
         });
-        return redirect()->route('admin.market.product.index')
+        return to_route('admin.market.product.index')
         ->with('alert-section-success', 'کالای جدید شما با موفقیت ثبت شد');
     }
 
@@ -143,7 +143,7 @@ class ProductController extends Controller
             $result = $imageservice->createIndexAndSave($request->file('image'), true);
             if($result === false)
             {
-                return redirect()->route('admin.market.product.edit', $product->id )->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.market.product.edit', $product->id )->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         } else {
@@ -178,7 +178,7 @@ class ProductController extends Controller
                 }
             }
         });
-        return redirect()->route('admin.market.product.index')
+        return to_route('admin.market.product.index')
         ->with('alert-section-success', ' ویرایش کالای شماره '.$product->id.' با موفقیت انجام شد');
     }
 
@@ -191,7 +191,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $result = $product->delete();
-        return redirect()->route('admin.market.product.index')
+        return to_route('admin.market.product.index')
         ->with('alert-section-success', ' کالا شماره '.$product->id.' با موفقیت حذف شد');
     }
 

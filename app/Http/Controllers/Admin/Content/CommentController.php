@@ -85,7 +85,7 @@ class CommentController extends Controller
     public function update(CommentRequest $request, Comment $comment)
     {
         $comment->update($request->all());
-        return redirect()->route('admin.content.comment.index')
+        return to_route('admin.content.comment.index')
             ->with('alert-section-success', 'پاسخ نظر شماره ' . $comment['id'] . 'با موفقیت ثبت شد ');
     }
 

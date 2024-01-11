@@ -44,7 +44,7 @@ class GuaranteeController extends Controller
 
         // store data in database
         $guarantees = Guarantee::create($inputs);
-        return redirect()->route('admin.market.product.guarantee.index', $product->id)
+        return to_route('admin.market.product.guarantee.index', $product->id)
         ->with('alert-section-success', 'رنگ جدید شما با موفقیت ثبت شد');
     }
 
@@ -57,7 +57,7 @@ class GuaranteeController extends Controller
     public function destroy(Product $product, Guarantee $guarantee)
     {
         $result = $guarantee->delete();
-        return redirect()->route('admin.market.product.guarantee.index', $product->id)
+        return to_route('admin.market.product.guarantee.index', $product->id)
         ->with('alert-section-success', ' رنگ '.$guarantee->name.' این محصول با موفقیت حذف شد');
     }
 

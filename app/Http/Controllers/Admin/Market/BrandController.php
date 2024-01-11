@@ -48,14 +48,14 @@ class BrandController extends Controller
             $result = $imageservice->save($request->file('logo'));
 
             if ($result === false) {
-                return redirect()->route('admin.brand.edit')->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
+                return to_route('admin.brand.edit')->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
             }
             $inputs['logo'] = $result;
         }
 
 
         $brand->create($inputs);
-        return redirect()->route('admin.market.brand.index')
+        return to_route('admin.market.brand.index')
         ->with('alert-section-success', 'برند جدید شما با موفقیت ثبت شد');
     }
 
@@ -102,13 +102,13 @@ class BrandController extends Controller
             $result = $imageservice->save($request->file('logo'));
 
             if ($result === false) {
-                return redirect()->route('admin.brand.edit')->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
+                return to_route('admin.brand.edit')->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
             }
             $inputs['logo'] = $result;
         }
 
         $brand->update($inputs);
-        return redirect()->route('admin.market.brand.index')
+        return to_route('admin.market.brand.index')
         ->with('alert-section-success', 'ویرایش برند شماره   '.$brand->id .' با موفقیت انجام شد');
     }
 
@@ -121,7 +121,7 @@ class BrandController extends Controller
     public function destroy(Brand $brand)
     {
         $result = $brand->delete();
-        return redirect()->route('admin.market.brand.index')
+        return to_route('admin.market.brand.index')
         ->with('alert-section-success', ' برند شماره '.$brand->id.' با موفقیت حذف شد');
     }
 

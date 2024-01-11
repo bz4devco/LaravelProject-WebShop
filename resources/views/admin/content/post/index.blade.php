@@ -57,7 +57,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.content.post.status', $post->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $post->id . '-status' }}" name="status" type="checkbox" @if($post->status) checked @endif >
+                                        <input data-url="{{ route('admin.content.post.status', $post->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $post->id . '-status' }}" name="status" type="checkbox" @checked($post->status) >
                                         <label class="custom-switch-btn" for="{{ $post->id . '-status' }}"></label>
                                     </div>
                                 </section>
@@ -65,7 +65,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.content.post.commentable', $post->id) }}" onchange="changeCommentable(this.id)" class="custom-switch-input" id="{{ $post->id . '-commentable' }}" name="commentable" type="checkbox" @if($post->commentable) checked @endif >
+                                        <input data-url="{{ route('admin.content.post.commentable', $post->id) }}" onchange="changeCommentable(this.id)" class="custom-switch-input" id="{{ $post->id . '-commentable' }}" name="commentable" type="checkbox" @checked($post->commentable) >
                                         <label class="custom-switch-btn" for="{{ $post->id . '-commentable' }}"></label>
                                     </div>
                                 </section>

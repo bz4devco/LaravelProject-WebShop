@@ -48,7 +48,7 @@ class EmailController extends Controller
 
         // store data in database
         $email->create($inputs);
-        return redirect()->route('admin.notify.email.index')
+        return to_route('admin.notify.email.index')
         ->with('alert-section-success', 'اعلامیه ایمیلی جدید شما با موفقیت ثبت شد');
     }
     /**
@@ -92,7 +92,7 @@ class EmailController extends Controller
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
 
         $email->update($inputs);
-        return redirect()->route('admin.notify.email.index')
+        return to_route('admin.notify.email.index')
         ->with('alert-section-success', 'ویرایش اعلامیه ایمیلی شماره   '.$email['id'].' با موفقیت انجام شد');
     }
 
@@ -105,7 +105,7 @@ class EmailController extends Controller
     public function destroy(Email $email)
     {
         $result = $email->delete();
-        return redirect()->route('admin.notify.email.index')
+        return to_route('admin.notify.email.index')
         ->with('alert-section-success', 'اعلامیه ایمیلی شماره '.$email->id.' با موفقیت حذف شد');
     }
 

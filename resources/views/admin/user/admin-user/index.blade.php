@@ -9,11 +9,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش کاربران</a></li>
-    <li class="breadcrumb-item active" aria-current="page">کاربران ادمین</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش کاربران</a></li>
+        <li class="breadcrumb-item active" aria-current="page">کاربران ادمین</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -23,7 +23,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                کاربران ادمین
+                    کاربران ادمین
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
@@ -43,8 +43,9 @@
                         <th>نام</th>
                         <th>نام خانوادگی</th>
                         <th>نقش</th>
+                        <th>فعال سازی</th>
                         <th>وضعیت</th>
-                        <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
+                        <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
                         @forelse($admins as $key => $admin)
@@ -55,17 +56,34 @@
                             <td>{{ $admin->mobile }}</td>
                             <td>{{ $admin->first_name }}</td>
                             <td>{{ $admin->last_name }}</td>
-                            <td>سوپر ادمین</td>
+                            <td>
+                                @if(empty($admin->roles()->get()->toArray()))
+                                <span class="text-danger">برای این ادمین هیچ نقشی تعریف نشده است</span>
+                                @else
+                                @foreach($admin->roles as $key => $roles)
+                                {{$key + 1}}- {{$roles->title}}<br>
+                                @endforeach
+                                @endif
+                            </td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.user.admin-user.status', $admin->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $admin->id }}" name="status" type="checkbox" @if($admin->status) checked @endif >
-                                        <label class="custom-switch-btn" for="{{ $admin->id }}"></label>
+                                        <input data-url="{{ route('admin.user.admin-user.activation', $admin->id) }}" onchange="changeActivation(this.id)" class="custom-switch-input" id="active-{{ $admin->id }}" name="activation" type="checkbox" @checked($admin->activation) >
+                                        <label class="custom-switch-btn" for="active-{{ $admin->id }}"></label>
                                     </div>
                                 </section>
                             </td>
-                            <td class="width-16-rem text-start">
-                                <a href="#" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>نقش</a>
+                            <td>
+                                <section>
+                                    <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
+                                        <input data-url="{{ route('admin.user.admin-user.status', $admin->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="status-{{ $admin->id }}" name="status" type="checkbox" @checked($admin->status) >
+                                        <label class="custom-switch-btn" for="status-{{ $admin->id }}"></label>
+                                    </div>
+                                </section>
+                            </td>
+                            <td class="width-22-rem text-start">
+                                <a href="{{ route('admin.user.admin-user.permissions', $admin->id) }}" class="btn btn-success btn-sm"><i class="fa fa-user-graduate ms-2"></i>دسترسی</a>
+                                <a href="{{ route('admin.user.admin-user.roles', $admin->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>نقش</a>
                                 <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
                                 <form class="d-inline" action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="post">
                                     @csrf
@@ -89,9 +107,9 @@
 @endsection
 @section('script')
 <script src="{{ asset('admin-assets/js/plugin/ajaxs/status-ajax.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/activation-ajax.js') }}"></script>
 
 @include('admin.alerts.sweetalert.delete-confirm', ['className' => 'delete','fieldTitle' => 'ادمین'])
 
 
 @endsection
-

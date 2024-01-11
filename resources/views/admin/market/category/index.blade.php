@@ -61,7 +61,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.market.category.status', $productCategory->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $productCategory->id }}" name="status" type="checkbox" @if($productCategory->status) checked @endif >
+                                        <input data-url="{{ route('admin.market.category.status', $productCategory->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $productCategory->id }}" name="status" type="checkbox" @checked($productCategory->status) >
                                         <label class="custom-switch-btn" for="{{ $productCategory->id }}"></label>
                                     </div>
                                 </section>
@@ -69,7 +69,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.market.category.show-in-menu', $productCategory->id) }}" onchange="showInMenu(this.id)" class="custom-switch-input" id="{{ $productCategory->id }}-showinmenu" name="show-in-menu" type="checkbox" @if($productCategory->show_in_menu) checked @endif >
+                                        <input data-url="{{ route('admin.market.category.show-in-menu', $productCategory->id) }}" onchange="showInMenu(this.id)" class="custom-switch-input" id="{{ $productCategory->id }}-showinmenu" name="show-in-menu" type="checkbox" @checked($productCategory->show_in_menu) >
                                         <label class="custom-switch-btn" for="{{ $productCategory->id }}-showinmenu"></label>
                                     </div>
                                 </section>

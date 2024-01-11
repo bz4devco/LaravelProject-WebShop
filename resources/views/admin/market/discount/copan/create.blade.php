@@ -56,8 +56,8 @@
                             <div class="form-group mb-3">
                                 <label for="type">نوع کوپن</label>
                                 <select class="form-select form-select-sm" name="type" id="type">
-                                    <option value="0" @if (old('type') == 0) selected @endif>عمومی</option>
-                                    <option value="1" @if (old('type') == 1) selected @endif>خصوصی</option>
+                                    <option value="0" @selected(old('type') == 0) >عمومی</option>
+                                    <option value="1" @selected(old('type') == 1) >خصوصی</option>
                                 </select>
                                 @error('type')
                                     <span class="text-danger font-size-12">
@@ -74,7 +74,7 @@
                                 <select class="form-select form-select-sm" name="user_id" id="user_id" disabled>
                                     <option disabled readonly selected>کاربر مورد نظر را انتخاب کنید</option>
                                     @forelse($costumers as $costumer)
-                                    <option value="{{$costumer->id}}" @if (old('user_id') == $costumer->id) selected @endif>{{$costumer->fullname}}</option>
+                                    <option value="{{$costumer->id}}" @selected(old('user_id') == $costumer->id) >{{$costumer->fullname}}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>کاربری در جدول کابران وجود ندارد</option>
                                     @endforelse
@@ -92,8 +92,8 @@
                             <div class="form-group mb-3">
                                 <label for="amount_type">نوع تخفیف</label>
                                 <select class="form-select form-select-sm" name="amount_type" id="amount_type">
-                                    <option value="0" @if (old('amount_type') == 0) selected @endif>درصدی</option>
-                                    <option value="1" @if (old('amount_type') == 1) selected @endif>عددی</option>
+                                    <option value="0" @selected(old('amount_type') == 0) >درصدی</option>
+                                    <option value="1" @selected(old('amount_type') == 1) >عددی</option>
                                 </select>
                                 @error('amount_type')
                                     <span class="text-danger font-size-12">
@@ -165,8 +165,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                                    <option value="0" @selected(old('status') == 0) >غیر فعال</option>
+                                    <option value="1" @selected(old('status') == 1) >فعال</option>
                                 </select>
                                 @error('status')
                                     <span class="text-danger font-size-12">

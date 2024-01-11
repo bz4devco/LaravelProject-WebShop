@@ -44,7 +44,7 @@ class ProcutColorController extends Controller
 
         // store data in database
         $color = ProductColor::create($inputs);
-        return redirect()->route('admin.market.product.color.index', $product->id)
+        return to_route('admin.market.product.color.index', $product->id)
         ->with('alert-section-success', 'رنگ جدید شما با موفقیت ثبت شد');
     }
 
@@ -91,7 +91,7 @@ class ProcutColorController extends Controller
     public function destroy(Product $product, ProductColor $productColor)
     {
         $result = $productColor->delete();
-        return redirect()->route('admin.market.product.color.index', $product->id)
+        return to_route('admin.market.product.color.index', $product->id)
         ->with('alert-section-success', ' رنگ '.$productColor->name.' این محصول با موفقیت حذف شد');
     }
 

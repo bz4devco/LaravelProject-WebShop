@@ -56,7 +56,7 @@
                                 <select class="form-select form-select-sm" name="category_id" id="category_id">
                                 <option disabled readonly selected>دسته کالا را انتخاب کنید</option>
                                     @forelse($productCategoreis as $productCategory)
-                                    <option value="{{ $productCategory->id }}" @if (old('category_id', $product->category_id) == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
+                                    <option value="{{ $productCategory->id }}" @selected(old('category_id', $product->category_id) == $productCategory->id) >{{ $productCategory->name }}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>دسته ای در جدول دسته بندی ها وجود ندارد</option>
                                     @endforelse
@@ -76,7 +76,7 @@
                                 <select class="form-select form-select-sm" name="brand_id" id="brand_id">
                                     <option disabled readonly selected>برند کالا را انتخاب کنید</option>
                                     @forelse($brands as $brand)
-                                    <option value="{{ $brand->id }}"  @if (old('brand_id', $product->brand_id) == $brand->id) selected @endif>{{ $brand->persian_name }}</option>
+                                    <option value="{{ $brand->id }}"  @selected(old('brand_id', $product->brand_id) == $brand->id) >{{ $brand->persian_name }}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>برندی در جدول برندها وجود ندارد</option>
                                     @endforelse
@@ -110,7 +110,7 @@
                                     <section class="col-{{ 6 / $number }}">
                                         <div class="form-check p-0">
                                             <input type="radio" class="form-check-input d-none set-image" name="currentImage" value="{{ $key }}" id="{{ $number }}"
-                                            @if($product->image['currentImage']  == $key) checked @endif>
+                                            @checked($product->image['currentImage']  == $key) >
                                             <label for="{{ $number }}" class="form-check-label">
                                                 <img src="{{ asset($value) }}" class="w-100 max-h" alt="">
                                             </label>
@@ -229,12 +229,12 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
-                                <label for="marketable_number">وضعیت قابل فروش</label>
-                                <select class="form-select form-select-sm" name="marketable_number" id="marketable_number">
-                                    <option value="0" @if (old('marketable_number', $product->marketable_number) == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('marketable_number', $product->marketable_number) == 1) selected @endif>فعال</option>
+                                <label for="marketable">وضعیت قابل فروش</label>
+                                <select class="form-select form-select-sm" name="marketable" id="marketable">
+                                    <option value="0" @selected(old('marketable', $product->marketable) == 0) >غیر فعال</option>
+                                    <option value="1" @selected(old('marketable', $product->marketable) == 1) >فعال</option>
                                 </select>
-                                @error('marketable_number')
+                                @error('marketable')
                                     <span class="text-danger font-size-12">
                                         <strong>
                                             {{ $message }}
@@ -247,8 +247,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status', $product->status) == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status', $product->status) == 1) selected @endif>فعال</option>
+                                    <option value="0" @selected(old('status', $product->status) == 0) >غیر فعال</option>
+                                    <option value="1" @selected(old('status', $product->status) == 1) >فعال</option>
                                 </select>
                                 @error('status')
                                     <span class="text-danger font-size-12">

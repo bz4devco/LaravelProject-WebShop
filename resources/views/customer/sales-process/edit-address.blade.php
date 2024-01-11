@@ -32,7 +32,7 @@
                                     <select class="form-select form-select-sm" id="province" name="province_id">
                                         <option disabled selected>استان را انتخاب کنید</option>
                                         @foreach ($provinces as $province)
-                                        <option value="{{$province->id}}" data-url="{{ route('customer.sales-process.get-cities', $province->id)}}" @if(old('province_id', $address->city->province->id) == $province->id) selected @endif>{{$province->name}}</option>
+                                        <option value="{{$province->id}}" data-url="{{ route('customer.sales-process.get-cities', $province->id)}}" @selected(old('province_id', $address->city->province->id) == $province->id) >{{$province->name}}</option>
                                         @endforeach
                                     </select>
                                     @error('province_id')
@@ -109,7 +109,7 @@
                                 <section class="col-12 mb-2">
                                     <section class="form-check">
                                         <section>
-                                            <input class="form-check-input" type="checkbox" name="receiver" id="receiver" @if(old('receiver', $address->receiver)=='on' ) checked @endif>
+                                            <input class="form-check-input" type="checkbox" name="receiver" id="receiver" @checked(old('receiver', $address->receiver)=='on' ) >
                                             <label class="form-check-label" for="receiver">
                                                 گیرنده سفارش خودم هستم
                                             </label>

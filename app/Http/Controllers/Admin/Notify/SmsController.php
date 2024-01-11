@@ -47,7 +47,7 @@ class SmsController extends Controller
 
         // store data in database
         $sms->create($inputs);
-        return redirect()->route('admin.notify.sms.index')
+        return to_route('admin.notify.sms.index')
         ->with('alert-section-success', 'اعلامیه پیامکی جدید شما با موفقیت ثبت شد');
     }
 
@@ -94,7 +94,7 @@ class SmsController extends Controller
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
 
         $sms->update($inputs);
-        return redirect()->route('admin.notify.sms.index')
+        return to_route('admin.notify.sms.index')
         ->with('alert-section-success', 'ویرایش اعلامیه پیامیکی شماره   '.$sms['id'].' با موفقیت انجام شد');
     }
 
@@ -107,7 +107,7 @@ class SmsController extends Controller
     public function destroy(SMS $sms)
     {
         $result = $sms->delete();
-        return redirect()->route('admin.notify.sms.index')
+        return to_route('admin.notify.sms.index')
         ->with('alert-section-success', 'اعلامیه پیامکی شماره '.$sms->id.' با موفقیت حذف شد');
     }
 

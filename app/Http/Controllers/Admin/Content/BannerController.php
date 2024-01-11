@@ -50,7 +50,7 @@ class BannerController extends Controller
             $result = $imageservice->save($request->file('image'));
             if($result === false)
             {
-                return redirect()->route('admin.content.banner.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.content.banner.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
@@ -58,7 +58,7 @@ class BannerController extends Controller
 
         // store data in database
         $banner->create($inputs);
-        return redirect()->route('admin.content.banner.index')
+        return to_route('admin.content.banner.index')
         ->with('alert-section-success', 'بنر جدید شما با موفقیت ثبت شد');
     }
 
@@ -111,7 +111,7 @@ class BannerController extends Controller
             
             if($result === false)
             {
-                return redirect()->route('admin.content.banner.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.content.banner.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
@@ -127,7 +127,7 @@ class BannerController extends Controller
 
 
         $banner->update($inputs);
-        return redirect()->route('admin.content.banner.index')
+        return to_route('admin.content.banner.index')
         ->with('alert-section-success', 'ویرایش بنر شماره   '.$banner['id'].' با موفقیت انجام شد');
     }
 
@@ -140,7 +140,7 @@ class BannerController extends Controller
     public function destroy(Banner $banner)
     {
         $result = $banner->delete();
-        return redirect()->route('admin.content.banner.index')
+        return to_route('admin.content.banner.index')
         ->with('alert-section-success', ' بنر شماره '.$banner->id.' با موفقیت حذف شد');
     }
 

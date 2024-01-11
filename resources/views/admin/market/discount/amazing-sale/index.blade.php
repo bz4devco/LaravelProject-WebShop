@@ -56,7 +56,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.market.discount.amazing-sale.status', $amazingSale->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $amazingSale->id }}" name="status" type="checkbox" @if($amazingSale->status) checked @endif >
+                                        <input data-url="{{ route('admin.market.discount.amazing-sale.status', $amazingSale->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $amazingSale->id }}" name="status" type="checkbox" @checked($amazingSale->status) >
                                         <label class="custom-switch-btn" for="{{ $amazingSale->id }}"></label>
                                     </div>
                                 </section>

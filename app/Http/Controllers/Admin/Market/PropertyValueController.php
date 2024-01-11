@@ -45,7 +45,7 @@ class PropertyValueController extends Controller
 
         // store data in database
         $value = CategoryValue::create($inputs);
-        return redirect()->route('admin.market.property.value.index', $categoryAttribute->id)
+        return to_route('admin.market.property.value.index', $categoryAttribute->id)
         ->with('alert-section-success', 'مقدار جدید شما برای فرم کالا '.$categoryAttribute->name.' با موفقیت ثبت شد');
     }
 
@@ -87,7 +87,7 @@ class PropertyValueController extends Controller
 
         // update data in database
         $result = $value->update($inputs);
-        return redirect()->route('admin.market.property.value.index', $categoryAttribute->id)
+        return to_route('admin.market.property.value.index', $categoryAttribute->id)
         ->with('alert-section-success', 'ویرایش مقدار برای فرم کالا '.$categoryAttribute->name.' با موفقیت ثبت شد');
     }
 
@@ -100,7 +100,7 @@ class PropertyValueController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute, CategoryValue $value)
     {
         $result = $value->delete();
-        return redirect()->route('admin.market.property.value.index', $categoryAttribute->id)
+        return to_route('admin.market.property.value.index', $categoryAttribute->id)
         ->with('alert-section-success', ' مقدار فرم کالای '.$categoryAttribute->name.' با موفقیت حذف شد');
     }
 }

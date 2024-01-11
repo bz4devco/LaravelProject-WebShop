@@ -3,11 +3,19 @@
     <section class="sidebar-container">
         <section class="sidebar-wrapper">
 
+
+            <!-- start section home link -->
             <a href="{{ route('admin.home') }}" class="sidebar-link">
                 <i class="fas fa-home"></i>
                 <span>خانه</span>
             </a>
+            <!-- end section home link -->
 
+
+            <!-- ///////////////////////////////////////////////////////////// -->
+            
+
+            <!-- start markets section managment -->
             <section class="sidebar-part-title">بخش فروش</section>
 
             <section class="sidebar-group-link">
@@ -25,7 +33,13 @@
                     <a href="{{ route('admin.market.comment.index') }}">نظرات</a>
                 </section>
             </section>
+            <!-- end markets section managment -->
 
+
+            <!-- ///////////////////////////////////////////////////////////// -->
+            
+
+            <!-- start orders section managment -->
             <section class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
@@ -41,7 +55,13 @@
                     <a href="{{ route('admin.market.order.returned-order') }}">مرجوعی</a>
                 </section>
             </section>
+            <!-- end orders section managment -->
 
+
+            <!-- ///////////////////////////////////////////////////////////// -->
+            
+
+            <!-- start payments section managment -->
             <section class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
@@ -55,7 +75,13 @@
                     <a href="{{ route('admin.market.payment.cash-payment') }}">پرداخت در محل</a>
                 </section>
             </section>
+            <!-- end payments section managment -->
 
+
+            <!-- ///////////////////////////////////////////////////////////// -->
+
+
+            <!-- start dicounts section managment -->
             <section class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
@@ -68,14 +94,24 @@
                     <a href="{{ route('admin.market.discount.amazing-sale.index') }}">فروش شگفت انگیز</a>
                 </section>
             </section>
+            <!-- end dicounts section managment -->
 
+
+            <!-- ///////////////////////////////////////////////////////////// -->
+
+
+            <!-- start delivery section managment -->
             <a href="{{ route('admin.market.delivery.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>روش های ارسال</span>
             </a>
+            <!-- end delivery section managment -->
 
 
+            <!-- ///////////////////////////////////////////////////////////// -->
 
+
+            <!-- start content section managment -->
             <section class="sidebar-part-title">بخش محتوی</section>
             <a href="{{ route('admin.content.category.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
@@ -105,9 +141,13 @@
                 <i class="fas fa-bars"></i>
                 <span>بنرها</span>
             </a>
-            
+            <!-- end content section managment -->
 
 
+            <!-- ///////////////////////////////////////////////////////////// -->
+
+
+            <!-- start users section managment -->
             <section class="sidebar-part-title">بخش کاربران</section>
             <a href="{{ route('admin.user.admin-user.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
@@ -117,13 +157,25 @@
                 <i class="fas fa-bars"></i>
                 <span>مشتریان</span>
             </a>
-            <a href="{{ route('admin.user.role.index') }}" class="sidebar-link">
-                <i class="fas fa-bars"></i>
-                <span>سطوح دسترسی</span>
-            </a>
+            <section class="sidebar-group-link">
+                <section class="sidebar-dropdown-toggle">
+                    <i class="fas fa-chart-bar icon"></i>
+                    <span>سطوح دسترسی</span>
+                    <i class="fas fa-angle-left angle"></i>
+                </section>
+                <section class="sidebar-dropdown">
+                    <a href="{{ route('admin.user.role.index') }}">مدیریت نقش ها</a>
+                    <a href="{{ route('admin.user.permission.index') }}">مدیریت دسترسی ها</a>
+                    <!-- <a href="{{-- route('admin.market.discount.amazing-sale.index') --}}">فروش شگفت انگیز</a> -->
+                </section>
+            </section>
+            <!-- end users section managment -->
 
 
+            <!-- ///////////////////////////////////////////////////////////// -->
 
+
+            <!-- start tickets section managment -->
             <section class="sidebar-part-title">تیکت ها</section>
             <a href="{{ route('admin.ticket.admin.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
@@ -149,9 +201,13 @@
                 <i class="fas fa-bars"></i>
                 <span>تیکت های بسته</span>
             </a>
+            <!-- end tickets section managment -->
 
 
+            <!-- ///////////////////////////////////////////////////////////// -->
 
+
+            <!-- start notifies section managment -->
             <section class="sidebar-part-title">اطلاع رسانی</section>
             <a href="{{ route('admin.notify.email.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
@@ -161,15 +217,19 @@
                 <i class="fas fa-bars"></i>
                 <span>اعلامیه پیامکی</span>
             </a>
+            <!-- end notifies section managment -->
 
 
+            <!-- ///////////////////////////////////////////////////////////// -->
 
+
+            <!-- start settings section managment -->
             <section class="sidebar-part-title">تنظیمات</section>
             <a href="{{ route('admin.setting.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>تنظیمات</span>
             </a>
-
+            <!-- end settings section managment -->
         </section>
     </section>
 </aside>

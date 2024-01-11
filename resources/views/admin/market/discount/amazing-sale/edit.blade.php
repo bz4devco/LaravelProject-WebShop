@@ -43,7 +43,7 @@
                                 <select class="form-select form-select-sm" name="product_id" id="product_id">
                                     <option disabled readonly selected>کالای مورد نظر را انتخاب کنید</option>
                                     @forelse($productsName as $productName)
-                                    <option value="{{$productName->id}}" @if (old('product_id', $amazingSale->product_id) == $productName->id) selected @endif>{{$productName->name}}</option>
+                                    <option value="{{$productName->id}}" @selected(old('product_id', $amazingSale->product_id) == $productName->id) >{{$productName->name}}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>کالا ای در جدول کالاها وجود ندارد</option>
                                     @endforelse
@@ -110,8 +110,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status', $amazingSale->status) == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status', $amazingSale->status) == 1) selected @endif>فعال</option>
+                                    <option value="0" @selected(old('status', $amazingSale->status) == 0) >غیر فعال</option>
+                                    <option value="1" @selected(old('status', $amazingSale->status) == 1) >فعال</option>
                                 </select>
                                 @error('status')
                                     <span class="text-danger font-size-12">

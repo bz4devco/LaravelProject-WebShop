@@ -30,7 +30,7 @@
                                 <section class="address-alert alert alert-primary d-flex align-items-center p-2" role="alert">
                                     <i class="fa fa-info-circle flex-shrink-0 me-2"></i>
                                     <secrion>
-                                        اطلاعات حساب کاربری خود را (فقط یک بار برای همیشه) وارد کنید، از ین پس کالاها برای شخصی با این مشخصت ارسال می شود.
+                                        اطلاعات حساب کاربری خود را (فقط یک بار برای همیشه) وارد کنید، از این پس کالاها برای شخصی با این مشخصت ارسال می شود.
                                     </secrion>
                                 </section>
                                 @include('customer.alerts.alert-section.error')
@@ -165,7 +165,7 @@
 
 
                             <section class="">
-                                <button onclick="document.getElementById('profile-completion').submit()" class="btn btn-danger d-block w-100">تکمیل فرآیند خرید</buttonref=>
+                                <button onclick="document.getElementById('profile-completion').submit()" class="btn btn-danger d-block w-100">ثبت و ادامه فرآیند خرید</buttonref=>
                             </section>
 
                         </section>

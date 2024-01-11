@@ -39,7 +39,7 @@ class StoreController extends Controller
 
         Log::info("Inventory Increase : receiver => {$request->receiver}, deliverer => {$request->deliverer}, description => {$request->description}, add => {$request->marketable_number}, date => {$date}");
 
-        return redirect()->route('admin.market.store.index')
+        return to_route('admin.market.store.index')
         ->with('alert-section-success', 'موجودی جدید کالای '. $product->name .' با موفقیت ثبت شد');
     }
 
@@ -73,7 +73,7 @@ class StoreController extends Controller
         Log::info("
         Inventory Modification : marketable_number => {$request->marketable_number}, sold_number => {$request->sold_number}, frozen_number => {$request->frozen_number}, date => {$date} ");
 
-        return redirect()->route('admin.market.store.index')
+        return to_route('admin.market.store.index')
         ->with('alert-section-success', 'موجودی کالای '. $product->name .' با موفقیت ویرایش شد');
     }
 

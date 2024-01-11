@@ -40,7 +40,7 @@ class DeliveryController extends Controller
     {
         $inputs = $request->all();
         $delivery->create($inputs);
-        return redirect()->route('admin.market.delivery.index')
+        return to_route('admin.market.delivery.index')
         ->with('alert-section-success', 'روش ارسال جدید شما با موفقیت ثبت شد');
     }
 
@@ -77,7 +77,7 @@ class DeliveryController extends Controller
     {
         $inputs = $request->all();
         $delivery->update($inputs);
-        return redirect()->route('admin.market.delivery.index')
+        return to_route('admin.market.delivery.index')
         ->with('alert-section-success', 'ویرایش روش ارسال شماره   '.$delivery->id .' با موفقیت انجام شد');
     }
 
@@ -90,7 +90,7 @@ class DeliveryController extends Controller
     public function destroy(Delivery $delivery)
     {
         $result = $delivery->delete();
-        return redirect()->route('admin.market.deleivery.index')
+        return to_route('admin.market.deleivery.index')
         ->with('alert-section-success', 'روش ارسال شماره '.$delivery->id.' با موفقیت حذف شد');
     }
 

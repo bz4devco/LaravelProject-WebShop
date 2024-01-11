@@ -54,7 +54,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.market.delivery.status', $delivery_method->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $delivery_method->id }}" name="status" type="checkbox" @if($delivery_method->status) checked @endif >
+                                        <input data-url="{{ route('admin.market.delivery.status', $delivery_method->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $delivery_method->id }}" name="status" type="checkbox" @checked($delivery_method->status) >
                                         <label class="custom-switch-btn" for="{{ $delivery_method->id }}"></label>
                                     </div>
                                 </section>

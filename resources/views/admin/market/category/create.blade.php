@@ -51,7 +51,7 @@
                                 <select class="form-select form-select-sm" name="parent_id" id="parent_id">
                                     <option disabled readonly selected>والد دسته را انتخاب کنید</option>
                                     @forelse($parent_names as $parent_name)
-                                    <option value="{{$parent_name->id}}" @if (old('parent_id') == $parent_name->id) selected @endif>{{$parent_name->name}}</option>
+                                    <option value="{{$parent_name->id}}" @selected(old('parent_id') == $parent_name->id) >{{$parent_name->name}}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>دسته ای در جدول دسته بندی وجود ندارد</option>
                                     @endforelse
@@ -109,8 +109,8 @@
                             <div class="form-group mb-3">
                                 <label for="show_in_menu">نمایش در منو</label>
                                 <select class="form-select form-select-sm" name="show_in_menu" id="show_in_menu">
-                                    <option value="0" @if (old('show_in_menu') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('show_in_menu') == 1) selected @endif>فعال</option>
+                                    <option value="0" @selected(old('show_in_menu') == 0) >غیر فعال</option>
+                                    <option value="1" @selected(old('show_in_menu') == 1) >فعال</option>
                                 </select>
                                 @error('show_in_menu')
                                     <span class="text-danger font-size-12">
@@ -125,8 +125,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                                    <option value="0" @selected(old('status') == 0) >غیر فعال</option>
+                                    <option value="1" @selected(old('status') == 1) >فعال</option>
                                 </select>
                                 @error('status')
                                     <span class="text-danger font-size-12">

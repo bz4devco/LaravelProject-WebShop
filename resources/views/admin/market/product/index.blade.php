@@ -59,7 +59,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.market.product.status', $product->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $product->id }}" name="status" type="checkbox" @if($product->status) checked @endif >
+                                        <input data-url="{{ route('admin.market.product.status', $product->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $product->id }}" name="status" type="checkbox" @checked($product->status) >
                                         <label class="custom-switch-btn" for="{{ $product->id }}"></label>
                                     </div>
                                 </section>
@@ -67,7 +67,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.market.product.marketable', $product->id) }}" onchange="marketable(this.id)" class="custom-switch-input" id="{{ $product->id }}-marketable" name="show-in-menu" type="checkbox" @if($product->marketable) checked @endif >
+                                        <input data-url="{{ route('admin.market.product.marketable', $product->id) }}" onchange="marketable(this.id)" class="custom-switch-input" id="{{ $product->id }}-marketable" name="show-in-menu" type="checkbox" @checked($product->marketable) >
                                         <label class="custom-switch-btn" for="{{ $product->id }}-marketable"></label>
                                     </div>
                                 </section>

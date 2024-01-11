@@ -53,7 +53,7 @@ class AmazingSaleController extends Controller
 
         // store data in database
         $amazingSale->create($inputs);
-        return redirect()->route('admin.market.discount.amazing-sale.index')
+        return to_route('admin.market.discount.amazing-sale.index')
         ->with('alert-section-success', 'فروش شگفت انگیز جدید شما با موفقیت ثبت شد');    
     }
 
@@ -110,7 +110,7 @@ class AmazingSaleController extends Controller
         $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
 
         $amazingSale->update($inputs);
-        return redirect()->route('admin.market.discount.amazing-sale.index')
+        return to_route('admin.market.discount.amazing-sale.index')
         ->with('alert-section-success', 'ویرایش فروش شگغت انگیز برای کالای   '.$amazingSale->product->name.' با موفقیت انجام شد');    
     }
 
@@ -123,7 +123,7 @@ class AmazingSaleController extends Controller
    public function destroy(AmazingSale $amazingSale)
     {
         $result = $amazingSale->delete();
-        return redirect()->route('admin.market.discount.amazing-sale.index')
+        return to_route('admin.market.discount.amazing-sale.index')
         ->with('alert-section-success', ' فروش شگفت انگیز با عنوان '.$amazingSale->title.' با موفقیت حذف شد');
     }
 

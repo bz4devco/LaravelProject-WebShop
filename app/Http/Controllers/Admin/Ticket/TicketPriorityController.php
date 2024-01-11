@@ -40,7 +40,7 @@ class TicketPriorityController extends Controller
     public function store(TicketPriorityRequest $request, TicketPriority $ticketPriority)
     {
         $ticketPriority->create($request->all());
-        return redirect()->route('admin.ticket.priority.index')
+        return to_route('admin.ticket.priority.index')
         ->with('alert-section-success', 'دسته بندی جدید شما با موفقیت ایجاد شد ');
     }
 
@@ -76,7 +76,7 @@ class TicketPriorityController extends Controller
     public function update(TicketPriorityRequest $request, TicketPriority $ticketPriority)
     {
         $ticketPriority->update($request->all());
-        return redirect()->route('admin.ticket.priority.index')
+        return to_route('admin.ticket.priority.index')
         ->with('alert-section-success', 'ویرایش اولویت شماره   '.$ticketPriority['id'].' با موفقیت انجام شد');
     }
 
@@ -89,7 +89,7 @@ class TicketPriorityController extends Controller
     public function destroy(TicketPriority $ticketPriority)
     {
         $result = $ticketPriority->delete();
-        return redirect()->route('admin.ticket.priority.index')
+        return to_route('admin.ticket.priority.index')
         ->with('alert-section-success', ' اولویت شماره '.$ticketPriority->id.' با موفقیت حذف شد');
     }
 

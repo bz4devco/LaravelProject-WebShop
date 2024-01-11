@@ -64,7 +64,7 @@
                                 <select class="form-select form-select-sm" name="category_id" id="category_id">
                                 <option disabled readonly selected>دسته کالا را انتخاب کنید</option>
                                     @forelse($productCategoreis as $productCategory)
-                                    <option value="{{ $productCategory->id }}" @if (old('category_id') == $productCategory->id) selected @endif>{{ $productCategory->name }}</option>
+                                    <option value="{{ $productCategory->id }}" @selected(old('category_id') == $productCategory->id) >{{ $productCategory->name }}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>دسته ای در جدول دسته بندی ها وجود ندارد</option>
                                     @endforelse

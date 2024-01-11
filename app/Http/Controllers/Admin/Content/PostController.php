@@ -54,7 +54,7 @@ class PostController extends Controller
             $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post');
             $result = $imageservice->createIndexAndSave($request->file('image'));
             if ($result === false) {
-                return redirect()->route('admin.content.post.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.content.post.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
@@ -63,7 +63,7 @@ class PostController extends Controller
         // store data in database
         $inputs['author_id'] = 1;
         $post->create($inputs);
-        return redirect()->route('admin.content.post.index')
+        return to_route('admin.content.post.index')
             ->with('alert-section-success', 'پست جدید شما با موفقیت ثبت شد');
     }
 
@@ -116,7 +116,7 @@ class PostController extends Controller
             $result = $imageservice->createIndexAndSave($request->file('image'));
 
             if ($result === false) {
-                return redirect()->route('admin.content.post.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.content.post.index')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         } else {
@@ -131,7 +131,7 @@ class PostController extends Controller
         // dd($post);
 
         $post->update($inputs);
-        return redirect()->route('admin.content.post.index')
+        return to_route('admin.content.post.index')
             ->with('alert-section-success', 'ویرایش پست شماره   ' . $post['id'] . ' با موفقیت انجام شد');
     }
 
@@ -144,7 +144,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $result = $post->delete();
-        return redirect()->route('admin.content.post.index')
+        return to_route('admin.content.post.index')
         ->with('alert-section-success', ' دسته بندی شماره '.$post->id.' با موفقیت حذف شد');
     }
 

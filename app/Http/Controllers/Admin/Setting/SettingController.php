@@ -39,7 +39,7 @@ class SettingController extends Controller
         $default = new SettingSeeder();
         $default->run();
 
-        return redirect()->route('admin.setting.index')
+        return to_route('admin.setting.index')
         ->with('alert-section-success', 'تنظیم جدید با تنظیمات پایه ایجاد شد')
         ->with('alert-section-info', 'توجه : جهت تکمیل تنظیمات تکمیلی به ویرایش تنظیمات جدید ایجاد شده مراجعه نمایید.');
     }
@@ -77,7 +77,7 @@ class SettingController extends Controller
                 $result = $imageservice->save($request->file('icon'));
 
                 if ($result === false) {
-                    return redirect()->route('admin.setting.edit', $setting->id)->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
+                    return to_route('admin.setting.edit', $setting->id)->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
                 }
                 $inputs['icon'] = $result;
             }
@@ -92,14 +92,14 @@ class SettingController extends Controller
                 $result = $imageservice->save($request->file('logo'));
 
                 if ($result === false) {
-                    return redirect()->route('admin.setting.edit')->with('swal-error', 'آپلود لوگو با خطا مواجه شد');
+                    return to_route('admin.setting.edit')->with('swal-error', 'آپلود لوگو با خطا مواجه شد');
                 }
                 $inputs['logo'] = $result;
             }
 
 
         $setting->update($inputs);
-        return redirect()->route('admin.setting.index')
+        return to_route('admin.setting.index')
         ->with('alert-section-success', 'ویرایش تنظیمات شماره   '.$setting['id'].' با موفقیت انجام شد');
     }
 
@@ -112,7 +112,7 @@ class SettingController extends Controller
     public function destroy(Setting $setting)
     {
         $result = $setting->delete();
-        return redirect()->route('admin.setting.index')
+        return to_route('admin.setting.index')
         ->with('alert-section-success', 'تنظیمت شماره '.$setting->id.' با موفقیت حذف شد');
     }
 

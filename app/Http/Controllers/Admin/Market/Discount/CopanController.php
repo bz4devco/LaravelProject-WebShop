@@ -56,7 +56,7 @@ class CopanController extends Controller
 
         // store data in database
         $copan->create($inputs);
-        return redirect()->route('admin.market.discount.copan.index')
+        return to_route('admin.market.discount.copan.index')
         ->with('alert-section-success', 'کوپن تخفیف جدید شما با موفقیت ثبت شد');
     }
 
@@ -117,7 +117,7 @@ class CopanController extends Controller
         }
 
         $copan->update($inputs);
-        return redirect()->route('admin.market.discount.copan.index')
+        return to_route('admin.market.discount.copan.index')
         ->with('alert-section-success', 'ویرایش کوپن تخفیف با شماره شناسه   '.$copan['id'].' با موفقیت انجام شد');
     }
 
@@ -130,7 +130,7 @@ class CopanController extends Controller
     public function destroy(Copan $copan)
     {
         $result = $copan->delete();
-        return redirect()->route('admin.market.discount.copan.index')
+        return to_route('admin.market.discount.copan.index')
         ->with('alert-section-success', ' کوپن تخفیف با شماره شناشه '.$copan->id.' با موفقیت حذف شد');
     }
 

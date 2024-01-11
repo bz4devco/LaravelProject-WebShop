@@ -141,7 +141,7 @@ class TicketController extends Controller
             $inputs['status'] = 1;
 
             if($result === false){
-                return redirect()->route('admin.ticket.show', $ticket->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+                return to_route('admin.ticket.show', $ticket->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
             }
             // store data in database
             TicketFile::create($inputs);
@@ -152,7 +152,7 @@ class TicketController extends Controller
         $answer['answer_at'] = Carbon::now();
         
         $ticket->update($answer);
-        return redirect()->route('admin.ticket.index')
+        return to_route('admin.ticket.index')
         ->with('alert-section-success', ' پاسخ تیتک شما به کاربر ' . $ticket->user->full_name . ' ارسال شد');
     }
 

@@ -62,7 +62,7 @@
                                     <p><span>رنگ انتخاب شده : <span id="selected_color_name">{{$product->colors->first()->name}}</span></span></p>
                                     <p>
                                         @foreach ($product->activeColors() as $color)
-                                        <input type="radio" name="color" id="color-{{$color->id}}" class="d-none" value="{{ $color->id }}" data-color-name="{{ $color->name }}" data-product-color-price="{{ number_format($color->price_increase) }}" @if($loop->iteration == 1) checked @endif>
+                                        <input type="radio" name="color" id="color-{{$color->id}}" class="d-none" value="{{ $color->id }}" data-color-name="{{ $color->name }}" data-product-color-price="{{ number_format($color->price_increase) }}" @checked($loop->iteration == 1) >
                                         <label for="color-{{$color->id}}" style="background-color: {{$color->color ?? '#ffffff'}}; cursor: pointer;" class="product-info-colors me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="{{$color->name}}"></label>
                                         @endforeach
                                     </p>
@@ -83,7 +83,7 @@
                                         <section class="col-4 ps-0">
                                             <select name="guarantee" id="guarantee" class="form-select form-select-sm">
                                                 @foreach ( $product->activeGuarantees() as $guarantee)
-                                                <option value="{{ $guarantee->id }}" data-product-guarantee-price="{{ number_format($guarantee->price_increase) }}" @if($loop->iteration == 1) checked @endif>{{ $guarantee->name }}</option>
+                                                <option value="{{ $guarantee->id }}" data-product-guarantee-price="{{ number_format($guarantee->price_increase) }}" @checked($loop->iteration == 1) >{{ $guarantee->name }}</option>
                                                 @endforeach
                                             </select>
                                         </section>

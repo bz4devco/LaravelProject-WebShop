@@ -40,7 +40,7 @@ class MenuController extends Controller
     public function store(menuRequest $request, Menu $menu)
     {
         $menu->create($request->all());
-        return redirect()->route('admin.content.menu.index')
+        return to_route('admin.content.menu.index')
             ->with('alert-section-success', 'منوی جدید شما با موفقیت ثبت شد');    
     }
 
@@ -80,11 +80,11 @@ class MenuController extends Controller
 
         if($hasmenu->children->count() > 0)
         {
-            return redirect()->route('admin.content.menu.index')
+            return to_route('admin.content.menu.index')
             ->with('alert-section-error', ' منوی شماره ' . $menu->id . 'دارای زیر منو می باشد و تغییر والد آن برای زیر منو ها مشکل ایجاد خواهد کرد. (چند سطحی شدن منو امکان پذیر نیست)');
         }
         $menu->update($request->all());
-        return redirect()->route('admin.content.menu.index')
+        return to_route('admin.content.menu.index')
             ->with('alert-section-success', 'ویرایش منوی شماره  ' . $menu['id'] . ' با موفقیت انجام شد');    
     }
 
@@ -99,11 +99,11 @@ class MenuController extends Controller
         $hasmenu = $menu->where('id', $menu->id)->first();
         if($hasmenu->children->count() > 0)
         {
-            return redirect()->route('admin.content.menu.index')
+            return to_route('admin.content.menu.index')
             ->with('alert-section-error', ' منوی شماره ' . $menu->id . ' داری زیر منو می باشد، جهت حذف منوی انتخاب شده ابتدا زیر منوی های مربوط به این منو را حذف و یا در ویرایش اقدام به تغییر منوی والد نمایید. (این منو دارای زیر منو است و حذف آن برای زیر منوها مشکل ایجاد خواهد کرد) ');
         }
         $result = $menu->delete();
-        return redirect()->route('admin.content.menu.index')
+        return to_route('admin.content.menu.index')
             ->with('alert-section-success', ' منوی شماره ' . $menu->id . ' با موفقیت حذف شد');
     }
 

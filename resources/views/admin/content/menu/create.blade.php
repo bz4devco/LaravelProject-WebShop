@@ -63,9 +63,9 @@
                                 <label for="parent_id">منو والد</label>
                                 <select class="form-select form-select-sm" name="parent_id" id="parent_id">
                                     <option disabled selected>والد را انتخاب کنید</option>
-                                    <option value="" @if (old('parent_id') == '') selected @endif>منوی اصلی</option>
+                                    <option value="" @selected(old('parent_id') == '') >منوی اصلی</option>
                                     @forelse($menus as $menu)
-                                    <option value="{{$menu->id}}" @if (old('parent_id') == $menu->id) selected @endif>{{ $menu->name }}</option>
+                                    <option value="{{$menu->id}}" @selected(old('parent_id') == $menu->id) >{{ $menu->name }}</option>
                                     @empty
                                     <option disabled class="text-center">والدی وجود ندارد</option>
                                     @endforelse
@@ -83,8 +83,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @if (old('status')==0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('status')==1) selected @endif>فعال</option>
+                                    <option value="0" @selected(old('status')==0) >غیر فعال</option>
+                                    <option value="1" @selected(old('status')==1) >فعال</option>
                                 </select>
                                 @error('status')
                                 <span class="text-danger font-size-12">

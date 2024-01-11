@@ -48,7 +48,7 @@ class GalleryController extends Controller
             $result = $imageservice->createIndexAndSave($request->file('image'), true);
             if($result === false)
             {
-                return redirect()->route('admin.market.gallery.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+                return to_route('admin.market.gallery.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         } else {
@@ -64,7 +64,7 @@ class GalleryController extends Controller
 
         // store data in database
         $gallery = Gallery::create($inputs);
-        return redirect()->route('admin.market.product.gallery.index', $product->id)
+        return to_route('admin.market.product.gallery.index', $product->id)
         ->with('alert-section-success', 'تصویر جدید شما برای محصول با موفقیت ثبت شد');
     }
 
@@ -78,7 +78,7 @@ class GalleryController extends Controller
     public function destroy(Product $product, Gallery $gallery)
     {
         $result = $gallery->delete();
-        return redirect()->route('admin.market.product.gallery.index', $product->id)
+        return to_route('admin.market.product.gallery.index', $product->id)
         ->with('alert-section-success', ' تصویر گالری به شناسه '.$gallery->id.' این محصول با موفقیت حذف شد');
     }
 }

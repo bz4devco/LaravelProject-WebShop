@@ -39,7 +39,7 @@ class FaqController extends Controller
     public function store(FaqRequest $request, Faq $faq)
     {
         $faq->create($request->all());
-        return redirect()->route('admin.content.faq.index')
+        return to_route('admin.content.faq.index')
             ->with('alert-section-success', 'پرسش جدید شما با موفقیت ثبت شد');
     }
 
@@ -75,7 +75,7 @@ class FaqController extends Controller
     public function update(FaqRequest $request, Faq $faq)
     {
         $faq->update($request->all());
-        return redirect()->route('admin.content.faq.index')
+        return to_route('admin.content.faq.index')
             ->with('alert-section-success', 'ویرایش پرسش شماره  ' . $faq['id'] . ' با موفقیت انجام شد');
     }
 
@@ -88,7 +88,7 @@ class FaqController extends Controller
     public function destroy(Faq $faq)
     {
         $result = $faq->delete();
-        return redirect()->route('admin.content.faq.index')
+        return to_route('admin.content.faq.index')
             ->with('alert-section-success', ' پرسش شماره ' . $faq->id . ' با موفقیت حذف شد');
     }
 

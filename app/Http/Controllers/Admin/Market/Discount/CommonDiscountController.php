@@ -52,7 +52,7 @@ class CommonDiscountController extends Controller
 
         // store data in database
         $commonDiscount->create($inputs);
-        return redirect()->route('admin.market.discount.common-discount.index')
+        return to_route('admin.market.discount.common-discount.index')
         ->with('alert-section-success', 'تخفیف عمومی جدید شما با موفقیت ثبت شد');
     }
 
@@ -106,7 +106,7 @@ class CommonDiscountController extends Controller
         $inputs['end_date'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
 
         $commonDiscount->update($inputs);
-        return redirect()->route('admin.market.discount.common-discount.index')
+        return to_route('admin.market.discount.common-discount.index')
         ->with('alert-section-success', 'ویرایش تخفیف عمومی با عنوان   '.$commonDiscount['title'].' با موفقیت انجام شد');
     }
 
@@ -119,7 +119,7 @@ class CommonDiscountController extends Controller
     public function destroy(CommonDiscount $commonDiscount)
     {
         $result = $commonDiscount->delete();
-        return redirect()->route('admin.market.discount.common-discount.index')
+        return to_route('admin.market.discount.common-discount.index')
         ->with('alert-section-success', ' تخفیف عمومی با عنوان '.$commonDiscount->title.' با موفقیت حذف شد');
     }
 

@@ -39,7 +39,7 @@ class TicketCategoryController extends Controller
     public function store(TicketCategoryRequest $request, TicketCategory $ticketCategory)
     {
         $ticketCategory->create($request->all());
-        return redirect()->route('admin.ticket.category.index')
+        return to_route('admin.ticket.category.index')
         ->with('alert-section-success', 'دسته بندی جدید شما با موفقیت ایجاد شد ');
     }
 
@@ -75,7 +75,7 @@ class TicketCategoryController extends Controller
     public function update(TicketCategoryRequest $request, TicketCategory $ticketCategory)
     {
         $ticketCategory->update($request->all());
-        return redirect()->route('admin.ticket.category.index')
+        return to_route('admin.ticket.category.index')
         ->with('alert-section-success', 'ویرایش دسته بندی شماره   '.$ticketCategory['id'].' با موفقیت انجام شد');
     }
 
@@ -88,7 +88,7 @@ class TicketCategoryController extends Controller
     public function destroy(TicketCategory $ticketCategory)
     {
         $result = $ticketCategory->delete();
-        return redirect()->route('admin.ticket.category.index')
+        return to_route('admin.ticket.category.index')
         ->with('alert-section-success', ' دسته بندی شماره '.$ticketCategory->id.' با موفقیت حذف شد');
     }
 

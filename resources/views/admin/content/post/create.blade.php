@@ -54,7 +54,7 @@
                                 <select class="form-select form-select-sm" name="category_id" id="category_id">
                                     <option disabled selected>دسته را انتخاب کنید</option>
                                     @foreach($categorys as $category)
-                                    <option value="{{ $category->id }}" @if(old('category_id') == $category->id) selected @endif>{{ $category->name}}</option>
+                                    <option value="{{ $category->id }}" @selected(old('category_id') == $category->id) >{{ $category->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('category_id')
@@ -133,8 +133,8 @@
                             <div class="form-group mb-3">
                                 <label for="commentable">امکان درج نظر</label>
                                 <select class="form-select form-select-sm" name="commentable" id="commentable">
-                                    <option value="0" @if (old('commentable') == 0) selected @endif>غیر فعال</option>
-                                    <option value="1" @if (old('commentable') == 1) selected @endif>فعال</option>
+                                    <option value="0" @selected(old('commentable') == 0) >غیر فعال</option>
+                                    <option value="1" @selected(old('commentable') == 1) >فعال</option>
                                 </select> 
                                 @error('commentable')
                                     <span class="text-danger font-size-12">
@@ -151,8 +151,8 @@
                                     <div class="form-group mb-3">
                                         <label for="status">وضعیت</label>
                                         <select class="form-select form-select-sm" name="status" id="status">
-                                            <option value="0" @if (old('status') == 0) selected @endif>غیر فعال</option>
-                                            <option value="1" @if (old('status') == 1) selected @endif>فعال</option>
+                                            <option value="0" @selected(old('status') == 0) >غیر فعال</option>
+                                            <option value="1" @selected(old('status') == 1) >فعال</option>
                                         </select>
                                         @error('status')
                                             <span class="text-danger font-size-12">

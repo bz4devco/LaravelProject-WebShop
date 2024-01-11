@@ -42,7 +42,7 @@ class PropertyController extends Controller
     {
         $inputs = $request->all();
         $category_attribute = CategoryAttribute::create($inputs);
-        return redirect()->route('admin.market.property.index')
+        return to_route('admin.market.property.index')
         ->with('alert-section-success', 'فرم کالای جدید شما با موفقیت ثبت شد');
     }
 
@@ -86,7 +86,7 @@ class PropertyController extends Controller
     
         $result  = $categoryAttribute->update($inputs);
 
-        return redirect()->route('admin.market.property.index')
+        return to_route('admin.market.property.index')
         ->with('alert-section-success', ' ویرایش فرم کالا شماره '.$categoryAttribute->id.' با موفقیت انجام شد');
     }
 
@@ -99,7 +99,7 @@ class PropertyController extends Controller
     public function destroy(CategoryAttribute $categoryAttribute)
     {
         $result = $categoryAttribute->delete();
-        return redirect()->route('admin.market.property.index')
+        return to_route('admin.market.property.index')
         ->with('alert-section-success', ' فرم کالا شماره'.$categoryAttribute->id.' با موفقیت حذف شد');
     }
 }

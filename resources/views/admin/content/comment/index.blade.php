@@ -80,7 +80,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.content.comment.status', $comment->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $comment->id }}" name="status" type="checkbox" @if($comment->status) checked @endif >
+                                        <input data-url="{{ route('admin.content.comment.status', $comment->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $comment->id }}" name="status" type="checkbox" @checked($comment->status) >
                                         <label class="custom-switch-btn" for="{{ $comment->id }}"></label>
                                     </div>
                                 </section>

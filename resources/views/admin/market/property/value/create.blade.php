@@ -39,7 +39,7 @@
                                 <select class="form-select form-select-sm" name="product_id" id="product_id">
                                 <option disabled readonly selected>محصول را انتخاب کنید</option>
                                     @forelse($categoryAttribute->category->products as $product)
-                                    <option value="{{ $product->id }}" @if (old('product_id') == $product->id) selected @endif>{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}" @selected(old('product_id') == $product->id) >{{ $product->name }}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>دسته ای در جدول دسته بندی ها وجود ندارد</option>
                                     @endforelse
@@ -86,8 +86,8 @@
                             <div class="form-group mb-3">
                                 <label for="type">نوع</label>
                                 <select class="form-select form-select-sm" name="type" id="type">
-                                    <option value="0" @if (old('type') == 0) selected @endif>ساده</option>
-                                    <option value="1" @if (old('type') == 1) selected @endif>انتخابی</option>
+                                    <option value="0" @selected(old('type') == 0) >ساده</option>
+                                    <option value="1" @selected(old('type') == 1) >انتخابی</option>
                                 </select>
                                 @error('type')
                                     <span class="text-danger font-size-12">

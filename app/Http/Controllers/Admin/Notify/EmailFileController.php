@@ -58,7 +58,7 @@ class EmailFileController extends Controller
             $inputs['file_type'] = $fileFormat;
 
             if($result === false){
-                return redirect()->route('admin.notify.email-file.create', $email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+                return to_route('admin.notify.email-file.create', $email->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
             }
         }
 
@@ -66,7 +66,7 @@ class EmailFileController extends Controller
 
         // store data in database
         $email_file->create($inputs);
-        return redirect()->route('admin.notify.email-file.index', $email->id)
+        return to_route('admin.notify.email-file.index', $email->id)
         ->with('alert-section-success', 'فایل جدید شما با موفقیت ثبت شد');
     }
     /**
@@ -128,13 +128,13 @@ class EmailFileController extends Controller
             $inputs['file_type'] = $fileFormat;
 
             if($result === false){
-                return redirect()->route('admin.notify.email-file.create', $file->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
+                return to_route('admin.notify.email-file.create', $file->id)->with('swal-error', 'آپلود فایل با خطا مواجه شد');
             }
         }
 
         $file->update($inputs);
 
-        return redirect()->route('admin.notify.email-file.index', $file->email->id)
+        return to_route('admin.notify.email-file.index', $file->email->id)
         ->with('alert-section-success', 'ویرایش فایل   '.$file->email->subject.' با موفقیت انجام شد');
     }
 
@@ -147,7 +147,7 @@ class EmailFileController extends Controller
     public function destroy(EmailFile $file)
     {
         $result = $file->delete();
-        return redirect()->route('admin.notify.email-file.index', $file->public_mail_id)
+        return to_route('admin.notify.email-file.index', $file->public_mail_id)
         ->with('alert-section-success', ' فایل شماره'.$file->id.' با موفقیت حذف شد');
     }
 

@@ -62,7 +62,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.content.banner.status', $banner->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $banner->id }}" name="status" type="checkbox" @if($banner->status) checked @endif >
+                                        <input data-url="{{ route('admin.content.banner.status', $banner->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $banner->id }}" name="status" type="checkbox" @checked($banner->status == 1) >
                                         <label class="custom-switch-btn" for="{{ $banner->id }}"></label>
                                     </div>
                                 </section>

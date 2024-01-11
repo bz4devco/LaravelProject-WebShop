@@ -41,7 +41,7 @@ class PageController extends Controller
         $inputs = $request->all();
         $inputs['slug'] = trim(str_replace(' ', '-' , 'slug'));
         $page->create($inputs);
-        return redirect()->route('admin.content.page.index')
+        return to_route('admin.content.page.index')
         ->with('alert-section-success', 'پیج جدید شما با موفقیت ثبت شد');
     }
     /**
@@ -76,7 +76,7 @@ class PageController extends Controller
     public function update(PageRequest $request, Page $page)
     {
         $page->update($request->all());
-        return redirect()->route('admin.content.page.index')
+        return to_route('admin.content.page.index')
         ->with('alert-section-success', 'ویرایش پیج شماره  '.$page['id'].' با موفقیت انجام شد');
     }
 
@@ -89,7 +89,7 @@ class PageController extends Controller
     public function destroy(Page $page)
     {
         $result = $page->delete();
-        return redirect()->route('admin.content.page.index')
+        return to_route('admin.content.page.index')
         ->with('alert-section-success', ' پیج شماره '.$page->id.' با موفقیت حذف شد');    
     }
 

@@ -58,7 +58,7 @@
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.market.discount.common-discount.status', $commonDiscount->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $commonDiscount->id }}" name="status" type="checkbox" @if($commonDiscount->status) checked @endif >
+                                        <input data-url="{{ route('admin.market.discount.common-discount.status', $commonDiscount->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $commonDiscount->id }}" name="status" type="checkbox" @checked($commonDiscount->status) >
                                         <label class="custom-switch-btn" for="{{ $commonDiscount->id }}"></label>
                                     </div>
                                 </section>
