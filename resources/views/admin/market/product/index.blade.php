@@ -49,13 +49,13 @@
                     <tbody>
                         @forelse($products as $product)    
                         <tr class="align-middle">
-                            <th>{{$product->id}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td class="text-truncate" style="max-width: 120px;" title="{{$product->name}}">{{$product->name}}</td>
                             <td>
-                                <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}" width="50" height="50" alt="{{ $product->name }}">
+                                <img src="{{ hasFileUpload($product->image['indexArray'][$product->image['currentImage']]) }}" width="50" height="50" alt="{{ $product->name }}">
                             </td>
                             <td><span>{{number_format($product->price)}}<span>تومان</span></span></td>
-                            <td>{{$product->category->parent->name ?? '-'}}</td>
+                            <td>{{$product->category->name ?? '-'}}</td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -96,6 +96,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $products->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

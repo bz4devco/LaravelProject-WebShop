@@ -1,7 +1,9 @@
 @extends('customer.layouts.master-two-col')
 
 @section('haed-tag')
-<title></title>
+<meta name="robots" content="noindex, nofollow">
+
+<title>سفارش های من | {{$setting->title}}</title>
 @endsection
 
 @section('content')
@@ -49,7 +51,9 @@
                     <section class="order-item-status"><i class="fa fa-clock"></i> {{$order->paymentStatusValue}} </section>
                     <section class="order-item-products">
                         @foreach($order->orderItems as $orderItem)
-                        <a target="_blank" href="{{ route('customer.market.product', $orderItem->sengleProduct) }}"><img src="{{ asset($orderItem->sengleProduct->image['indexArray'][$orderItem->sengleProduct->image['currentImage']]) }}" alt="{{$orderItem->sengleProduct->name}}"></a>
+                        <a target="_blank" href="{{ route('customer.market.product', json_decode($orderItem->products)->id) }}">
+                            <img src="{{ hasFileUpload(json_decode($orderItem->products)->image->indexArray->small) }}">
+                        </a>
                         @endforeach
                     </section>
                 </section>

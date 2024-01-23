@@ -50,7 +50,7 @@
                     <tbody>
                         @forelse($categoryAttribute->values as $value)    
                         <tr class="align-middle">
-                            <th>{{ $loop->iteration }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $categoryAttribute->name }}</td>
                             <td class="text-truncate" style="max-width: 150px;">{{ $value->product->name }}</td>
                             <td>{{ json_decode($value->value)->value }}</td>
@@ -72,6 +72,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $categoryAttribute->values()->paginate(15)->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

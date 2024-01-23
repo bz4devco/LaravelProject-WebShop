@@ -45,7 +45,7 @@
                     <tbody>
                         @forelse($payments as $payment)    
                         <tr class="align-middle">
-                            <th>{{$loop->iteration}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$payment->paymentable->transaction_id ?? 'بدون کد تراکنش'}}</td>
                             <td>{{$payment->paymentable->gateway ?? '-'}}</td>
                             <td>{{$payment->user->fullname}}</td>
@@ -64,6 +64,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $payments->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

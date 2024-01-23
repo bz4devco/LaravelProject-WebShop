@@ -17,7 +17,7 @@ class AmazingSaleController extends Controller
      */
     public function index()
     {
-        $amazingSales = AmazingSale::orderBy('created_at', 'desc')->simplePaginate(15);
+        $amazingSales = AmazingSale::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.discount.amazing-sale.index', compact('amazingSales'));
     }
 
@@ -141,9 +141,9 @@ class AmazingSaleController extends Controller
 
         if($result){
             if($amazingSale->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $amazingSale->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $amazingSale->title]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $amazingSale->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $amazingSale->title]);
             }
         }else{
             return response()->json(['status' => false]);

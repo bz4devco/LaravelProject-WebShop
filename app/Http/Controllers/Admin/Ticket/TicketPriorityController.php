@@ -17,7 +17,7 @@ class TicketPriorityController extends Controller
      */
     public function index()
     {
-        $ticketPriorities = TicketPriority::orderBy('created_at', 'desc')->simplePaginate(15);
+        $ticketPriorities = TicketPriority::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.ticket.priority.index', compact('ticketPriorities'));
     }
 
@@ -77,7 +77,7 @@ class TicketPriorityController extends Controller
     {
         $ticketPriority->update($request->all());
         return to_route('admin.ticket.priority.index')
-        ->with('alert-section-success', 'ویرایش اولویت شماره   '.$ticketPriority['id'].' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش اولویت با عنوان   '.$ticketPriority['name'].' با موفقیت انجام شد');
     }
 
     /**
@@ -90,7 +90,7 @@ class TicketPriorityController extends Controller
     {
         $result = $ticketPriority->delete();
         return to_route('admin.ticket.priority.index')
-        ->with('alert-section-success', ' اولویت شماره '.$ticketPriority->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' اولویت با عنوان '.$ticketPriority->name.' با موفقیت حذف شد');
     }
 
         /**
@@ -108,9 +108,9 @@ class TicketPriorityController extends Controller
 
         if($result){
             if($ticketPriority->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $ticketPriority->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $ticketPriority->name]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $ticketPriority->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $ticketPriority->name]);
             }
         }else{
             return response()->json(['status' => false]);

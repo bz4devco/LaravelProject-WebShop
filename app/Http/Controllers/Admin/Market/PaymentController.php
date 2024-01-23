@@ -15,7 +15,7 @@ class PaymentController extends Controller
      */
     public function total()
     {
-        $payments = Payment::orderBy('created_at', 'desc')->simplePaginate(15);
+        $payments = Payment::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.payment.total-payment', compact('payments'));
     }
 
@@ -27,7 +27,7 @@ class PaymentController extends Controller
      */
     public function online()
     {
-        $payments = Payment::where('paymentable_type', 'App\Models\Market\OnlinePayment')->orderBy('created_at', 'desc')->simplePaginate(15);
+        $payments = Payment::where('paymentable_type', 'App\Models\Market\OnlinePayment')->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.payment.online-payment', compact('payments'));
     }
 
@@ -38,7 +38,7 @@ class PaymentController extends Controller
      */
     public function offline()
     {
-        $payments = Payment::where('paymentable_type', 'App\Models\Market\OfflinePayment')->orderBy('created_at', 'desc')->simplePaginate(15);
+        $payments = Payment::where('paymentable_type', 'App\Models\Market\OfflinePayment')->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.payment.offline-payment', compact('payments'));
     }
 
@@ -49,7 +49,7 @@ class PaymentController extends Controller
      */
     public function cash()
     {
-        $payments = Payment::where('paymentable_type', 'App\Models\Market\CashPayment')->orderBy('created_at', 'desc')->simplePaginate(15);
+        $payments = Payment::where('paymentable_type', 'App\Models\Market\CashPayment')->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.payment.cash-payment', compact('payments'));
     }
   

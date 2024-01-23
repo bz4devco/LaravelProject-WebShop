@@ -18,7 +18,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->simplePaginate(15);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.content.post.index', compact('posts'));
     }
 
@@ -66,6 +66,31 @@ class PostController extends Controller
         return to_route('admin.content.post.index')
             ->with('alert-section-success', 'پست جدید شما با موفقیت ثبت شد');
     }
+
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadImagesCkeditor(Request $request, ImageService $imageService)
+    {
+        $request->validate([
+            'upload' => 'sometimes|required|max:10240|image|mimes:png,jpg,jpeg,gif,ico,svg,webp'
+        ]);
+        // image Upload
+        if ($request->hasFile('upload')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'post-body');
+            $url = $imageService->save($request->file('upload'));
+            $url = str_replace('\\', '/', $url);
+            $url = asset($url);
+
+            return "<script>window.parent.CKEDITOR.tools.callFunction(1, '{$url}' , '')</script>";
+        }
+    }
+
 
     /**
      * Display the specified resource.
@@ -132,7 +157,7 @@ class PostController extends Controller
 
         $post->update($inputs);
         return to_route('admin.content.post.index')
-            ->with('alert-section-success', 'ویرایش پست شماره   ' . $post['id'] . ' با موفقیت انجام شد');
+            ->with('alert-section-success', 'ویرایش پست با عنوان   ' . $post['title'] . ' با موفقیت انجام شد');
     }
 
     /**
@@ -145,7 +170,7 @@ class PostController extends Controller
     {
         $result = $post->delete();
         return to_route('admin.content.post.index')
-        ->with('alert-section-success', ' دسته بندی شماره '.$post->id.' با موفقیت حذف شد');
+            ->with('alert-section-success', ' دسته بندی با عنوان ' . $post->title . ' با موفقیت حذف شد');
     }
 
     /**
@@ -162,9 +187,9 @@ class PostController extends Controller
 
         if ($result) {
             if ($post->status == 0) {
-                return response()->json(['status' => true, 'checked' => false, 'id' => $post->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $post->title]);
             } else {
-                return response()->json(['status' => true, 'checked' => true, 'id' => $post->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $post->title]);
             }
         } else {
             return response()->json(['status' => false]);

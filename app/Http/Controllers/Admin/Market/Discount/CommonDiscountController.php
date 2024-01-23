@@ -16,7 +16,7 @@ class CommonDiscountController extends Controller
      */
     public function index()
     {
-        $commonDiscounts = CommonDiscount::orderBy('created_at', 'desc')->simplePaginate(15);
+        $commonDiscounts = CommonDiscount::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.discount.common-discount.index', compact('commonDiscounts'));
     }
 
@@ -137,9 +137,9 @@ class CommonDiscountController extends Controller
 
         if($result){
             if($commonDiscount->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $commonDiscount->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $commonDiscount->title]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $commonDiscount->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $commonDiscount->title]);
             }
         }else{
             return response()->json(['status' => false]);

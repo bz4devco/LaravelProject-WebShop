@@ -5,12 +5,25 @@ $(document).ready(function () {
             $(".search-result").removeClass("visually-hidden");
             $(".search-box").addClass("search-box-active");
         })
-        .add(".search-result")
+        .add(".search-box")
         .focusout(function () {
-            if (!$(".search-result").is(":focus")) {
+            setTimeout(() => {
                 $(".search-result").addClass("visually-hidden");
                 $(".search-box").removeClass("search-box-active");
-            }
+            }, "200");
+        });
+
+    $("#search-mobile")
+        .focusin(function () {
+            $(".search-result").removeClass("visually-hidden");
+            $(".search-box").addClass("search-box-active");
+        })
+        .add(".search-result")
+        .focusout(function () {
+            setTimeout(() => {
+                $(".search-result").addClass("visually-hidden");
+                $(".search-box").removeClass("search-box-active");
+            }, "200");
         });
 });
 //end search
@@ -91,19 +104,6 @@ $(document).ready(function () {
         animateIn: "fadeIn",
         items: 5,
     });
-
-    // $(".owl-carousel").owlCarousel({
-    //     rtl:true,
-    //     loop:true,
-    //     margin:0,
-    //     nav:false,
-    //     autoplay:true,
-    //     autoplayTimeout:5000,
-    //     autoplayHoverPause:true,
-    //     animateOut: 'fadeOut',
-    //     animateIn: 'fadeIn',
-    //     items: 1
-    // });
 });
 //end owlcarousel
 
@@ -157,35 +157,34 @@ $(document).ready(function () {
 
 //start address
 $(document).ready(function () {
-    $('input[name="addaddress_idress"]').change(function () {
-        var address = $('input[name="address_id"]').is(":checked");
-        var delivery_type = $('input[name="delivery_id"]').is(":checked");
+    selectedInputsAddress();
 
-        if (address == true && delivery_type == true) {
-            $("#address-button").removeClass("d-block");
-            $("#address-button").addClass("d-none");
-            $("#next-level").removeClass("d-none");
-            $("#next-level").addClass("d-block");
-        }
+    $('input[name="address_id"]').change(function () {
+        selectedInputsAddress();
     });
 
     $('input[name="delivery_id"]').change(function () {
-        var address = $('input[name="address_id"]').is(":checked");
-        var delivery_type = $('input[name="delivery_id"]').is(":checked");
-
-        if (address == true && delivery_type == true) {
-            $("#address-button").removeClass("d-block");
-            $("#address-button").addClass("d-none");
-            $("#next-level").removeClass("d-none");
-            $("#next-level").addClass("d-block");
-        }
+        selectedInputsAddress();
     });
 });
+
+function selectedInputsAddress() {
+    var address = $('input[name="address_id"]').is(":checked");
+    var delivery_type = $('input[name="delivery_id"]').is(":checked");
+
+    if (address == true && delivery_type == true) {
+        $("#address-button").removeClass("d-block");
+        $("#address-button").addClass("d-none");
+        $("#next-level").removeClass("d-none");
+        $("#next-level").addClass("d-block");
+    }
+}
 //end address
 
 //start payment
 $(document).ready(function () {
     isCheckedPaymentType();
+
     $('input[name="payment_type"]').change(function () {
         isCheckedPaymentType();
     });
@@ -222,21 +221,15 @@ $(document).ready(function () {
             $(".sidebar-nav-sub-wrapper").slideUp();
             $header.find("i").addClass("rotate-angle-left-90-degrees");
             $content.slideToggle(400);
-        }
-    });
 
-    $(".sidebar-nav-sub-item-title").click(function () {
-        $subHeader = $(this);
-        $subContent = $subHeader.next();
-
-        if ($subContent.is(":visible")) {
-            $subHeader.find("i").removeClass("rotate-angle-left-90-degrees");
-            $subContent.slideUp();
-        } else {
-            $(".sidebar-nav-sub-item-title i").removeClass(
-                "rotate-angle-left-90-degrees"
+            console.log(
+                $content.children().find(".sidebar-nav-sub-item-title")
             );
-            $(".sidebar-nav-sub-sub-wrapper").slideUp();
+            $subHeader = $content
+                .children()
+                .find(".sidebar-nav-sub-item-title");
+            $subContent = $subHeader.next();
+
             $subHeader.find("i").addClass("rotate-angle-left-90-degrees");
             $subContent.slideToggle(400);
         }
@@ -261,7 +254,7 @@ $(document).ready(function () {
 });
 //end filter
 
-//start product introduction, features and comment
+//start product introduction, features and comment nav to fixed on scroll
 $(document).ready(function () {
     var s = $("#introduction-features-comments");
 
@@ -278,7 +271,7 @@ $(document).ready(function () {
         });
     }
 });
-//end product introduction, features and comment
+//end product introduction, features and comment nav to fixed on scroll
 
 //start scroll sticky header
 $(document).ready(function () {

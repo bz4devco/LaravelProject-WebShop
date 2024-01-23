@@ -16,7 +16,7 @@ class FaqController extends Controller
      */
     public function index()
     {
-        $faqs = Faq::orderBy('created_at', 'desc')->simplePaginate(15);
+        $faqs = Faq::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.content.faq.index', compact('faqs'));
     }
 
@@ -76,7 +76,7 @@ class FaqController extends Controller
     {
         $faq->update($request->all());
         return to_route('admin.content.faq.index')
-            ->with('alert-section-success', 'ویرایش پرسش شماره  ' . $faq['id'] . ' با موفقیت انجام شد');
+            ->with('alert-section-success', 'ویرایش پرسش  ' . $faq['qusetion'] . ' با موفقیت انجام شد');
     }
 
     /**
@@ -89,7 +89,7 @@ class FaqController extends Controller
     {
         $result = $faq->delete();
         return to_route('admin.content.faq.index')
-            ->with('alert-section-success', ' پرسش شماره ' . $faq->id . ' با موفقیت حذف شد');
+            ->with('alert-section-success', ' پرسش  ' . $faq->qusetion . ' با موفقیت حذف شد');
     }
 
     /**
@@ -106,9 +106,9 @@ class FaqController extends Controller
 
         if ($result) {
             if ($faq->status == 0) {
-                return response()->json(['status' => true, 'checked' => false, 'id' => $faq->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $faq->qusetion]);
             } else {
-                return response()->json(['status' => true, 'checked' => true, 'id' => $faq->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $faq->qusetion]);
             }
         } else {
             return response()->json(['status' => false]);

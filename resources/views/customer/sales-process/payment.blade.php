@@ -2,8 +2,9 @@
 
 @section('haed-tag')
 <link rel="stylesheet" href="{{ asset('customer-assets/css/payment.css') }}">
+<meta name="robots" content="index, nofollow">
 
-<title></title>
+<title>پرداخت | {{$setting->title}}</title>
 @endsection
 
 @section('content')

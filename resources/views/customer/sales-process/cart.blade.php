@@ -2,7 +2,9 @@
 
 @section('haed-tag')
 <link rel="stylesheet" href="{{ asset('customer-assets/css/cart.css') }}">
-<title></title>
+<meta name="robots" content="index, nofollow">
+
+<title>سبد خرید | {{$setting->title}}</title>
 @endsection
 
 @section('content')
@@ -17,9 +19,7 @@
                         <h2 class="content-header-title">
                             <span>سبد خرید شما</span>
                         </h2>
-                        <section class="content-header-link">
-                            <!--<a href="#">مشاهده همه</a>-->
-                        </section>
+
                     </section>
                 </section>
 
@@ -44,7 +44,7 @@
 
                                 <section class="cart-item d-md-flex py-3">
                                     <section class="cart-img align-self-start flex-shrink-1">
-                                        <img src="{{ asset($cartItem->product->image['indexArray'][$cartItem->product->image['currentImage']]) }}" alt="{{$cartItem->product->name}}">
+                                        <img src="{{ hasFileUpload($cartItem->product->image['indexArray'][$cartItem->product->image['currentImage']]) }}" alt="{{$cartItem->product->name}}">
                                     </section>
                                     <section class="align-self-start w-100">
                                         <p class="fw-bold">{{ $cartItem->product->name }}</p>
@@ -137,9 +137,6 @@
                             <h2 class="content-header-title">
                                 <span>کالاهای مرتبط با سبد خرید شما</span>
                             </h2>
-                            <section class="content-header-link">
-                                <!--<a href="#">مشاهده همه</a>-->
-                            </section>
                         </section>
                     </section>
                     <!-- start vontent header -->
@@ -167,11 +164,11 @@
                                         <!-- end product add to favorite button -->
 
                                         <!-- start product show detail link -->
-                                        <a class="product-link" href="{{ route('customer.market.product', $relatedProduct) }}">
+                                        <a class="product-link"  target="_blank" href="{{ route('customer.market.product', $relatedProduct) }}">
 
                                             <!-- start product image section -->
                                             <section class="product-image">
-                                                <img class="" src="{{ asset($relatedProduct->image['indexArray'][$relatedProduct->image['currentImage']]) }}" alt="{{$relatedProduct->name}}">
+                                                <img class="" src="{{ hasFileUpload($relatedProduct->image['indexArray'][$relatedProduct->image['currentImage']]) }}" alt="{{$relatedProduct->name}}">
                                             </section>
                                             <!-- end product image section -->
 

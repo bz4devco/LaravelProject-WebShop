@@ -2,19 +2,23 @@
 
 namespace App\Models\Market;
 
-use App\Models\User;
 use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Nagy\LaravelRating\Traits\Rateable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable;
+    use HasFactory, SoftDeletes, Sluggable, Rateable;
 
     // for cast database object to array & array to object
-    protected $casts = ['image' => 'array'];
+    protected $casts = [
+        'image' => 'array',
+        'related_product' => 'array'
+    ];
 
     // for save to table slug feild for send slug to route products
     public function sluggable(): array
@@ -28,7 +32,9 @@ class Product extends Model
 
 
     protected $fillable = [
-        'name', 'introduction', 'image', 'weight', 'length', 'width', 'height', 'price', 'sold_number', 'frozen_number', 'status', 'tags', 'marketable', 'marketable_number', 'brand_id', 'category_id', 'published_at'
+        'name', 'introduction', 'image', 'weight', 'length', 'width',
+        'height', 'price', 'sold_number', 'frozen_number', 'status', 'tags', 'marketable',
+        'marketable_number', 'brand_id', 'category_id', 'published_at', 'related_product'
     ];
 
     //////////////////////////////////////////////
@@ -88,6 +94,11 @@ class Product extends Model
     public function users()
     {
         return $this->belongsToMany('App\Models\User');
+    }
+
+    public function compares() 
+    {
+        return $this->belongsToMany('App\Models\Market\Compare');
     }
 
     /////////////////////////////////////////////////////////////

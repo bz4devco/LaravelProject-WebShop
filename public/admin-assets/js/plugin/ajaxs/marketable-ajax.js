@@ -11,14 +11,14 @@ function marketable(id) {
                 if (response.checked) {
                     element.prop("checked", true);
                     successToast(
-                        "فیلد شماره " +
+                        "محصول " +
                             response.id +
                             " با موفقیت در وضعیت قابل فروش بودن قرار گرفته است"
                     );
                 } else {
                     element.prop("checked", false);
                     successToast(
-                        "فیلد شماره " +
+                        "محصول " +
                             response.id +
                             " با موفقیت در وضعیت غیر قابل فروش قرار گرفته است"
                     );

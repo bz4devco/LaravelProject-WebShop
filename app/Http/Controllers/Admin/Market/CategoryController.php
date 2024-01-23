@@ -17,7 +17,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $productCategorys = ProductCategory::orderBy('created_at', 'desc')->simplePaginate(15);
+        $productCategorys = ProductCategory::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.category.index', compact('productCategorys'));
     }
 
@@ -126,7 +126,7 @@ class CategoryController extends Controller
 
         $productCategory->update($inputs);
         return to_route('admin.market.category.index')
-        ->with('alert-section-success', 'ویرایش دسته بندی شماره   '.$productCategory['id'].' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش دسته بندی با عنوان   '.$productCategory['name'].' با موفقیت انجام شد');
     }
 
     /**
@@ -139,7 +139,7 @@ class CategoryController extends Controller
     {
         $result = $productCategory->delete();
         return to_route('admin.market.category.index')
-        ->with('alert-section-success', ' دسته بندی شماره '.$productCategory->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' دسته بندی با عنوان '.$productCategory->name.' با موفقیت حذف شد');
     }
 
         /**
@@ -156,9 +156,9 @@ class CategoryController extends Controller
 
         if($result){
             if($productCategory->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $productCategory->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $productCategory->name]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $productCategory->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $productCategory->name]);
             }
         }else{
             return response()->json(['status' => false]);

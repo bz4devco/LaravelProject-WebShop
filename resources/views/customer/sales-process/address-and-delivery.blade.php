@@ -1,9 +1,10 @@
 @extends('customer.layouts.master-one-col')
 
 @section('haed-tag')
+<meta name="robots" content="index, nofollow">
 <link rel="stylesheet" href="{{ asset('customer-assets/css/address.css') }}">
 
-<title></title>
+<title>انتخاب آدرس و نحوه ارسال | {{$setting->title}}</title>
 @endsection
 
 @section('content')
@@ -70,7 +71,6 @@
                                         <span class="address-selected">کالاها به این آدرس ارسال می شوند</span>
                                     </label>
                                     @endforeach
-
                                     <section class="address-add-wrapper">
                                         <button class="address-add-button" type="button" data-bs-toggle="modal" data-bs-target="#add-address"><i class="fa fa-plus"></i> ایجاد آدرس جدید</button>
 

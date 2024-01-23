@@ -16,9 +16,9 @@ class ImageService extends ImageToolsService
         $this->provider();
 
         //save image
-        if($this->getImageFormat() == 'svg'){
+        if ($this->getImageFormat() == 'svg' || $this->getImageFormat() == 'gif') {
             $result = $image->move($this->getFinalImageDirectory(), $this->getFinalImageName());
-        }else{
+        } else {
             $result = Image::make($image->getRealPath())->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
         }
         return $result ? $this->getImageAddress() : false;
@@ -27,91 +27,87 @@ class ImageService extends ImageToolsService
 
     public function fitAndSave($image, $width = 300, $height = 300)
     {
-         //set image
-         $this->setImage($image);
-         //execute provider
-         $this->provider();
+        //set image
+        $this->setImage($image);
+        //execute provider
+        $this->provider();
 
-         //save image
-        if($this->getImageFormat() == 'svg'){
+        //save image
+        if ($this->getImageFormat() == 'svg') {
             $result = $image->move($this->getFinalImageDirectory(), $this->getFinalImageName());
-        }else{
+        } else {
             $result = Image::make($image->getRealPath())->fit($width, $height)->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
         }
-         return $result ? $this->getImageAddress() : false;
+        return $result ? $this->getImageAddress() : false;
     }
 
     public function createIndexAndSave($image, $isSquareSize = null)
     {
-            //get data from config
-            if($isSquareSize){
-                $imageSizes = Config::get('image.square-image-sizes');
-            }else{
-                $imageSizes = Config::get('image.index-image-sizes');
+        //get data from config
+        if ($isSquareSize) {
+            $imageSizes = Config::get('image.square-image-sizes');
+        } else {
+            $imageSizes = Config::get('image.index-image-sizes');
+        }
+        //set image
+        $this->setImage($image);
+
+        //set directory
+        $this->getImageDirectory() ?? $this->setImageDirectory(date("Y") . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
+        $this->setImageDirectory($this->getImageDirectory() . DIRECTORY_SEPARATOR . time());
+
+        //set name
+        $this->getImageName() ?? $this->setImageName(time());
+        $imageName = $this->getImageName();
+
+
+        $indexArray = [];
+
+        if ($image->getClientOriginalExtension() == 'svg') {
+
+            $this->setImageName($imageName);
+            //execute provider
+            $this->provider();
+
+            $result = $image->move($this->getFinalImageDirectory(), $this->getFinalImageName());
+            if ($result) {
+                $indexArray['medium'] = $this->getImageAddress();
+                $images['indexArray'] = $indexArray;
+                $images['directory'] = $this->getFinalImageDirectory();
+                $images['currentImage'] = 'medium';
+                return $images;
+            } else {
+                return false;
             }
-            //set image
-            $this->setImage($image);
+        } else {
+            foreach ($imageSizes as $sizeAlias => $imageSize) {
 
-            //set directory
-            $this->getImageDirectory() ?? $this->setImageDirectory(date("Y") . DIRECTORY_SEPARATOR . date('m') . DIRECTORY_SEPARATOR . date('d'));
-            $this->setImageDirectory($this->getImageDirectory() . DIRECTORY_SEPARATOR . time());
+                //create and set this size name
+                $currentImageName = $imageName . '_' . $sizeAlias;
+                $this->setImageName($currentImageName);
 
-            //set name
-            $this->getImageName() ?? $this->setImageName(time());
-            $imageName = $this->getImageName();
-
-
-            $indexArray = [];
-   
-            if($image->getClientOriginalExtension() == 'svg'){
-
-                $this->setImageName($imageName);
                 //execute provider
                 $this->provider();
 
-                $result = $image->move($this->getFinalImageDirectory(), $this->getFinalImageName());
-                if($result){
-                    $indexArray['medium'] = $this->getImageAddress();
-                    $images['indexArray'] = $indexArray;
-                    $images['directory'] = $this->getFinalImageDirectory();
-                    $images['currentImage'] = 'medium';
-                    return $images;
-                }else{
+                //save image
+                $result = Image::make($image->getRealPath())->fit($imageSize['width'], $imageSize['height'])->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
+                if ($result)
+                    $indexArray[$sizeAlias] = $this->getImageAddress();
+                else {
                     return false;
                 }
-            }else{
-                foreach($imageSizes as $sizeAlias => $imageSize)
-                {
-                    
-                    //create and set this size name
-                    $currentImageName = $imageName . '_' . $sizeAlias;
-                    $this->setImageName($currentImageName);
-                    
-                    //execute provider
-                    $this->provider();
-
-                    //save image
-                    $result = Image::make($image->getRealPath())->fit($imageSize['width'], $imageSize['height'])->save(public_path($this->getImageAddress()), null, $this->getImageFormat());
-                        if($result)
-                        $indexArray[$sizeAlias] = $this->getImageAddress();
-                        else
-                        {
-                            return false;
-                        }
-
-                }
-                $images['indexArray'] = $indexArray;
-                $images['directory'] = $this->getFinalImageDirectory();
-                $images['currentImage'] = Config::get('image.default-current-index-image');
-
-                return $images;
             }
+            $images['indexArray'] = $indexArray;
+            $images['directory'] = $this->getFinalImageDirectory();
+            $images['currentImage'] = Config::get('image.default-current-index-image');
+
+            return $images;
+        }
     }
 
     public function deleteImage($imagePath)
     {
-        if(file_exists($imagePath))
-        {
+        if (file_exists($imagePath)) {
             unlink($imagePath);
         }
     }
@@ -124,26 +120,20 @@ class ImageService extends ImageToolsService
 
     public function deleteDirectoryAndFiles($directory)
     {
-        if(!is_dir($directory))
-        {
+        if (!is_dir($directory)) {
             return false;
         }
-        
+
         $files = glob($directory . DIRECTORY_SEPARATOR . '*', GLOB_MARK);
 
-        foreach($files as $file)
-        {
-            if(is_dir($file))
-            {
+        foreach ($files as $file) {
+            if (is_dir($file)) {
                 $this->deleteDirectoryAndFiles($file);
-            }
-            else{
+            } else {
                 unlink($file);
             }
         }
         $result = rmdir($directory);
         return $result;
     }
-
-
 }

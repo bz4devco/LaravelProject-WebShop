@@ -36,7 +36,7 @@
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                <thead class="border-bottom border-dark table-col-count">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>عنوان پست</th>
                         <th>دسته</th>
@@ -48,11 +48,11 @@
                     <tbody>
                         @forelse($posts as $post)
                         <tr class="align-middle">
-                            <th>{{ $post->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $post->title }}</td>
                             <td>{{ $post->postCategory->name }}</td>
                             <td>
-                                <img src="{{ asset($post->image['indexArray'][$post->image['currentImage']]) }}" width="50" height="50" alt="{{ $post->name }}">
+                                <img src="{{ hasFileUpload($post->image['indexArray'][$post->image['currentImage']]) }}" width="50" height="50" alt="{{ $post->name }}">
                             </td>
                             <td>
                                 <section>
@@ -86,6 +86,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $posts->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

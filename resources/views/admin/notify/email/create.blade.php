@@ -110,6 +110,9 @@
 <script src="{{ asset('admin-assets/js/plugin/form/datepicker-config.js') }}"></script>
 <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
 <script>
-        CKEDITOR.replace( 'body');
+        CKEDITOR.replace( 'body', {
+            filebrowserUploadUrl :  `{{route('admin.notify.email.upload-images-ckeditor').'?_token='.csrf_token()}}`,
+            filebrowserImageUploadUrl :  `{{route('admin.notify.email.upload-images-ckeditor').'?_token='.csrf_token()}}`,
+        });
 </script>
 @endsection

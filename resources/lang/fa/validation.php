@@ -222,5 +222,6 @@ return [
         "َaddress_id"                => "آدرس", 
         "cash_receiver"             => "نام و نام خانوادگی دریافت کننده", 
         "roles"                     => "نقش ها", 
+        "file_attachment"           => "فایل پیوست", 
     ],
 ];

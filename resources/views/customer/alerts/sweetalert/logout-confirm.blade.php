@@ -26,6 +26,7 @@
                 reverseButtons: true,
             }).then((result) => {
                 if (result.value == true) {
+                    window.location.href = "{{ route('auth.customer.logout') }}";
                     $(this).parent().submit();
                 }
             });

@@ -46,7 +46,7 @@
                     <tbody>
                         @forelse($ticketPriorities as $ticketPriority)
                         <tr class="align-middle">
-                            <th>{{ $ticketPriority->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $ticketPriority->name }}</td>
                             <td>
                                 <section>
@@ -72,6 +72,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $ticketPriorities->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

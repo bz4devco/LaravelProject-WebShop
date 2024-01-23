@@ -16,9 +16,9 @@
             
 
             <!-- start markets section managment -->
-            <section class="sidebar-part-title">بخش فروش</section>
+            <section id="markets-section" class="sidebar-part-title">بخش فروش</section>
 
-            <section class="sidebar-group-link">
+            <section id="products-section" class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
                     <span>ویترین</span>
@@ -40,7 +40,7 @@
             
 
             <!-- start orders section managment -->
-            <section class="sidebar-group-link">
+            <section id="order-section" class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
                     <span>سفارشات</span>
@@ -62,7 +62,7 @@
             
 
             <!-- start payments section managment -->
-            <section class="sidebar-group-link">
+            <section id="payments-section" class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
                     <span>پرداخت ها</span>
@@ -82,7 +82,7 @@
 
 
             <!-- start dicounts section managment -->
-            <section class="sidebar-group-link">
+            <section id="dicounts-section" class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
                     <span>تخفیف ها</span>
@@ -112,7 +112,7 @@
 
 
             <!-- start content section managment -->
-            <section class="sidebar-part-title">بخش محتوی</section>
+            <section id="contents-section" class="sidebar-part-title">بخش محتوی</section>
             <a href="{{ route('admin.content.category.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>دسته بندی</span>
@@ -148,7 +148,7 @@
 
 
             <!-- start users section managment -->
-            <section class="sidebar-part-title">بخش کاربران</section>
+            <section id="users-section" class="sidebar-part-title">بخش کاربران</section>
             <a href="{{ route('admin.user.admin-user.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>کاربران ادمین</span>
@@ -157,7 +157,7 @@
                 <i class="fas fa-bars"></i>
                 <span>مشتریان</span>
             </a>
-            <section class="sidebar-group-link">
+            <section id="roles-section" class="sidebar-group-link">
                 <section class="sidebar-dropdown-toggle">
                     <i class="fas fa-chart-bar icon"></i>
                     <span>سطوح دسترسی</span>
@@ -176,7 +176,7 @@
 
 
             <!-- start tickets section managment -->
-            <section class="sidebar-part-title">تیکت ها</section>
+            <section id="tickets-section" class="sidebar-part-title">تیکت ها</section>
             <a href="{{ route('admin.ticket.admin.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>مسئولین تیکت</span>
@@ -208,7 +208,7 @@
 
 
             <!-- start notifies section managment -->
-            <section class="sidebar-part-title">اطلاع رسانی</section>
+            <section id="notifies-section" class="sidebar-part-title">اطلاع رسانی</section>
             <a href="{{ route('admin.notify.email.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
                 <span>اعلامیه ایمیلی</span>
@@ -224,10 +224,14 @@
 
 
             <!-- start settings section managment -->
-            <section class="sidebar-part-title">تنظیمات</section>
+            <section id="settings-section" class="sidebar-part-title">تنظیمات</section>
             <a href="{{ route('admin.setting.index') }}" class="sidebar-link">
                 <i class="fas fa-bars"></i>
-                <span>تنظیمات</span>
+                <span>تنظیمات سایت</span>
+            </a>
+            <a href="{{ route('admin.setting.province.index') }}" class="sidebar-link">
+                <i class="fas fa-bars"></i>
+                <span>مدیریت استان و شهرستان</span>
             </a>
             <!-- end settings section managment -->
         </section>

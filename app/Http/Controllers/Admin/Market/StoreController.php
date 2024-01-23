@@ -18,7 +18,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
+        $products = Product::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.store.index', compact('products'));
     }
 

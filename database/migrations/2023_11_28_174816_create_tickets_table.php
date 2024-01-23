@@ -20,6 +20,7 @@ class CreateTicketsTable extends Migration
             $table->text('answer')->nullable()->comment("admin's response to users tickets");
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('seen')->default(0)->comment('0 => unseen and not seen with admins, 1 => seened with admin');
+            $table->tinyInteger('seen_user')->default(0)->comment('0 => unseen and not seen with user, 1 => seened with user');
             $table->foreignId('reference_id')->comment('admin id of responder as reference_id ')->constrained('ticket_admins')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('ticket_categories')->onUpdate('cascade')->onDelete('cascade');

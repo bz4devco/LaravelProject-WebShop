@@ -46,13 +46,13 @@
                     <tbody>
                         @forelse($faqs as $faq)
                         <tr class="align-middle">
-                            <th>{{ $faq->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $faq->qusetion }}</td>
                             <td class="text-truncate" style="max-width: 120px;">{{ strip_tags($faq->answer) }}</td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
-                                        <input data-url="{{ route('admin.content.faq.status', $faq->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $faq->id }}" name="status" type="checkbox" @if($faq->status) >
+                                        <input data-url="{{ route('admin.content.faq.status', $faq->id) }}" onchange="changeStatus(this.id)" class="custom-switch-input" id="{{ $faq->id }}" name="status" type="checkbox" @checked($faq->status) >
                                         <label class="custom-switch-btn" for="{{ $faq->id }}"></label>
                                     </div>
                                 </section>
@@ -73,6 +73,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $faqs->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

@@ -74,7 +74,7 @@
                                 @if($costumer->profile_photo_path != null)
                                 <section class="row">
                                     <section class="col-md-6 mt-2">
-                                        <img src="{{asset($costumer->profile_photo_path)}}" class="rounded-3" width="100" alt="avatar">
+                                        <img src="{{ hasFileUpload($costumer->profile_photo_path)}}" class="rounded-3" width="100" alt="avatar">
                                     </section>
                                 </section>
                                 @endif

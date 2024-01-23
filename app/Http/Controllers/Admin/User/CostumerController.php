@@ -20,7 +20,7 @@ class CostumerController extends Controller
     public function index()
     {
         $costumers  = User::where('user_type', 0)
-            ->orderBy('created_at', 'desc')->simplePaginate(15);
+            ->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.user.costumer.index', compact('costumers'));
     }
 
@@ -118,7 +118,7 @@ class CostumerController extends Controller
         // update data in database
         $costumer->update($inputs);
         return to_route('admin.user.costumer.index')
-            ->with('alert-section-success', 'مشتری به شماره شناسه شماره ' . $costumer->id . ' با موفقیت ویرایش شد');
+            ->with('alert-section-success', 'مشتری با مشخصات ' . ($costumer->email ?? $costumer->mobile) . ' با موفقیت ویرایش شد');
     }
 
     /**
@@ -131,7 +131,7 @@ class CostumerController extends Controller
     {
         $result = $costumer->delete();
         return to_route('admin.user.costumer.index')
-            ->with('alert-section-success', ' مشتری با ایمیل کاربری ' . $costumer->email . ' با موفقیت حذف شد');
+            ->with('alert-section-success', ' مشتری با مشخصات ' . ($costumer->email ?? $costumer->mobile) . ' با موفقیت حذف شد');
     }
 
     /**
@@ -149,9 +149,9 @@ class CostumerController extends Controller
 
             if ($result) {
                 if ($costumer->status == 0) {
-                    return response()->json(['status' => true, 'checked' => false, 'id' => $costumer->id]);
+                    return response()->json(['status' => true, 'checked' => false, 'id' => ($costumer->email ?? $costumer->mobile)]);
                 } else {
-                    return response()->json(['status' => true, 'checked' => true, 'id' => $costumer->id]);
+                    return response()->json(['status' => true, 'checked' => true, 'id' => ($costumer->email ?? $costumer->mobile)]);
                 }
             } else {
                 return response()->json(['status' => false]);
@@ -177,9 +177,9 @@ class CostumerController extends Controller
 
             if ($result) {
                 if ($costumer->activation == 0) {
-                    return response()->json(['status' => true, 'checked' => false, 'id' => $costumer->email ?? $costumer->mobile]);
+                    return response()->json(['status' => true, 'checked' => false, 'id' => ($costumer->email ?? $costumer->mobile)]);
                 } else {
-                    return response()->json(['status' => true, 'checked' => true, 'id' => $costumer->email ?? $costumer->mobile]);
+                    return response()->json(['status' => true, 'checked' => true, 'id' => ($costumer->email ?? $costumer->mobile)]);
                 }
             } else {
                 return response()->json(['status' => false]);

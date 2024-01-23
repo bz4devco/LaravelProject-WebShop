@@ -49,7 +49,7 @@
                     @if($file != '')
                     <section class="card-body text-white  bg-primary py-2">
                         <strong class="card-title d-block">فایل پیوست</strong>
-                        <a href="#" class="text-decoration-none text-white mt-3">
+                        <a href="{{ asset($file->file_path)}}" download class="text-decoration-none text-white mt-3">
                             <i class="fa fa-download text-white"></i>
                             {{$file->file_type}} 
                             - 

@@ -17,7 +17,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        $category_attributes = CategoryAttribute::orderBy('created_at', 'desc')->simplePaginate(15);
+        $category_attributes = CategoryAttribute::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.property.index', compact('category_attributes'));
     }
 
@@ -78,16 +78,12 @@ class PropertyController extends Controller
      */
     public function update(CategoryAttributeRequest $request, CategoryAttribute $categoryAttribute)
     {
-
         $inputs = $request->all();
 
-
-        
-    
         $result  = $categoryAttribute->update($inputs);
 
         return to_route('admin.market.property.index')
-        ->with('alert-section-success', ' ویرایش فرم کالا شماره '.$categoryAttribute->id.' با موفقیت انجام شد');
+        ->with('alert-section-success', ' ویرایش فرم کالا با نام '.$categoryAttribute->name.' با موفقیت انجام شد');
     }
 
     /**
@@ -100,6 +96,6 @@ class PropertyController extends Controller
     {
         $result = $categoryAttribute->delete();
         return to_route('admin.market.property.index')
-        ->with('alert-section-success', ' فرم کالا شماره'.$categoryAttribute->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' فرم کالا با نام'.$categoryAttribute->name.' با موفقیت حذف شد');
     }
 }

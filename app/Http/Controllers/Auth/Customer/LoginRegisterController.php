@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Auth\Customer;
 
+use Carbon\Carbon;
 use App\Models\Otp;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Setting\Setting;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\Customer\LoginRegisterRequest;
-use App\Http\Services\Message\Email\EmailService;
-use App\Http\Services\Message\MessageService;
-use App\Http\Services\Message\SMS\SmsService;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use App\Http\Services\Message\MessageService;
+use App\Http\Services\Message\SMS\SmsService;
+use App\Http\Services\Message\Email\EmailService;
+use App\Http\Requests\Auth\Customer\LoginRegisterRequest;
 
 class LoginRegisterController extends Controller
 {
@@ -75,14 +76,14 @@ class LoginRegisterController extends Controller
 
         Otp::create($otpInputs);
 
-
+        $webTitle = Setting::where('status', 1)->orderBy('id','asc')->first('title') ?? 'وب سایت فروشگاهی';
 
         if($type === 0){
             // send sms
             $smsService = new SmsService();
             $smsService->setFrom(Config::get('sms.otp_from'));
             $smsService->setTo([$user->mobile]);
-            $smsService->setText("فروشگاه اینترنتی دیجی کالا \n کد تایید: $otpCode");
+            $smsService->setText("$webTitle->title \n کد تایید: $otpCode");
             $smsService->setIsFlash(true);
 
             $messageService = new MessageService($smsService);
@@ -178,7 +179,12 @@ class LoginRegisterController extends Controller
             
             Auth::login($user);
 
-            return to_route('customer.home');
+            if($user->checkNotCompletionProfile()){
+                return to_route('customer.profile.my-profile');
+
+            }else {
+                return to_route('customer.home');
+            }
         } 
 
     }
@@ -202,12 +208,15 @@ class LoginRegisterController extends Controller
                 $user_login_id->used = 0;
                 $user_login_id->save();
 
+                $webTitle = Setting::where('status', 1)->orderBy('id','asc')->first('title');
+
+
                 if($user_login_id->type === 0){
                     // send sms
                     $smsService = new SmsService();
                     $smsService->setFrom(Config::get('sms.otp_from'));
                     $smsService->setTo([$user_login_id->login_id]);
-                    $smsService->setText("فروشگاه اینترنتی دیجی کالا \n کد تایید: $otpCode");
+                    $smsService->setText("$webTitle->title \n کد تایید: $otpCode");
                     $smsService->setIsFlash(true);
 
                     $messageService = new MessageService($smsService);
@@ -239,7 +248,7 @@ class LoginRegisterController extends Controller
 
     public function Logout(){
         Auth::logout();
-        return to_route('customer.home');
+        return back();
     }
 
 }

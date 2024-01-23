@@ -17,7 +17,7 @@ class BannerController extends Controller
      */
     public function index()
     {
-        $banners = Banner::orderBy('created_at', 'desc')->simplePaginate(15);
+        $banners = Banner::orderBy('created_at', 'desc')->paginate(15);
         $positions = Banner::$positions;
         return view('admin.content.banner.index', compact('banners', 'positions'));
     }
@@ -128,7 +128,7 @@ class BannerController extends Controller
 
         $banner->update($inputs);
         return to_route('admin.content.banner.index')
-        ->with('alert-section-success', 'ویرایش بنر شماره   '.$banner['id'].' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش بنر با عنوان   '.$banner['title'].' با موفقیت انجام شد');
     }
 
     /**
@@ -141,7 +141,7 @@ class BannerController extends Controller
     {
         $result = $banner->delete();
         return to_route('admin.content.banner.index')
-        ->with('alert-section-success', ' بنر شماره '.$banner->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' بنر با عنوان '.$banner->title.' با موفقیت حذف شد');
     }
 
         /**
@@ -158,9 +158,9 @@ class BannerController extends Controller
 
         if($result){
             if($banner->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $banner->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $banner->title]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $banner->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $banner->title]);
             }
         }else{
             return response()->json(['status' => false]);

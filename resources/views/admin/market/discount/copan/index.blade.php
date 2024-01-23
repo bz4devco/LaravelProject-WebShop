@@ -51,7 +51,7 @@
                     <tbody>
                         @forelse($copans as $copan)
                         <tr class="align-middle">
-                            <th>{{$copan->id}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$copan->code}}</td>
                             <td>{{($copan->amount_type == 0) ? $copan->amount . '%' : number_format($copan->amount) . 'تومان'}}</td>
                             <td>{{$copan->type == 0 ? 'درصدی' : 'عددی'}}</td>
@@ -83,6 +83,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $copans->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

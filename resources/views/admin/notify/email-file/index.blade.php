@@ -52,7 +52,7 @@
                     <tbody>
                         @forelse($email->files as $key => $file)
                         <tr class="align-middle">
-                            <th>{{ $key + 1 }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $email->subject }}</td>
                             <td>{{ $file->file_size }}</td>
                             <td>{{ $file->file_type }}</td>
@@ -80,6 +80,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $email->files()->paginate(15)->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

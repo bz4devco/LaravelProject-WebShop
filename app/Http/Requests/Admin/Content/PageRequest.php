@@ -25,16 +25,16 @@ class PageRequest extends FormRequest
     {
         if($this->isMethod('post')){
             return [
-                'title' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,، ]+$/u',
-                'body' => 'required|max:300|min:5',
-                'url' => 'required|max:120|min:2|unique:pages,slug|regex:/^[ا-یa-zA-Z0-9۰-۹ء-ي ]+$/u',
+                'title' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,،() ]+$/u',
+                'body' => 'required|min:5',
+                'url' => 'required|max:120|min:2|unique:pages,slug|regex:/^[آ-یa-zA-Z0-9\-]+$/u',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required',
             ];
         }else{
             return [
                 'title' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,، ]+$/u',
-                'body' => 'required|max:300|min:5',
+                'body' => 'required|min:5',
                 'status' => 'required|numeric|in:0,1',
                 'tags' => 'required',
             ];

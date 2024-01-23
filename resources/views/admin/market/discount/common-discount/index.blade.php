@@ -49,7 +49,7 @@
                     <tbody>
                     @forelse($commonDiscounts as $commonDiscount)
                         <tr class="align-middle">
-                            <th>{{$commonDiscount->id}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$commonDiscount->percentage}}%</td>
                             <td>{{$commonDiscount->minimal_order_amount ? number_format($commonDiscount->minimal_order_amount) . ' تومان': 'ندارد'}}</td>
                             <td>{{$commonDiscount->title}}</td>
@@ -79,6 +79,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $commonDiscounts->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

@@ -52,7 +52,7 @@
                     <tbody>
                         @forelse($product->colors as $color)
                         <tr class="align-middle">
-                            <th>{{ $loop->iteration }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td class="text-truncate" style="max-width: 150px;">{{ $product->name }}</td>
                             <td>{{ $color->name}}</td>
                             <td>{{ number_format($color->price_increase)}} تومان</td>
@@ -79,6 +79,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $product->colors()->paginate(15)->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

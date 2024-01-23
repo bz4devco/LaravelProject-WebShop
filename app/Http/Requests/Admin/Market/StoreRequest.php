@@ -25,8 +25,8 @@ class StoreRequest extends FormRequest
     {
         if($this->isMethod('post')){
             return [
-                'receiver' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
-                'deliverer' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+                'receiver' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
+                'deliverer' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
                 'description' => 'required|min:2',
                 'marketable_number' => 'required|numeric',
             ];

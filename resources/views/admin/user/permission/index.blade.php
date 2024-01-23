@@ -44,17 +44,17 @@
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
-                        @forelse($permissions as $key => $permission)
+                        @forelse($permissions as $permission)
                         <tr class="align-middle">
-                            <th>{{ $key + 1}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $permission->title}}</td>
                             <td>
                                 @if(empty($permission->roles()->get()->toArray()))
                                 <span class="text-danger">این سطح دسترسی برای هیچ نقشی انتخاب نشده است</span>
                                 @else
-                                    @foreach($permission->roles as $key => $role)
-                                        {{$key + 1}}- {{$role->title}}<br>
-                                    @endforeach
+                                @foreach($permission->roles as $key => $role)
+                                {{$key + 1}}- {{$role->title}}<br>
+                                @endforeach
                                 @endif
                             </td>
                             <td class="text-truncate" style="max-width: 150px;" title="{{ $permission->description }}">
@@ -84,6 +84,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $permissions->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

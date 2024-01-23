@@ -47,7 +47,7 @@
                     <tbody>
                         @forelse($delivery_methods as $delivery_method)
                         <tr class="align-middle">
-                            <th>{{ $delivery_method->id}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $delivery_method->name }}</td>
                             <td><span>{{ number_format($delivery_method->amount) }} <span>تومان</span></span></td>
                             <td>{{ $delivery_method->delivery_time . ' ' . $delivery_method->delivery_time_unit }}</td>
@@ -75,6 +75,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $delivery_methods->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

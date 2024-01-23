@@ -47,10 +47,10 @@
                     <tbody>
                         @forelse($brands as $brand)
                         <tr class="align-middle">
-                            <th>{{ $brand->id}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $brand->persian_name }}</td>
                             <td>{{ $brand->orginal_name }}</td>
-                            <td><img src="{{ asset($brand->logo) }}" width="50" height="50" class="max-height-2rem" alt="برند"></td>
+                            <td><img src="{{ hasFileUpload($brand->logo) }}" width="50" height="50" class="max-height-2rem" alt="برند"></td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -75,6 +75,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $brands->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

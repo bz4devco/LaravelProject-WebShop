@@ -26,14 +26,14 @@ class menuRequest extends FormRequest
         if($this->isMethod('post')){
             return [
                 'name' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,، ]+$/u',
-                'url' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9?.:\\/=-]+$/u',
+                'url' => 'required|max:120|min:2|url',
                 'parent_id' => 'nullable|numeric|exists:menus,id',
                 'status' => 'required|numeric|in:0,1',
             ];
         }else{
             return [
                 'name' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,، ]+$/u',
-                'url' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9?.:\\/=-]+$/u',
+                'url' => 'required|max:120|min:2|url',
                 'parent_id' => 'nullable|numeric|exists:menus,id',
                 'status' => 'required|numeric|in:0,1',
             ];

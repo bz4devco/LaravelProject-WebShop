@@ -28,16 +28,16 @@ class RoleRequest extends FormRequest
         $route = Route::current();
         if ($route->getName() === 'admin.user.role.store') {
             return [
-                'title' => 'required|min:2|max:120|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,، ]+$/u',
+                'title' => 'required|min:2|max:120|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,،() ]+$/u',
                 'name' => 'required|min:2|max:120|unique:roles,name|regex:/^[a-zA-Z0-9\-]+$/u',
-                'description' => 'required|min:2|max:200|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,، ]+$/u',
+                'description' => 'required|min:2|max:200|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,،() ]+$/u',
                 'permissions.*' => 'exists:permissions,id',
             ];
         } elseif ($route->getName() === 'admin.user.role.update') {
             return [
-                'title' => 'required|min:2|max:120|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,، ]+$/u',
+                'title' => 'required|min:2|max:120|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,،() ]+$/u',
                 'name' => ['required', 'min:2', 'max:120', 'regex:/^[a-zA-Z0-9\-]+$/u', Rule::unique('roles')->ignore($this->name, 'name')],
-                'description' => 'required|min:2|max:200|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,، ]+$/u',
+                'description' => 'required|min:2|max:200|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,،() ]+$/u',
             ];
         } elseif ($route->getName() === 'admin.user.role.permission-update') {
             return [

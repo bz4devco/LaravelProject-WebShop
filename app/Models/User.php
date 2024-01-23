@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use App\Models\Content\Comment;
-use App\Traits\Permissions\HasPermissionsTrait;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Jetstream\HasProfilePhoto;
+use Nagy\LaravelRating\Traits\CanRate;
+use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\Permissions\HasPermissionsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -24,6 +25,7 @@ class User extends Authenticatable
     use SoftDeletes;
     use Sluggable;
     use HasPermissionsTrait;
+    use CanRate;
 
     public function sluggable(): array
     {
@@ -107,7 +109,6 @@ class User extends Authenticatable
     }
 
 
-
     public function payments()
     {
         return $this->hasMany('App\Models\Payment');
@@ -122,14 +123,68 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\Market\Product');
     }
+    
+    
+    public function orderItems()
+    {
+        return $this->hasManyThrough('App\Models\Market\OrderItem', 'App\Models\Market\Order');
+    }
+    
+    
+    public function roles()
+    {
+        return $this->belongsToMany('App\Models\User\Role');
+    }
+    
+    
+    public function permissions()
+    {
+        return $this->belongsToMany('App\Models\User\Permission');
+    }
 
 
-    public function checkCompletionProfile()
+    public function compare()
+    {
+        return $this->hasOne('App\Models\Market\Compare');
+    }
+
+
+
+    public function checkNotCompletionProfile()
     {
         if (($this->first_name != null) && ($this->last_name != null) && ($this->mobile != null) && ($this->national_code != null)) {
             return false;
         } else {
             return true;
         }
+    }
+
+
+    public function isUserPurchedProduct($product_id)
+    {
+        $productIds = collect();
+        foreach ($this->orderItems()->where('product_id', $product_id)->get() as $item) {
+            $productIds->push($item->product_id);
+        }
+        $productIds = $productIds->unique();
+        return $productIds;
+    }
+
+    public function ActivatedUsersEmail()
+    {
+        return $this->whereNotNull('email')
+            ->where('user_type', 0)
+            ->where('activation', 1)
+            ->whereNotNull('email_verified_at')
+            ->pluck('email');
+    }
+
+    public function ActivatedUsersMobile()
+    {
+        return $this->whereNotNull('mobile')
+            ->where('user_type', 0)
+            ->where('activation', 1)
+            ->whereNotNull('mobile_verified_at')
+            ->pluck('mobile');
     }
 }

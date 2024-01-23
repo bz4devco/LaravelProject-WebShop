@@ -18,7 +18,7 @@
 
 
             swalWithBootstrapButtons.fire({
-                title: "آیا از حذف " + fieldTitle + " مطمئن هستید؟ ",
+                title: "آیا از حذف این " + fieldTitle + " مطمئن هستید؟ ",
                 text: "شما میتوانید درخواست خود را لغو نمایید",
                 icon: "warning",
                 showCancelButton: true,

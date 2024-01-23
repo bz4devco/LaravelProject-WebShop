@@ -92,7 +92,7 @@ class ProcutColorController extends Controller
     {
         $result = $productColor->delete();
         return to_route('admin.market.product.color.index', $product->id)
-        ->with('alert-section-success', ' رنگ '.$productColor->name.' این محصول با موفقیت حذف شد');
+        ->with('alert-section-success', ' رنگ '. $productColor->name . ' این محصول با موفقیت حذف شد');
     }
 
 
@@ -111,9 +111,9 @@ class ProcutColorController extends Controller
 
         if($result){
             if($productColor->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $productColor->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $productColor->name]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $productColor->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $productColor->name]);
             }
         }else{
             return response()->json(['status' => false]);

@@ -18,7 +18,7 @@ class CategoryController extends Controller
     public function index()
     {
         
-        $postCategorys = PostCategory::orderBy('created_at', 'desc')->simplePaginate(15);
+        $postCategorys = PostCategory::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.content.category.index', compact('postCategorys'));
        
         
@@ -127,7 +127,7 @@ class CategoryController extends Controller
 
         $postCategory->update($inputs);
         return to_route('admin.content.category.index')
-        ->with('alert-section-success', 'ویرایش دسته بندی شماره   '.$postCategory['id'].' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش دسته بندی با نام   '.$postCategory['name'].' با موفقیت انجام شد');
     }
 
     /**
@@ -140,7 +140,7 @@ class CategoryController extends Controller
     {
         $result = $postCategory->delete();
         return to_route('admin.content.category.index')
-        ->with('alert-section-success', ' دسته بندی شماره '.$postCategory->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' دسته بندی با نام '.$postCategory->name.' با موفقیت حذف شد');
     }
 
         /**
@@ -157,9 +157,9 @@ class CategoryController extends Controller
 
         if($result){
             if($postCategory->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $postCategory->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $postCategory->name]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $postCategory->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $postCategory->name]);
             }
         }else{
             return response()->json(['status' => false]);

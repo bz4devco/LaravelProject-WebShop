@@ -46,7 +46,7 @@
                     <tbody>
                         @forelse($pages as $page)
                         <tr class="align-middle">
-                            <th>{{ $page->id}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $page->title }}</td>
                             <td>{{ $page->slug }}</td>
                             <td>
@@ -73,6 +73,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $pages->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

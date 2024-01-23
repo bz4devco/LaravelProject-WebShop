@@ -105,7 +105,7 @@
                                             <input type="radio" class="form-check-input d-none set-image" name="currentImage" value="{{ $key }}" id="{{ $number }}"
                                             @checked($productCategory->image['currentImage']  == $key) >
                                             <label for="{{ $number }}" class="form-check-label">
-                                                <img src="{{ asset($value) }}" class="w-100 max-h" alt="">
+                                                <img src="{{ hasFileUpload($value) }}" class="w-100 max-h" alt="">
                                             </label>
                                         </div>
                                     </section>

@@ -43,22 +43,22 @@
                         <th>لگوی سایت</th>
                         <th>آیکون سایت</th>
                         <th>وضعیت</th>
-                        <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
+                        <th class=" text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
                         @forelse($settings as $setting)
                         <tr class="align-middle">
-                            <th>{{ $setting->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $setting->title }}</td>
                             <td>{{ $setting->base_url }}</td>
                             <td>
                                 @isset($setting->logo)
-                                <img src="{{ asset($setting->logo) }}" width="50" height="50" alt="logo">
+                                <img src="{{ hasFileUpload($setting->logo) }}" width="50" height="50" alt="logo">
                                 @endisset
                             </td>
                             <td>
                                 @isset($setting->icon)
-                                <img src="{{ asset($setting->icon) }}" width="50" height="50" alt="icon">
+                                <img src="{{ hasFileUpload($setting->icon) }}" width="50" height="50" alt="icon">
                                 @endisset
                             </td>
                             <td>
@@ -69,7 +69,8 @@
                                     </div>
                                 </section>
                             </td>
-                            <td class="width-16-rem text-start">
+                            <td class=" text-start">
+                                <a href="{{ route('admin.setting.index-page.edit', $setting->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-chart-bar ms-2"></i>مدیریت نمایش صفحه اصلی</a>
                                 <a href="{{ route('admin.setting.edit', $setting->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
                                 <form class="d-inline" action="{{ route('admin.setting.destroy', $setting->id) }}" method="post">
                                     @csrf
@@ -85,6 +86,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $settings->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

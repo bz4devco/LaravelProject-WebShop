@@ -53,7 +53,7 @@
                     <tbody>
                         @forelse($orders as $order)
                         <tr class="align-middle">
-                            <th>{{$loop->iteration}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$order->id}}</td>
                             <td>{{number_format($order->order_final_amount)}}<span>تومان</span></td>
                             <td>{{number_format($order->order_discount_amount)}}<span>تومان</span></td>
@@ -91,6 +91,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $orders->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

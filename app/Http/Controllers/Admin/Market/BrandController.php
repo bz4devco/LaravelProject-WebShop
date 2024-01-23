@@ -17,7 +17,7 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::orderBy('created_at', 'desc')->simplePaginate(15);
+        $brands = Brand::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.brand.index', compact('brands'));
     }
 
@@ -109,7 +109,7 @@ class BrandController extends Controller
 
         $brand->update($inputs);
         return to_route('admin.market.brand.index')
-        ->with('alert-section-success', 'ویرایش برند شماره   '.$brand->id .' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش برند با نام   '.$brand->persian_name .' با موفقیت انجام شد');
     }
 
     /**
@@ -122,7 +122,7 @@ class BrandController extends Controller
     {
         $result = $brand->delete();
         return to_route('admin.market.brand.index')
-        ->with('alert-section-success', ' برند شماره '.$brand->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' برند با نام '.$brand->persian_name.' با موفقیت حذف شد');
     }
 
      /**
@@ -139,9 +139,9 @@ class BrandController extends Controller
 
         if($result){
             if($brand->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $brand->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $brand->persian_name]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $brand->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $brand->persian_name]);
             }
         }else{
             return response()->json(['status' => false]);

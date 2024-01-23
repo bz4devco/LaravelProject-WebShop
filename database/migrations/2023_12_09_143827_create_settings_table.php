@@ -31,6 +31,7 @@ class CreateSettingsTable extends Migration
             $table->text('twitter')->nullable();
             $table->text('google_plus')->nullable();
             $table->text('google_map')->nullable();
+            $table->text('index_page')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();

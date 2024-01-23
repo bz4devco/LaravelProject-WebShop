@@ -23,4 +23,5 @@ class Page extends Model
     protected $fillable = [
         'title', 'url', 'body', 'status', 'tags'
     ];
+
 }

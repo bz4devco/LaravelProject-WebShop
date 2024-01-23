@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->text('introduction');
             $table->string('slug')->unique()->nullable();
             $table->text('image');
+            $table->text('related_product')->nullable();
             $table->decimal('weight', 10, 2)->comment('kg unit');
             $table->decimal('length', 10, 1)->comment('cm unit');
             $table->decimal('width', 10, 1)->comment('cm unit');

@@ -16,7 +16,7 @@ class TicketCategoryController extends Controller
      */
     public function index()
     {
-        $ticketCategories = TicketCategory::orderBy('created_at', 'desc')->simplePaginate(15);
+        $ticketCategories = TicketCategory::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.ticket.category.index', compact('ticketCategories'));
     }
 
@@ -76,7 +76,7 @@ class TicketCategoryController extends Controller
     {
         $ticketCategory->update($request->all());
         return to_route('admin.ticket.category.index')
-        ->with('alert-section-success', 'ویرایش دسته بندی شماره   '.$ticketCategory['id'].' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش دسته بندی با عنوان   '.$ticketCategory['name'].' با موفقیت انجام شد');
     }
 
    /**
@@ -89,7 +89,7 @@ class TicketCategoryController extends Controller
     {
         $result = $ticketCategory->delete();
         return to_route('admin.ticket.category.index')
-        ->with('alert-section-success', ' دسته بندی شماره '.$ticketCategory->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' دسته بندی با عنوان '.$ticketCategory->name.' با موفقیت حذف شد');
     }
 
         /**
@@ -107,9 +107,9 @@ class TicketCategoryController extends Controller
 
         if($result){
             if($ticketCategory->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $ticketCategory->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $ticketCategory->name]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $ticketCategory->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $ticketCategory->name]);
             }
         }else{
             return response()->json(['status' => false]);

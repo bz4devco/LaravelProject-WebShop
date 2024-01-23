@@ -39,6 +39,7 @@
                     <thead class="border-bottom border-dark table-col-count">
                         <th></th>
                         <th>#</th>
+                        <th>شناسه نظر</th>
                         <th>نویسنده نظر</th>
                         <th>کد کاربر</th>
                         <th>عنوان خبر</th>
@@ -68,10 +69,10 @@
                         @endphp
 
 
-
                         <tr class="align-middle {{$bg_notif}}">
                             <td class="position-relative {{$icon_notif}}"></td>
-                            <th >{{$comment->id}}</th>
+                            <th >{{ iteration($loop->iteration, request()->page) }}</th>
+                            <td>{{$comment->id}}</td>
                             <td>{{$comment->author->fullname}}</td>
                             <td>{{$comment->author_id}}</td>
                             <td class="text-truncate" style="max-width: 120px;" title="{{$comment->commentable->title}}">{{$comment->commentable->title}}</td>
@@ -98,6 +99,11 @@
                         </tr>
                         @endforelse
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $comments->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

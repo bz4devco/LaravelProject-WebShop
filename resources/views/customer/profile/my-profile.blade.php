@@ -1,7 +1,9 @@
 @extends('customer.layouts.master-two-col')
 
 @section('haed-tag')
-<title></title>
+<meta name="robots" content="noindex, nofollow">
+
+<title>پروفایل من | {{$setting->title}}</title>
 @endsection
 
 @section('content')
@@ -23,7 +25,7 @@
 
 
     <section class="row">
-        @if($user->checkCompletionProfile())
+        @if($user->checkNotCompletionProfile())
         <section class="col-12">
             <section class="address-alert alert alert-primary d-flex align-items-center p-2" role="alert">
                 <i class="fa fa-info-circle flex-shrink-0 me-2"></i>

@@ -10,11 +10,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item active" aria-current="page">بنر ها</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item active" aria-current="page">بنر ها</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -24,7 +24,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 بنر ها
+                    بنر ها
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
@@ -49,13 +49,13 @@
                     <tbody>
                         @forelse($banners as $banner)
                         <tr class="align-middle">
-                            <th>{{ $banner->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $banner->title }}</td>
-                            <td  class="text-truncate" style="max-width: 150px;direction: ltr;" title="{{ $banner->url }}">
+                            <td class="text-truncate" style="max-width: 150px;direction: ltr;" title="{{ $banner->url }}">
                                 {{ $banner->url }}
                             </td>
                             <td>
-                                <img src="{{ asset($banner->image) }}" width="100" height="50" alt="{{ $banner->title }}">
+                                <img src="{{ hasFileUpload($banner->image) }}" width="100" height="50" alt="{{ $banner->title }}">
                             </td>
                             <td>{{ $positions[$banner->position] }}</td>
                             <td>{{ $banner->sort }}</td>
@@ -83,6 +83,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $banners->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>
@@ -97,4 +102,3 @@
 
 
 @endsection
-

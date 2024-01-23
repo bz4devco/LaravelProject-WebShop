@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Services\Image;
 
@@ -17,6 +17,17 @@ class ImageToolsService
     protected $finalImageDirectory;
     protected $finalImageName;
 
+    public function resetProperties()
+    {
+        $this->image = null;
+        $this->exclusiveDirectory = null;
+        $this->imageDirectory = null;
+        $this->imageName = null;
+        $this->imageFormat = null;
+        $this->finalImageDirectory = null;
+        $this->finalImageName = null;
+    }
+
 
     // set orginal image in image property scope
 
@@ -27,15 +38,15 @@ class ImageToolsService
 
 
     //--------------   Directory
-    
+
     //---------- Exclusive Directory
-    
+
     // get Exclusive Directory from class method
     public function getExclusiveDirectory()
     {
         return $this->exclusiveDirectory;
     }
-    
+
     // set Exclusive Directory with argument method
     public function setExclusiveDirectory($exclusiveDirectory)
     {
@@ -49,19 +60,19 @@ class ImageToolsService
     {
         return $this->imageDirectory;
     }
-    
+
     // set Image Directory with argument method
     public function setImageDirectory($imageDirectory)
     {
         $this->imageDirectory = trim($imageDirectory, '/\\');
     }
- 
+
     //--------------   Directory
-    
+
 
     // **************************************
 
-    
+
     //--------------   File Name
 
     //--------------  Image Name
@@ -70,7 +81,7 @@ class ImageToolsService
     {
         return $this->imageName;
     }
-    
+
     // set Image Name with argument method
     public function setImageName($imageName)
     {
@@ -79,7 +90,7 @@ class ImageToolsService
 
     //- ---------  Current Image Name 
     // set Current Image Name with argument method
-   public function setCurrentImageName()
+    public function setCurrentImageName()
     {
         return !empty($this->image) ? $this->setImageName(pathinfo($this->image->getClientOriginalName(), PATHINFO_FILENAME)) : false;
         // $_FILES['image']['name']
@@ -92,7 +103,7 @@ class ImageToolsService
     {
         return $this->imageFormat;
     }
-    
+
     // set Image Format with argument method
     public function setImageFormat($imageFormat)
     {
@@ -115,14 +126,14 @@ class ImageToolsService
     {
         return $this->finalImageDirectory;
     }
-    
+
     // set Final Image Directory with argument method
     public function setFinalImageDirectory($finalImageDirectory)
     {
         $this->finalImageDirectory = $finalImageDirectory;
     }
     //--------   Final Image Directory
-    
+
 
 
 
@@ -138,7 +149,7 @@ class ImageToolsService
     {
         return $this->finalImageName;
     }
-    
+
     // set Final Image Name with argument method
     public function setFinalImageName($finalImageName)
     {
@@ -155,8 +166,7 @@ class ImageToolsService
     // get Image Direcrtory and check has this Directory
     protected function checkDirectory($imageDirectory)
     {
-        if(!file_exists($imageDirectory))
-        {
+        if (!file_exists($imageDirectory)) {
             mkdir($imageDirectory, 0755, true);
         }
     }
@@ -204,11 +214,4 @@ class ImageToolsService
         //check adn create final image directory
         $this->checkDirectory($this->getFinalImageDirectory());
     }
-
-
 }
-
-
-
-
-?>

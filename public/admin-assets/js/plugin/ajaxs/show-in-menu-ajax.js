@@ -11,12 +11,12 @@ function showInMenu(id) {
                 if (response.checked) {
                     element.prop("checked", true);
                     successToast(
-                        "نمایش در منو فیلد شماره " + response.id + " با موفقیت فعال شد"
+                        "نمایش در منو دسته بندی با عنوان " + response.id + " با موفقیت فعال شد"
                     );
                 } else {
                     element.prop("checked", false);
                     successToast(
-                        "نمایش در منو فیلد شماره " +
+                        "نمایش در منو دسته بندی با عنوان " +
                             response.id +
                             " با موفقیت غیر فعال شد"
                     );

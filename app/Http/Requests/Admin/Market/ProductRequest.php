@@ -25,7 +25,7 @@ class ProductRequest extends FormRequest
     {
         if($this->isMethod('post')){
             return [
-                'name' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+                'name' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
                 'introduction' => 'required|min:2|',
                 'image' => 'required|image|mimes:png,jpg,jpeg,gif,ico,svg,webp',
                 'price' => 'required|regex:/^\d{1,20}(\.\d{1,3})?$/',
@@ -33,6 +33,7 @@ class ProductRequest extends FormRequest
                 'length' => 'required|regex:/^\d{1,10}(\.\d{1})?$/',
                 'width' => 'required|regex:/^\d{1,10}(\.\d{1})?$/',
                 'height' => 'required|regex:/^\d{1,10}(\.\d{1})?$/',
+                'related_product.*' => 'nullable|exists:products,id',
                 'category_id' => 'required|exists:product_categories,id',
                 'brand_id' => 'required|exists:brands,id',
                 'published_at' => 'required|numeric',
@@ -43,7 +44,7 @@ class ProductRequest extends FormRequest
         }
         else{
             return [
-                'name' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+                'name' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
                 'introduction' => 'required|min:2|',
                 'image' => 'nullable|image|mimes:png,jpg,jpeg,gif,ico,svg,webp',
                 'price' => 'required|regex:/^\d{1,20}(\.\d{1,3})?$/',
@@ -51,6 +52,7 @@ class ProductRequest extends FormRequest
                 'length' => 'required|regex:/^\d{1,10}(\.\d{1})?$/',
                 'width' => 'required|regex:/^\d{1,10}(\.\d{1})?$/',
                 'height' => 'required|regex:/^\d{1,10}(\.\d{1})?$/',
+                'related_product.*' => 'nullable|exists:products,id',
                 'category_id' => 'required|exists:product_categories,id',
                 'brand_id' => 'required|exists:brands,id',
                 'published_at' => 'required|numeric',

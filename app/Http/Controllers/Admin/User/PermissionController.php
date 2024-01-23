@@ -16,7 +16,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions  = Permission::orderBy('created_at', 'desc')->simplePaginate(15);
+        $permissions  = Permission::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.user.permission.index', compact('permissions'));
     }
 
@@ -111,9 +111,9 @@ class PermissionController extends Controller
 
         if($result){
             if($permission->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $permission->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $permission->title]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $permission->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $permission->title]);
             }
         }else{
             return response()->json(['status' => false]);

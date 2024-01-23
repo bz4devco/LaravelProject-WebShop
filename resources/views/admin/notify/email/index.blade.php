@@ -28,6 +28,7 @@
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
+            @include('admin.alerts.alert-section.error')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <a href="{{ route('admin.notify.email.create') }}" class="btn btn-sm btn-info text-white">ایجاد اطلاعیه ایمیلی</a>
                 <div class="max-width-16-rem">
@@ -46,7 +47,7 @@
                     <tbody>
                         @forelse($emails as $email)
                         <tr class="align-middle">
-                            <th>{{ $email->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $email->subject }}</td>
                             <td>{{ jalaliDate($email->published_at) }}</td>
                             <td>
@@ -65,6 +66,7 @@
                                     @method('DELETE')
                                     <button type="submit" id="{{ $email->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                <a href="{{ route('admin.notify.email.send-mail', $email->id) }}" class="btn btn-success btn-sm"><i class="fa fa-edit ms-2"></i>ارسال</a>
                             </td>
                         </tr>
                         @empty
@@ -74,6 +76,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $emails->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

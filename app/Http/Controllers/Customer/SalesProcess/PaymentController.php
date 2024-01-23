@@ -147,6 +147,7 @@ class PaymentController extends Controller
                 'user_id' => auth()->user()->id,
                 'pay_date' => now(),
                 'cash_receiver' => $cash_receiver,
+                'gateway' => 'زرین پال',
                 'status' => 1
             ]
         );

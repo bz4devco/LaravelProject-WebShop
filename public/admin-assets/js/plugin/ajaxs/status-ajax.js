@@ -11,12 +11,12 @@ function changeStatus(id) {
                 if (response.checked) {
                     element.prop("checked", true);
                     successToast(
-                        "وضعیت فیلد شماره " + response.id + " با موفقیت فعال شد"
+                        "وضعیت فیلد  " + response.id + " با موفقیت فعال شد"
                     );
                 } else {
                     element.prop("checked", false);
                     successToast(
-                        "وضعیت فیلد شماره " +
+                        "وضعیت فیلد " +
                             response.id +
                             " با موفقیت غیر فعال شد"
                     );

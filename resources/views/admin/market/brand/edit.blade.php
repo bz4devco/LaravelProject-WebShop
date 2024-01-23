@@ -73,7 +73,7 @@
                                 @enderror
                                 <section class="row">
                                     <section class="col-md-6 mt-2">
-                                        <img src="{{asset($brand->logo)}}" class="rounded-3" width="100" alt="avatar">
+                                        <img src="{{ hasFileUpload($brand->logo)}}" class="rounded-3" width="100" alt="avatar">
                                     </section>
                                 </section>
                             </div>

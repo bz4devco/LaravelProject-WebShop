@@ -5,7 +5,7 @@
                 title:                  'خطا',
                 text:                   '{{ session('swal-error') }}',
                 icon:                   'error',
-                confermButtonText :     'حله',
+                confirmButtonText :     'اوه مرسی',
             });
         });
     </script>

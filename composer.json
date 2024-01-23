@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "biscolab/laravel-recaptcha": "^6.0",
         "cviebrock/eloquent-sluggable": "^9.0",
         "eskandari/persianrender": "^0.1.0",
         "fruitcake/laravel-cors": "^2.0",
@@ -21,6 +22,7 @@
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.5",
         "morilog/jalali": "3.*",
+        "nagy/laravel-rating": "^1.0",
         "saeedpooyanfar/zarinpal": "^5.0"
     },
     "require-dev": {

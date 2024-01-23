@@ -62,11 +62,31 @@
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
+                                <label for="position">مکان نمایش</label>
+                                <select class="form-select form-select-sm" name="position" id="position">
+                                    <option disabled selected>مکان نمایش را انتخاب کنید</option>
+                                    @forelse($positions as $key => $position)
+                                    <option value="{{$key}}" @selected(old('position', $menu->position) == $key)>{{ $position }}</option>
+                                    @empty
+                                    <option disabled class="text-center">مکانی درج نشده است</option>
+                                    @endforelse
+                                </select>
+                                @error('position')
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
                                 <label for="parent_id">منو والد</label>
                                 <select class="form-select form-select-sm" name="parent_id" id="parent_id">
-                                    <option value="" @if (old('parent_id', $menu->parent_id) == '') >منوی اصلی</option>
+                                    <option value="" @selected(old('parent_id', $menu->parent_id) == '') >منوی اصلی</option>
                                     @forelse($parentsMenu as $parentMenu)
-                                        <option value="{{$parentMenu->id}}" @if (old('parent_id', $menu->parent_id) == $parentMenu->id) >{{ $parentMenu->name }}</option>
+                                    <option value="{{$parentMenu->id}}" @selected(old('parent_id', $menu->parent_id) == $parentMenu->id) >{{ $parentMenu->name }}</option>
                                     @empty
                                     <option disabled class="text-center">والدی وجود ندارد</option>
                                     @endforelse
@@ -96,6 +116,27 @@
                                 @enderror
                             </div>
                         </section>
+                        <section class="col-12 col-md-6">
+                            <div class="form-group mb-3">
+                                <label for="sort">ترتیب نمایش</label>
+                                <div class="input-group  input-group-sm number-spinner">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default btn-border p-btn-num rounded-end" data-dir="up">+</button>
+                                    </span>
+                                    <input name="sort" id="sort" class="input-step-number form-control number text-center rounded-0" data-char="" type="text" step="1" value="@if (old('sort', $menu->sort) > 1) {{old('sort', $menu->sort)}} @else {{1}} @endif" min="0" max="">
+                                    <span class="input-group-btn ">
+                                        <button type="button" class="btn btn-default btn-border p-btn-num rounded-start" data-dir="dwn">-</button>
+                                    </span>
+                                </div>
+                                @error('sort')
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
+                                @enderror
+                            </div>
+                        </section>
                         <section class="col-12">
                             <button class="btn btn-primary btn-sm">ثبت</button>
                         </section>
@@ -106,4 +147,8 @@
     </section>
 </section>
 <!-- category page category list area -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/plugin/form/price-format.js') }}"></script>
+<script src="{{ asset('admin-assets/js/plugin/form/bootstrap-number-input.js') }}"></script>
 @endsection

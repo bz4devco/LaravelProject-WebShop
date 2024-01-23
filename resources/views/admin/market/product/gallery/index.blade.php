@@ -50,10 +50,10 @@
                     <tbody>
                         @forelse($product->gallerys as $gallery)
                         <tr class="align-middle">
-                            <th>{{ $loop->iteration }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td class="text-truncate" style="max-width: 150px;">{{ $product->name }}</td>
                             <td>
-                                <img src="{{ asset($gallery->image['indexArray'][$gallery->image['currentImage']]) }}" width="50" height="50" alt="{{ $product->name }}">
+                                <img src="{{ hasFileUpload($gallery->image['indexArray'][$gallery->image['currentImage']]) }}" width="50" height="50" alt="{{ $product->name }}">
                             </td>
                             <td class="width-16-rem text-start">
                                 <form class="d-inline" action="{{ route('admin.market.product.gallery.destroy',['product' => $product->id, 'gallery' => $gallery->id]) }}" method="post">
@@ -70,6 +70,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $product->gallerys()->paginate(15)->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

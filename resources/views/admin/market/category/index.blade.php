@@ -49,11 +49,11 @@
                     <tbody>
                         @forelse($productCategorys as $productCategory)
                         <tr class="align-middle">
-                            <th>{{ $productCategory->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $productCategory->name }}</td>
                             <td>{{ $productCategory->parent_id ? $productCategory->parent->name : 'دسته اصلی'}}</td>
                             <td>
-                                <img src="{{ asset($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}" width="50" height="50" alt="{{ $productCategory->name }}">
+                                <img src="{{ hasFileUpload($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}" width="50" height="50" alt="{{ $productCategory->name }}">
                             </td>
                             <td  class="text-truncate" style="max-width: 150px;" title="{{ $productCategory->slug }}">
                                 {{ $productCategory->slug }}
@@ -90,6 +90,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $productCategorys->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

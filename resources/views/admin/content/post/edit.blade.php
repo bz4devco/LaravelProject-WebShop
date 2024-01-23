@@ -4,19 +4,19 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/persian-datepicker/persian-datepicker.css') }}">
 <link rel="stylesheet" type="text/css" href="{{ asset('admin-assets/css/persian-datepicker/persian-datepicker-cheerup.min.css') }}">
 
-<title> ایجاد پست  | پنل مدیریت</title>
+<title> ایجاد پست | پنل مدیریت</title>
 @endsection
 
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.content.post.index') }}">پست ها</a></li>
-    <li class="breadcrumb-item active" aria-current="page">ویرایش پست</li>
-    <li class="breadcrumb-item active" aria-current="page">{{$post->title}}</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.content.post.index') }}">پست ها</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ویرایش پست</li>
+        <li class="breadcrumb-item active" aria-current="page">{{$post->title}}</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -26,7 +26,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                ویرایش پست
+                    ویرایش پست
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
@@ -42,11 +42,11 @@
                                 <label for="title">عنوان پست</label>
                                 <input class="form-control form-select-sm" type="text" id="title" name="title" value="{{ old('title', $post->title) }}">
                                 @error('title')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                             </div>
                         </section>
@@ -60,42 +60,41 @@
                                     @endforeach
                                 </select>
                                 @error('category_id')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="image">تصویر</label>
-                                <input class="form-control form-select-sm" type="file" name="image" id="image"  accept="image/*">
+                                <input class="form-control form-select-sm" type="file" name="image" id="image" accept="image/*">
                                 @error('image')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                                 <section class="row mt-2">
-                                    @php   
-                                        $number = 1;
+                                    @php
+                                    $number = 1;
                                     @endphp
 
                                     @foreach($post->image['indexArray'] as $key => $value)
                                     <section class="col-{{ 6 / $number }}">
                                         <div class="form-check p-0">
-                                            <input type="radio" class="form-check-input d-none set-image" name="currentImage" value="{{ $key }}" id="{{ $number }}"
-                                            @checked($post->image['currentImage']  == $key) >
+                                            <input type="radio" class="form-check-input d-none set-image" name="currentImage" value="{{ $key }}" id="{{ $number }}" @checked($post->image['currentImage'] == $key) >
                                             <label for="{{ $number }}" class="form-check-label">
-                                                <img src="{{ asset($value) }}" class="w-100 max-h" alt="">
+                                                <img src="{{ hasFileUpload($value) }}" class="w-100 max-h" alt="">
                                             </label>
                                         </div>
                                     </section>
                                     @php
-                                        $number++;
+                                    $number++;
                                     @endphp
                                     @endforeach
 
@@ -106,20 +105,20 @@
                             <div class="form-group">
                                 <label for="summery">خلاصه پست</label>
                                 <textarea id="summery" name="summery">{{ old('summery', $post->summery) }}</textarea>
-                               </div>
-                               @error('summery')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
-                                @enderror
+                            </div>
+                            @error('summery')
+                            <span class="text-danger font-size-12">
+                                <strong>
+                                    {{ $message }}
+                                </strong>
+                            </span>
+                            @enderror
                         </section>
                         <section class="col-12 mb-3">
                             <div class="form-group">
                                 <label for="body">متن پست</label>
                                 <textarea id="body" name="body">{{ old('body', $post->body) }}</textarea>
-                               </div>
+                            </div>
                         </section>
                         <section class="col-12">
                             <div class="form-group mb-3">
@@ -127,25 +126,25 @@
                                 <input class="form-control form-select-sm d-none" type="text" name="tags" id="tags" value="{{ old('tags', $post->tags) }}">
                                 <select name="" id="select_tags" class="select2 form-control-sm form-control" multiple></select>
                                 @error('tags')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                             </div>
                         </section>
                         <section class="col-12 col-md-6">
                             <div class="form-group mb-3">
                                 <label for="startdate">تاریخ انتشار</label>
-                                <input type="text" name="published_at" id="startdate_altField" class="form-control form-control-sm d-none" autocomplete="off"  value="{{ old('published_at', $post->published_at) }}"/>
-                                <input type="text" id="startdate" class="form-control form-control-sm" autocomplete="off"  />
+                                <input type="text" name="published_at" id="startdate_altField" class="form-control form-control-sm d-none" autocomplete="off" value="{{ old('published_at', $post->published_at) }}" />
+                                <input type="text" id="startdate" class="form-control form-control-sm" autocomplete="off" />
                                 @error('summery')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                             </div>
                         </section>
@@ -155,13 +154,13 @@
                                 <select class="form-select form-select-sm" name="commentable" id="commentable">
                                     <option value="0" @selected(old('commentable', $post->commentable) == 0) >غیر فعال</option>
                                     <option value="1" @selected(old('commentable', $post->commentable) == 1) >فعال</option>
-                                </select> 
+                                </select>
                                 @error('commentable')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                             </div>
                         </section>
@@ -175,11 +174,11 @@
                                             <option value="1" @selected(old('status', $post->status) == 1) >فعال</option>
                                         </select>
                                         @error('status')
-                                            <span class="text-danger font-size-12">
-                                                <strong>
-                                                    {{ $message }}
-                                                </strong>
-                                            </span>
+                                        <span class="text-danger font-size-12">
+                                            <strong>
+                                                {{ $message }}
+                                            </strong>
+                                        </span>
                                         @enderror
                                     </div>
                                 </section>
@@ -196,11 +195,11 @@
                                             </span>
                                         </div>
                                         @error('sort')
-                                            <span class="text-danger font-size-12">
-                                                <strong>
-                                                    {{ $message }}
-                                                </strong>
-                                            </span>
+                                        <span class="text-danger font-size-12">
+                                            <strong>
+                                                {{ $message }}
+                                            </strong>
+                                        </span>
                                         @enderror
                                     </div>
                                 </section>
@@ -229,13 +228,19 @@
 <script src="{{ asset('admin-assets/ckeditor/ckeditor.js') }}"></script>
 <script>
     /// CKEDITOR config
-    CKEDITOR.replace( 'summery');
-    CKEDITOR.replace( 'body');
+    CKEDITOR.replace('summery', {
+        filebrowserUploadUrl: `{{route('admin.content.page.upload-images-ckeditor').'?_token='.csrf_token()}}`,
+        filebrowserImageUploadUrl: `{{route('admin.content.page.upload-images-ckeditor').'?_token='.csrf_token()}}`,
+    });
+    
+    CKEDITOR.replace('body', {
+        filebrowserUploadUrl: `{{route('admin.content.page.upload-images-ckeditor').'?_token='.csrf_token()}}`,
+        filebrowserImageUploadUrl: `{{route('admin.content.page.upload-images-ckeditor').'?_token='.csrf_token()}}`,
+    });
 </script>
 
 <script>
     let publishedAtTime = new persianDate(parseInt($('#startdate_altField').val())).format("YYYY/MM/DD hh:mm:ss");
     $('#startdate').val(publishedAtTime);
-
 </script>
 @endsection

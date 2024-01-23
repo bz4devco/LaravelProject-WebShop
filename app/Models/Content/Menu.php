@@ -12,7 +12,13 @@ class Menu extends Model
 
 
     protected $fillable = [
-        'name', 'url', 'parent_id', 'status', 'tags'
+        'name', 'url', 'parent_id', 'status', 'sort', 'position'
+    ];
+
+
+    public static $positions = [
+        0 => 'نمایش در هدر',
+        1 => 'نمایش در فوتر',
     ];
 
 

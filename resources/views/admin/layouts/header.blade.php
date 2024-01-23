@@ -7,7 +7,7 @@
         <section class="d-flex justify-content-between flex-md-row-reverse px-2">
             <span id="sidbar-toggle-show" class="d-inline d-md-none pointer"><i class="fas fa-toggle-off"></i></span>
             <span id="sidbar-toggle-hide" class="d-none d-md-inline pointer"><i class="fas fa-toggle-on"></i></span>
-            <span><img class="logo" src="{{ asset('admin-assets/images/logo.png') }}" alt=""></span>
+            <span><img class="logo" src="{{ hasFileUpload('admin-assets/images/logo.png') }}" alt=""></span>
             <span id="menu-toggle" class="d-md-none"><i class="fas fa-ellipsis-h"></i></span>
         </section>
     </section>
@@ -109,34 +109,34 @@
                             <section class="header-comment-wrapper">
                                 <ul class="list-group px-0 rounded">
                                     @forelse($unseenComments as $unseenComment)
-                                        @if($unseenComment->commentable_type == "App\Models\Market\Product")
-                                        <a class="text-decoration-none" href="{{ route('admin.market.comment.show', $unseenComment->id) }}">
+                                    @if($unseenComment->commentable_type == "App\Models\Market\Product")
+                                    <a class="text-decoration-none" href="{{ route('admin.market.comment.show', $unseenComment->id) }}">
                                         @else
                                         <a class="text-decoration-none" href="{{ route('admin.content.comment.show', $unseenComment->id) }}">
-                                        @endif
-                                        <li class="list-group-item list-group-item-action border-0 border-bottom">
-                                            <section class="media d-flex">
-                                                <section class="media-left flex-shrink-0" style="display: inline-grid;">
-                                                    <img class="align-self-center notification-img" src="{{ asset($unseenComment->author->profile_photo_path) }}" alt="{{$unseenComment->author->full_name}}">
-                                                </section>
-                                                <section class="media-body flex-grow-1 pe-1" style="display: inline-grid;">
-                                                    <section class="d-flex justify-content-between"  style="display: inline-grid;">
-                                                        <section  style="display: inline-grid;">
-                                                            <h5 class="comment-user">{{$unseenComment->author->full_name}}</h5>
-                                                            @if($unseenComment->commentable_type == "App\Models\Market\Product")
-                                                            <span class="text-truncate d-inline-block mt-n3" style="max-width: 160px;margin-top:-20px">{{$unseenComment->commentable->name}}</span>
-                                                            @else
-                                                            <span class="text-truncate d-inline-block mt-n3" style="max-width: 160px;margin-top:-20px">{{$unseenComment->commentable->title}}</span>
-                                                            @endif
+                                            @endif
+                                            <li class="list-group-item list-group-item-action border-0 border-bottom">
+                                                <section class="media d-flex">
+                                                    <section class="media-left flex-shrink-0" style="display: inline-grid;">
+                                                        <img class="align-self-center notification-img" src="{{ hasFileUpload($unseenComment->author->profile_photo_path) }}" alt="{{$unseenComment->author->full_name}}">
+                                                    </section>
+                                                    <section class="media-body flex-grow-1 pe-1" style="display: inline-grid;">
+                                                        <section class="d-flex justify-content-between" style="display: inline-grid;">
+                                                            <section style="display: inline-grid;">
+                                                                <h5 class="comment-user">{{$unseenComment->author->full_name}}</h5>
+                                                                @if($unseenComment->commentable_type == "App\Models\Market\Product")
+                                                                <span class="text-truncate d-inline-block mt-n3" style="max-width: 160px;margin-top:-20px">{{$unseenComment->commentable->name}}</span>
+                                                                @else
+                                                                <span class="text-truncate d-inline-block mt-n3" style="max-width: 160px;margin-top:-20px">{{$unseenComment->commentable->title}}</span>
+                                                                @endif
+                                                            </section>
+                                                            <span class="mt-2"><i class="fas fa-circle text-success comment-user-status"></i></span>
                                                         </section>
-                                                        <span class="mt-2"><i class="fas fa-circle text-success comment-user-status"></i></span>
                                                     </section>
                                                 </section>
-                                            </section>
-                                        </li>
-                                    </a>
-                                   @empty
-                                   @endforelse
+                                            </li>
+                                        </a>
+                                        @empty
+                                        @endforelse
                             </section>
                         </section>
                     </span>
@@ -147,25 +147,38 @@
                 <section id="profile-header">
                     <span id="header-profile-toggle" class="ms-3 ms-md-5 posiion-relative pointer">
                         <span>
-                            <img class="header-avatar" src="{{ asset('admin-assets/images/avatar-2.jpg') }}" alt="profile">
-                            <span class="header-username">کامران محمدی</span>
+                            <img class="header-avatar" src="{{ hasFileUpload(auth()->user()->profile_photo_path , 'avatar') }}" alt="profile">
+                            <span class="header-username position-relative" style="top: -7px">
+                                {{ auth()->user()->full_name ?? (auth()->user()->mobile ?? auth()->user()->email)}}
+
+                                @php $userRole = auth()->user()->roles ? auth()->user()->roles()->first() : null; @endphp
+                                <p class="position-absolute text-center" style="font-size: 0.57rem;right: -1rem;width: 150%;top: 3px;">
+                                    @if($userRole && ($userRole->name == 'super-admin' || $userRole->name == 'admin'))
+                                    <i class="fa fa-star text-warning"></i>
+                                    @endif
+                                    <strong class="text-warning">{{ $userRole->title ?? 'نا مشخص' }}</strong>
+                                    @if($userRole && ($userRole->name == 'super-admin' || $userRole->name == 'admin'))
+                                    <i class="fa fa-star  text-warning"></i>
+                                    @endif
+                                </p>
+                            </span>
                             <i class="fas fa-angle-down"></i>
                         </span>
                     </span>
                     <section id="header-profile" class="header-profile rounded">
                         <section class="list-group rounded">
-                            <a href="#" class="list-group-item list-group-item-action header-profile-link">
-                                <i class="fas fa-cog"></i>تنظیات
+                            <a href="{{ route('admin.profile.index', ['user' => auth()->user()]) }}" class="list-group-item list-group-item-action header-profile-link">
+                                <i class="fas fa-user"></i>پروفایل
                             </a>
-                            <a href="#" class="list-group-item list-group-item-action header-profile-link">
+                            <!-- <a href="#" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-user"></i>کاربر
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action header-profile-link">
+                            </a> -->
+                            <!-- <a href="#" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-envelope"></i>پیام ها
-                            </a>
-                            <a href="#" class="list-group-item list-group-item-action header-profile-link">
+                            </a> -->
+                            <!-- <a href="#" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-lock"></i>قفل صفحه
-                            </a>
+                            </a> -->
                             <a href="#" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-sign-out-alt"></i>خروج
                             </a>

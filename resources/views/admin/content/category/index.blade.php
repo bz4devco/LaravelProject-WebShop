@@ -48,7 +48,7 @@
                     <tbody>
                         @forelse($postCategorys as $postCategory)
                         <tr class="align-middle">
-                            <th>{{ $postCategory->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $postCategory->name }}</td>
                             <td  class="text-truncate" style="max-width: 150px;" title="{{ $postCategory->description }}">
                                 {{ strip_tags($postCategory->description) }}
@@ -57,7 +57,7 @@
                                 {{ $postCategory->slug }}
                             </td>
                             <td>
-                                <img src="{{ asset($postCategory->image['indexArray'][$postCategory->image['currentImage']]) }}" width="50" height="50" alt="{{ $postCategory->name }}">
+                                <img src="{{ hasFileUpload($postCategory->image['indexArray'][$postCategory->image['currentImage']]) }}" width="50" height="50" alt="{{ $postCategory->name }}">
                             </td>
                             <td>
                                 <section>
@@ -83,6 +83,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $postCategorys->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

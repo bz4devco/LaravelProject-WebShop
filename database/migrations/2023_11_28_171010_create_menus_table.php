@@ -17,6 +17,7 @@ class CreateMenusTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('url');
+            $table->tinyInteger('position')->default(0)->comment('developer explain 0 or 01 ... in Admin\Content\Menu model');
             $table->tinyInteger('status')->default(0);
             $table->integer('sort')->default(1);
             $table->foreignId('parent_id')->nullable()->constrained('menus');

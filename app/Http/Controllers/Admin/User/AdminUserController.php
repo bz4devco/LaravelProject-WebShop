@@ -21,7 +21,7 @@ class AdminUserController extends Controller
     public function index()
     {
         $admins = User::where('user_type', 1)
-            ->orderBy('created_at', 'desc')->simplePaginate(15);
+            ->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.user.admin-user.index', compact('admins'));
     }
 
@@ -118,7 +118,7 @@ class AdminUserController extends Controller
         $admin->roles()->sync($request->roles);
 
         return to_route('admin.user.admin-user.index')
-            ->with('alert-section-success', 'نقش ادمین '. ($admin->email ?? $admin->mobile) . ' با موفقیت تخصیص داده شد');
+            ->with('alert-section-success', 'نقش ادمین با مشخصات '. ($admin->email ?? $admin->mobile) . ' با موفقیت تخصیص داده شد');
     }
 
 
@@ -153,7 +153,7 @@ class AdminUserController extends Controller
         $admin->permissions()->sync($request->permissions);
 
         return to_route('admin.user.admin-user.index')
-            ->with('alert-section-success', 'سطح دسترسی ادمین '. ($admin->email ?? $admin->mobile) . ' با موفقیت تخصیص داده شد');
+            ->with('alert-section-success', 'سطح دسترسی ادمین با مشخصات '. ($admin->email ?? $admin->mobile) . ' با موفقیت تخصیص داده شد');
     }
 
 
@@ -184,7 +184,7 @@ class AdminUserController extends Controller
         // store data in database
         $admin->update($inputs);
         return to_route('admin.user.admin-user.index')
-            ->with('alert-section-success', 'ادمین به شماره شناسه شماره ' . $admin->id . ' با موفقیت ویرایش شد');
+            ->with('alert-section-success', 'ادمین با مشخصات ' . ($admin->email ?? $admin->mobile) . ' با موفقیت ویرایش شد');
     }
 
     /**
@@ -197,7 +197,7 @@ class AdminUserController extends Controller
     {
         $result = $admin->delete();
         return to_route('admin.user.admin-user.index')
-            ->with('alert-section-success', 'ادمین به شماره شناسه' . $admin->email . ' با موفقیت حذف شد');
+            ->with('alert-section-success', 'ادمین با مشخصات' . ($admin->email ?? $admin->mobile) . ' با موفقیت حذف شد');
     }
 
     /**
@@ -215,9 +215,9 @@ class AdminUserController extends Controller
 
             if ($result) {
                 if ($admin->status == 0) {
-                    return response()->json(['status' => true, 'checked' => false, 'id' => $admin->id]);
+                    return response()->json(['status' => true, 'checked' => false, 'id' => ($admin->email ?? $admin->mobile)]);
                 } else {
-                    return response()->json(['status' => true, 'checked' => true, 'id' => $admin->id]);
+                    return response()->json(['status' => true, 'checked' => true, 'id' => ($admin->email ?? $admin->mobile)]);
                 }
             } else {
                 return response()->json(['status' => false]);

@@ -24,7 +24,7 @@ class TicketRequest extends FormRequest
     public function rules()
     {
         return [
-            'answer' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,؟!،?! ]+$/u',
+            'answer' => 'required|max:300|min:2|regex:/^[ا-یa-zA-Z0-9\-۰-۹ء-ي.,؟!،?!() ]+$/u',
             'file' => 'nullable|mimes:png,jpg,jpeg,gif,webp,rar,zip,doc,docx',
         ];
     }

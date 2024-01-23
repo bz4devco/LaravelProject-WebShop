@@ -53,7 +53,7 @@
                         @endphp
 
                         <tr class="align-middle">
-                            <th>{{ $key + 1 }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $admin->full_name }}</td>
                             <td>{{ $admin->email }}</td>
                             <td class="width-16-rem text-start">
@@ -67,6 +67,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $admins->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

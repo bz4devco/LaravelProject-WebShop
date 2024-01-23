@@ -48,7 +48,7 @@
                     <tbody>
                         @forelse($amazingSales as $amazingSale)
                         <tr class="align-middle">
-                            <th>{{$amazingSale->id}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td class="text-truncate" style="max-width: 160px;" title="{{$amazingSale->product->name}}">{{$amazingSale->product->name}}</td>
                             <td>{{$amazingSale->percentage}}%</td>
                             <td>{{jalaliDate($amazingSale->start_date)}}</td>
@@ -77,6 +77,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $amazingSales->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

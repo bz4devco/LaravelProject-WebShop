@@ -19,12 +19,12 @@ class SettingController extends Controller
     public function index()
     {
         $settings = Setting::all();
-        if($settings->first() === null){
+        if ($settings->first() === null) {
             $default = new SettingSeeder();
             $default->run();
         }
 
-        $settings = Setting::orderBy('id', 'desc')->simplePaginate(15);
+        $settings = Setting::orderBy('id', 'desc')->paginate(15);
 
         return view('admin.setting.index', compact('settings'));
     }
@@ -40,8 +40,8 @@ class SettingController extends Controller
         $default->run();
 
         return to_route('admin.setting.index')
-        ->with('alert-section-success', 'تنظیم جدید با تنظیمات پایه ایجاد شد')
-        ->with('alert-section-info', 'توجه : جهت تکمیل تنظیمات تکمیلی به ویرایش تنظیمات جدید ایجاد شده مراجعه نمایید.');
+            ->with('alert-section-success', 'تنظیم جدید با تنظیمات پایه ایجاد شد')
+            ->with('alert-section-info', 'توجه : جهت تکمیل تنظیمات تکمیلی به ویرایش تنظیمات جدید ایجاد شده مراجعه نمایید.');
     }
 
 
@@ -56,7 +56,7 @@ class SettingController extends Controller
         return view('admin.setting.edit', compact('setting'));
     }
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -67,43 +67,81 @@ class SettingController extends Controller
     {
         $inputs = $request->all();
 
-            // update image of icon
-            if ($request->hasFile('icon')) {
-                if (!empty($setting->icon)) {
-                    $imageservice->deleteImage($setting->icon);
-                }
-                $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'setting');
-                $imageservice->setImageName('icon');
-                $result = $imageservice->save($request->file('icon'));
 
-                if ($result === false) {
-                    return to_route('admin.setting.edit', $setting->id)->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
-                }
-                $inputs['icon'] = $result;
+
+        // update image of logo
+        if ($request->hasFile('logo')) {
+            if (!empty($setting->logo)) {
+                $imageservice->deleteImage($setting->logo);
             }
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'setting');
+            $imageservice->setImageName('logo');
+            $result = $imageservice->save($request->file('logo'));
 
-            // update image of logo
-            if ($request->hasFile('logo')) {
-                if (!empty($setting->logo)) {
-                    $imageservice->deleteImage($setting->logo);
-                }
-                $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'setting');
-                $imageservice->setImageName('logo');
-                $result = $imageservice->save($request->file('logo'));
-
-                if ($result === false) {
-                    return to_route('admin.setting.edit')->with('swal-error', 'آپلود لوگو با خطا مواجه شد');
-                }
-                $inputs['logo'] = $result;
+            if ($result === false) {
+                return to_route('admin.setting.edit')->with('swal-error', 'آپلود لوگو با خطا مواجه شد');
             }
+            $inputs['logo'] = $result;
+        }
 
+        // update image of icon
+        if ($request->hasFile('icon')) {
+            // reset properties image service
+            $imageservice->resetProperties();
+
+            if (!empty($setting->icon)) {
+                $imageservice->deleteImage($setting->icon);
+            }
+            $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'setting');
+            $imageservice->setImageName('icon');
+            $result = $imageservice->save($request->file('icon'));
+
+            if ($result === false) {
+                return to_route('admin.setting.edit', $setting->id)->with('swal-error', 'آپلود آیکون با خطا مواجه شد');
+            }
+            $inputs['icon'] = $result;
+        }
 
         $setting->update($inputs);
         return to_route('admin.setting.index')
-        ->with('alert-section-success', 'ویرایش تنظیمات شماره   '.$setting['id'].' با موفقیت انجام شد');
+            ->with('alert-section-success', 'ویرایش تنظیمات شماره   ' . $setting['id'] . ' با موفقیت انجام شد');
     }
 
-      /**
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editIndexPage(Setting $setting)
+    {
+        $setting = $setting->first(['id','title','index_page']);
+
+        return view('admin.setting.edit-index-page', compact('setting'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateIndexPage(Request $request, Setting $setting)
+    {
+
+        $inputs['index_page'] = $request->index_page;
+
+        $setting->update($inputs);
+        return to_route('admin.setting.index')
+            ->with('alert-section-success', 'ویرایش نمایش صفحه اصلی برای تنظیمات شماره   ' . $setting['id'] . ' با موفقیت انجام شد');
+    }
+
+
+
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -113,11 +151,11 @@ class SettingController extends Controller
     {
         $result = $setting->delete();
         return to_route('admin.setting.index')
-        ->with('alert-section-success', 'تنظیمت شماره '.$setting->id.' با موفقیت حذف شد');
+            ->with('alert-section-success', 'تنظیمت شماره ' . $setting->id . ' با موفقیت حذف شد');
     }
 
-    
-     /**
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -129,13 +167,13 @@ class SettingController extends Controller
         $setting->status = $setting->status == 0 ? 1 : 0;
         $result = $setting->save();
 
-        if($result){
-            if($setting->status == 0){
+        if ($result) {
+            if ($setting->status == 0) {
                 return response()->json(['status' => true, 'checked' => false, 'id' => $setting->id]);
-            }else{
+            } else {
                 return response()->json(['status' => true, 'checked' => true, 'id' => $setting->id]);
             }
-        }else{
+        } else {
             return response()->json(['status' => false]);
         }
     }

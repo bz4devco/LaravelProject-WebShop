@@ -17,7 +17,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles  = Role::orderBy('created_at', 'desc')->simplePaginate(15);
+        $roles  = Role::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.user.role.index', compact('roles'));
     }
 
@@ -141,9 +141,9 @@ class RoleController extends Controller
 
         if($result){
             if($role->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $role->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $role->title]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $role->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $role->title]);
             }
         }else{
             return response()->json(['status' => false]);

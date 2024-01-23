@@ -27,10 +27,6 @@
             </section>
             <section class="table-responsive overflow-x-auto">
                 <table class="table table-striped table-hover">
-                    <thead>
-                        <th>#</th>
-                        <th class="max-width-8-rem text-start ps-5"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
-                    </thead>
                     <tbody>
                         <tr class="bg-custom-blue text-white align-middle">
                             <th>کد سفارش : {{$order->id}}</th>
@@ -120,7 +116,7 @@
                         <tr class="align-middle border-bottom">
                             <th>تاریخ ارسال</th>
                             <td class="text-start fw-bolder">
-                                {{jalaliDate($order->delivery_date) ?? '-'}}
+                                {{$order->delivery_date ? jalaliDate($order->delivery_date) : '-'}}
                             </td>
                         </tr>
                         <tr class="align-middle border-bottom">
@@ -134,49 +130,43 @@
                                 <small>(بدون اعمال تخفیف)</small>
                             </th>
                             <td class="text-start fw-bolder">
-                                {{number_format($order->order_final_amount) ?? 0}} <span>تومان</span>
+                                {{$order->order_final_amount ? number_format($order->order_final_amount) : 0}} <span>تومان</span>
                             </td>
                         </tr>
+                        @if($order->copan)
                         <tr class="align-middle border-bottom">
                             <th>کوپن تخفیف استفاده شده</th>
                             <td class="text-start fw-bolder">
                                 {{$order->copan->code ?? "-"}}
                             </td>
                         </tr>
-                        @if($order->copan)
                         @if($order->copan->amount_type == 0)
                         <tr class="align-middle border-bottom">
                             <th>درصد تخفیف کوپن تخفیف</th>
                             <td class="text-start fw-bolder">
-                                {{$order->copan->amount . '%' ?? "-"}}
+                                {{$order->copan ? $order->copan->amount . '%' : "-"}}
                             </td>
                         </tr>
                         @else
                         <tr class="align-middle border-bottom">
                             <th>مبلغ تخفیف کوپن تخفیف</th>
                             <td class="text-start fw-bolder">
-                                {{number_format($order->copan->amount) . ' تومان' ?? "-"}}
+                                {{$order->copan ? number_format($order->copan->amount) . ' تومان' : "-"}}
                             </td>
                         </tr>
                         @endif
                         @endif
-                        <tr class="align-middle border-bottom">
-                            <th>مبلغ تخفیف از کد تخفیف</th>
-                            <td class="text-start fw-bolder">
-                                {{number_format($order->order_copan_discount_amount) ?? 0}} <span>تومان</span>
-                            </td>
-                        </tr>
                         <tr class="align-middle border-bottom">
                             <th>تخفیف عمومی استفاده شده</th>
                             <td class="text-start fw-bolder">
-                                {{$order->commonDiscount->title ?? "-"}}
+                                {{$order->commonDiscount ? $order->commonDiscount->title : "-"}}
                             </td>
                         </tr>
                         @if($order->commonDiscount)
                         <tr class="align-middle border-bottom">
                             <th>درصد تخفیف عمومی</th>
                             <td class="text-start fw-bolder">
-                                {{$order->commonDiscount->percentage . '%' ?? "-"}}
+                                {{$order->commonDiscount ? $order->commonDiscount->percentage . '%' : "-"}}
                             </td>
                         </tr>
                         <tr class="align-middle border-bottom">
@@ -189,7 +179,7 @@
                         <tr class="align-middle border-bottom">
                             <th>مجموع تمامی مبلغ تخفبفات</th>
                             <td class="text-start fw-bolder">
-                                {{number_format($order->order_discount_amount) ?? 0}} <span>تومان</span>
+                                {{$order->order_discount_amount ? number_format($order->order_discount_amount) : 0}} <span>تومان</span>
                             </td>
                         </tr>
                         <tr class="align-middle border-bottom">
@@ -198,7 +188,7 @@
                                 {{number_format($order->order_total_products_discount_amount) ?? 0}} <span>تومان</span>
                             </td>
                         </tr>
-                        <tr class="align-middle border-bottom">
+                        <tr class="align-middle border-bottom border-2 border-success">
                             <th>مبلغ نهایی</th>
                             <td class="text-start fw-bolder">
                                 {{number_format($order->order_final_amount - $order->order_discount_amount)}} <span>تومان</span>

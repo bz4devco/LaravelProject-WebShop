@@ -58,12 +58,12 @@
 
                         <tr class="align-middle {{$bg_notif}}">
                             <td class="position-relative {{$icon_notif}}"></td>
-                            <th>{{ $key + 1 }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $ticket->user->full_name }}</td>
                             <td class="text-truncate" style="max-width: 120px;">{{ strip_tags($ticket->description) }}</td>
                             <td>{{ $ticket->category->name }}</td>
                             <td>{{ $ticket->priority->name }}</td>
-                            <td>{{ $ticket->admin->user->full_name }}</td>
+                            <td>{{ isset($ticket->admin->user) ? $ticket->admin->user->full_name : "-" }}</td>
                             <td>{{ $ticket->answer == null ? 'در انتظار پاسخ' : 'پاسخ داده شد'}}</td>
                             <td class="width-16-rem text-start">
                                 <a href="{{ route('admin.ticket.show', $ticket->id) }}" class="btn bg-custom-blue border-0 text-white btn-sm d-inline-flex align-items-center "><i class="fa fa-eye ms-2"></i><span>نمایش تیکت</span></a>
@@ -76,6 +76,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $tickets->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

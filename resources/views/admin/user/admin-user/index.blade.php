@@ -37,7 +37,6 @@
                 <table class="table table-striped table-hover">
                     <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
-                        <th>شماره شناسه</th>
                         <th>ایمیل</th>
                         <th>شماره موبایل</th>
                         <th>نام</th>
@@ -50,8 +49,7 @@
                     <tbody>
                         @forelse($admins as $key => $admin)
                         <tr class="align-middle">
-                            <th>{{ $key + 1 }}</th>
-                            <td>{{ $admin->id }}</td>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $admin->email }}</td>
                             <td>{{ $admin->mobile }}</td>
                             <td>{{ $admin->first_name }}</td>
@@ -99,6 +97,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $admins->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

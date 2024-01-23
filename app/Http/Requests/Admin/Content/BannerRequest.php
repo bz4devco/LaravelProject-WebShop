@@ -25,7 +25,7 @@ class BannerRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+                'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
                 'image' => 'required|image|mimes:png,jpg,jpeg,gif,ico,svg,webp',
                 'url' => 'required|max:120|min:2|url',
                 'position' => 'required|integer',
@@ -34,7 +34,7 @@ class BannerRequest extends FormRequest
             ];
         } else {
             return [
-                'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+                'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
                 'image' => 'nullable|image|mimes:png,jpg,jpeg,gif,ico,svg,webp',
                 'url' => 'required|max:120|min:2|regex:/^[ا-یa-zA-Z0-9آء-ي?.:\\/=-]+$/u',
                 'position' => 'required|integer',

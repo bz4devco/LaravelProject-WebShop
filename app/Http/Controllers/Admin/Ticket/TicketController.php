@@ -23,7 +23,7 @@ class TicketController extends Controller
         $tickets = Ticket::orderBy('seen', 'asc')
         ->orderBy('status', 'desc')
         ->orderBy('created_at', 'desc')
-        ->simplePaginate(15);
+        ->paginate(15);
         return view('admin.ticket.index', compact('tickets'));
     }
 
@@ -37,7 +37,8 @@ class TicketController extends Controller
         
         $tickets = Ticket::where('status', 0)
         ->orderBy('seen', 'asc')
-        ->orderBy('created_at', 'desc')->simplePaginate(15);
+        ->orderBy('created_at', 'desc')->paginate(15);
+
 
         foreach($tickets as $newTicket){
             $newTicket->status = 1;
@@ -54,13 +55,10 @@ class TicketController extends Controller
     public function openTickets()
     {
         $tickets = Ticket::where('seen', 1)
-        ->orderBy('seen', 'asc')
-        ->orderBy('created_at', 'desc')->simplePaginate(15);
+        ->whereNull('answer')
+        ->orderBy('created_at', 'desc')
+        ->paginate(15);
 
-        foreach($tickets as $newTicket){
-            $newTicket->status = 1;
-            $result = $newTicket->save();
-        }
         return view('admin.ticket.open-ticket', compact('tickets'));
     }
 
@@ -71,14 +69,12 @@ class TicketController extends Controller
      */
     public function closeTickets()
     {
-        $tickets = Ticket::where('seen', 0)
-        ->orderBy('seen', 'asc')
-        ->orderBy('created_at', 'desc')->simplePaginate(15);
+        $tickets = Ticket::where('seen', 1)
+        ->whereNotNull('answer')
+        ->orderBy('created_at', 'desc')
+        ->paginate(15);
 
-        foreach($tickets as $newTicket){
-            $newTicket->status = 1;
-            $result = $newTicket->save();
-        }
+
         return view('admin.ticket.close-ticket', compact('tickets'));
     }
 
@@ -128,7 +124,7 @@ class TicketController extends Controller
             $fileService->setExclusiveDirectory('file'. DIRECTORY_SEPARATOR . 'ticket-files');
             $fileService->setFileSize($request->file('file'));
             $fileSize = $fileService->getFileSize();
-            $result = $fileService->moveToStorage($request->file('file'));
+            $result = $fileService->moveToPublic($request->file('file'));
 
             $fileFormat = $fileService->getFileFormat();
 
@@ -147,13 +143,15 @@ class TicketController extends Controller
             TicketFile::create($inputs);
         }
 
+        
+        $answer['reference_id '] = 26;
         $answer['answer'] = $request->answer;
         $answer['answer_status'] = 1;
         $answer['answer_at'] = Carbon::now();
         
         $ticket->update($answer);
         return to_route('admin.ticket.index')
-        ->with('alert-section-success', ' پاسخ تیتک شما به کاربر ' . $ticket->user->full_name . ' ارسال شد');
+        ->with('alert-section-success', ' پاسخ تیتک شما به کاربر ' . $ticket->user->full_name ?? ($ticket->user->email ?? $ticket->user->mobile) . ' ارسال شد');
     }
 
     public function download(TicketFile $file)

@@ -9,10 +9,10 @@ function changeCommentable(id){
                 if(response.commentable){
                     if(response.checked){
                         element.prop('checked', true);
-                        successToast('امکان درج نظرات فیلد شماره '+ response.id + ' با موفقیت فعال شد');
+                        successToast('امکان درج نظرات برای '+ response.id + ' با موفقیت فعال شد');
                     }else{
                         element.prop('checked', false);
-                        successToast('امکان درج نظرات فیلد شماره '+ response.id + ' با موفقیت غیر فعال شد');
+                        successToast('امکان درج نظرات برای '+ response.id + ' با موفقیت غیر فعال شد');
                     }
                 }
                 else{

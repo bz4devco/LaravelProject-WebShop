@@ -22,7 +22,7 @@ class CommentController extends Controller
             ->orderBy('approved', 'asc')
             ->orderBy('answer', 'asc')
             ->orderBy('created_at', 'desc')
-            ->simplePaginate(15);
+            ->paginate(15);
         return view('admin.market.comment.index', compact('comments'));
     }
 
@@ -90,7 +90,7 @@ class CommentController extends Controller
 
         $comment->update($inputs);
         return to_route('admin.market.comment.index')
-            ->with('alert-section-success', 'پاسخ نظر شماره ' . $comment['id'] . 'با موفقیت ثبت شد ');
+            ->with('alert-section-success', 'پاسخ نظر با شناسه ' . $comment['id'] . 'با موفقیت ثبت شد ');
     }
 
     /**

@@ -3,12 +3,14 @@
 namespace App\Models\Content;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'answer', 'body', 'author_id', 'parent_id', 'responder_id','commentable_id','commentable_type','answershow','seen', 'approved', 'status', 'answer_date'

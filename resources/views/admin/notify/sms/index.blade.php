@@ -46,8 +46,8 @@
                     <tbody>
                         @forelse($smses as $sms)
                         <tr class="align-middle">
-                            <th>{{ $sms->id }}</th>
-                            <td>{{ $sms->id }}</td>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
+                            <td>{{ $sms->title }}</td>
                             <td>{{ jalaliDate($sms->published_at) }}</td>
                             <td>
                                 <section>
@@ -64,6 +64,7 @@
                                     @method('DELETE')
                                     <button type="submit" id="{{ $sms->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                <a href="{{ route('admin.notify.sms.send-sms', $sms->id) }}" class="btn btn-success btn-sm"><i class="fa fa-edit ms-2"></i>ارسال</a>
                             </td>
                         </tr>
                         @empty
@@ -73,6 +74,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $smses->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

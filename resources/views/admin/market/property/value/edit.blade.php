@@ -87,8 +87,8 @@
                             <div class="form-group mb-3">
                                 <label for="type">نوع</label>
                                 <select class="form-select form-select-sm" name="type" id="type">
-                                    <option value="0" @if (old('type', $value->type) == 0) >ساده</option>
-                                    <option value="1" @if (old('type', $value->type) == 1) >انتخابی</option>
+                                    <option value="0" @selected(old('type', $value->type) == 0) >ساده</option>
+                                    <option value="1" @selected(old('type', $value->type) == 1) >انتخابی</option>
                                 </select>
                                 @error('type')
                                     <span class="text-danger font-size-12">

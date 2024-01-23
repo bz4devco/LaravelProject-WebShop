@@ -1,7 +1,9 @@
 @extends('customer.layouts.master-two-col')
 
 @section('haed-tag')
-<title></title>
+<meta name="robots" content="noindex, nofollow">
+
+<title>لیست علاقه مندی ها | {{$setting->title}}</title>
 @endsection
 
 @section('content')
@@ -22,7 +24,7 @@
     <section class="cart-item d-flex py-3">
         <section class="cart-img align-self-start flex-shrink-1">
             <a class="text-decoration-none text-dark" href="{{ route('customer.market.product', $product)}}" target="_blank">
-                <img src="{{ asset($product->image['indexArray'][$product->image['currentImage']]) }}" alt="{{$product->name}}">
+                <img src="{{ hasFileUpload($product->image['indexArray'][$product->image['currentImage']]) }}" alt="{{$product->name}}">
             </a>
         </section>
         <section class="align-self-start w-100">

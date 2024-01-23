@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin\Content;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Content\PageRequest;
 use App\Models\Content\Page;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Services\Image\ImageService;
+use App\Http\Requests\Admin\Content\PageRequest;
 
 class PageController extends Controller
 {
@@ -16,8 +17,8 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = Page::orderBy('created_at', 'desc')->simplePaginate(15);
-        return view('admin.content.page.index', compact('pages'));        
+        $pages = Page::orderBy('created_at', 'desc')->paginate(15);
+        return view('admin.content.page.index', compact('pages'));
     }
 
     /**
@@ -39,11 +40,38 @@ class PageController extends Controller
     public function store(PageRequest $request, page $page)
     {
         $inputs = $request->all();
-        $inputs['slug'] = trim(str_replace(' ', '-' , 'slug'));
+        $inputs['slug'] = trim(str_replace(' ', '-', 'slug'));
+        $inputs['body'] = checkEditorXss($inputs['body']);
         $page->create($inputs);
         return to_route('admin.content.page.index')
-        ->with('alert-section-success', 'پیج جدید شما با موفقیت ثبت شد');
+            ->with('alert-section-success', 'پیج جدید شما با موفقیت ثبت شد');
     }
+
+
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadImagesCkeditor(Request $request, ImageService $imageService)
+    {
+        $request->validate([
+            'upload' => 'sometimes|required|max:10240|image|mimes:png,jpg,jpeg,gif,ico,svg,webp'
+        ]);
+        // image Upload
+        if ($request->hasFile('upload')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'page-body');
+            $url = $imageService->save($request->file('upload'));
+            $url = str_replace('\\', '/', $url);
+            $url = asset($url);
+
+            return "<script>window.parent.CKEDITOR.tools.callFunction(1, '{$url}' , '')</script>";
+        }
+    }
+
+    
     /**
      * Display the specified resource.
      *
@@ -63,7 +91,7 @@ class PageController extends Controller
      */
     public function edit(Page $page)
     {
-        return view('admin.content.page.edit', compact('page'));        
+        return view('admin.content.page.edit', compact('page'));
     }
 
     /**
@@ -77,10 +105,10 @@ class PageController extends Controller
     {
         $page->update($request->all());
         return to_route('admin.content.page.index')
-        ->with('alert-section-success', 'ویرایش پیج شماره  '.$page['id'].' با موفقیت انجام شد');
+            ->with('alert-section-success', 'ویرایش پیج با عنوان  ' . $page['title'] . ' با موفقیت انجام شد');
     }
 
-     /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -90,7 +118,7 @@ class PageController extends Controller
     {
         $result = $page->delete();
         return to_route('admin.content.page.index')
-        ->with('alert-section-success', ' پیج شماره '.$page->id.' با موفقیت حذف شد');    
+            ->with('alert-section-success', ' پیج با عنوان ' . $page->title . ' با موفقیت حذف شد');
     }
 
     /**
@@ -105,13 +133,13 @@ class PageController extends Controller
         $page->status = $page->status == 0 ? 1 : 0;
         $result = $page->save();
 
-        if($result){
-            if($page->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $page->id]);
-            }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $page->id]);
+        if ($result) {
+            if ($page->status == 0) {
+                return response()->json(['status' => true, 'checked' => false, 'id' => $page->title]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true, 'id' => $page->title]);
             }
-        }else{
+        } else {
             return response()->json(['status' => false]);
         }
     }

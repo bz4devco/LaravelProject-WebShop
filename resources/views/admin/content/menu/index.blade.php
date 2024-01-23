@@ -40,18 +40,22 @@
                     <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام منو</th>
+                        <th>مکان نمایش</th>
                         <th>منو والد</th>
                         <th>لینک منو</th>
+                        <th>ترتیب نمایش</th>
                         <th>وضعیت</th>
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
                         @forelse($menus as $menu)
                         <tr class="align-middle">
-                            <th>{{ $menu->id}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $menu->name}}</td>
+                            <td>{{ $positions[$menu->position] }}</td>
                             <td>{{ $menu->parent_id ? $menu->parent->name : 'منوی اصلی'}}</td>
                             <td class="text-truncate" style="max-width: 120px;">{{ $menu->url }}</td>
+                            <td>{{ $menu->sort }}</td>
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -76,6 +80,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $menus->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

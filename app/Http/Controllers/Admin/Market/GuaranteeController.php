@@ -58,7 +58,7 @@ class GuaranteeController extends Controller
     {
         $result = $guarantee->delete();
         return to_route('admin.market.product.guarantee.index', $product->id)
-        ->with('alert-section-success', ' رنگ '.$guarantee->name.' این محصول با موفقیت حذف شد');
+        ->with('alert-section-success', ' گارانتی ' . $guarantee->name . ' این محصول با موفقیت حذف شد');
     }
 
 
@@ -77,9 +77,9 @@ class GuaranteeController extends Controller
 
         if($result){
             if($guarantee->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $guarantee->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $guarantee->name]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $guarantee->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $guarantee->name]);
             }
         }else{
             return response()->json(['status' => false]);

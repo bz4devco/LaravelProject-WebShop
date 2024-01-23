@@ -9,11 +9,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش کاربران</a></li>
-    <li class="breadcrumb-item active" aria-current="page">نقش ها</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش کاربران</a></li>
+        <li class="breadcrumb-item active" aria-current="page">نقش ها</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -23,7 +23,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                نقش ها
+                    نقش ها
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
@@ -43,17 +43,27 @@
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
-                    @forelse($roles as $key => $role)
+                        @forelse($roles as $key => $role)
+
+                        @php
+
+                        $permisionTitle = '';
+                        if($role->permissions()->get()->toArray()):
+                        foreach($role->permissions as $key => $permision):
+                        $permisionTitle .= ($key + 1) . '- ' . $permision->title . ' <br> ';
+                        endforeach;
+                        endif;
+                        
+                        @endphp
+
                         <tr class="align-middle">
-                            <th>{{ $key + 1}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $role->title}}</td>
-                            <td>
-                                @if(empty($role->permissions()->get()->toArray()))
+                            <td class="text-truncate" style="max-height: 80px !important;" title="{{strip_tags($permisionTitle)}}">
+                                @if(!$permisionTitle)
                                 <span class="text-danger">برای این نقش هیچ سطح دسترسی تعریف نشده است</span>
                                 @else
-                                    @foreach($role->permissions as $key => $permision)
-                                        {{$key + 1}}- {{$permision->title}}<br>
-                                    @endforeach
+                                {!! Str::limit($permisionTitle, 100) !!}
                                 @endif
                             </td>
                             <td>
@@ -81,6 +91,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $roles->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

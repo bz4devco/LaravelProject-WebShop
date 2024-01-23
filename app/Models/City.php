@@ -9,11 +9,15 @@ class City extends Model
 {
     use HasFactory;
 
-    public function province(){
+    protected $fillable = ['name', 'status', 'province_id'];
+
+    public function province()
+    {
         return $this->belongsTo('App\Models\Province');
     }
 
-    public function addresses(){
+    public function addresses()
+    {
         return $this->hasMany('App\Models\Address');
     }
 }

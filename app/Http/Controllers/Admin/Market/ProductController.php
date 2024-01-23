@@ -21,7 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::orderBy('created_at', 'desc')->simplePaginate(15);
+        $products = Product::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.product.index', compact('products'));
     }
 
@@ -34,7 +34,7 @@ class ProductController extends Controller
     {
         $productCategoreis = ProductCategory::whereNotNull('parent_id')->get(['id', 'name']);
         $brands = Brand::all(['id', 'persian_name']);
-        return view('admin.market.product.create', compact('productCategoreis','brands'));
+        return view('admin.market.product.create', compact('productCategoreis', 'brands'));
     }
 
     /**
@@ -53,39 +53,62 @@ class ProductController extends Controller
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
 
-                
+
         // image Upload
-        if($request->hasFile('image'))
-        {
+        if ($request->hasFile('image')) {
             $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product');
             $result = $imageservice->createIndexAndSave($request->file('image'), true);
-            if($result === false)
-            {
+            if ($result === false) {
                 return to_route('admin.market.product.create')->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         }
-        
-        
+
+
         // use transaction for multi oprations and back after warning oprations
-        DB::transaction(function () use ($inputs, $request, $product) { 
+        DB::transaction(function () use ($inputs, $request, $product) {
             // store data in database
             $product = $product->create($inputs);
-            if($request->meta_key != null){ 
+            if ($request->meta_key != null) {
                 $metas = array_combine($request->meta_key, $request->meta_value);
 
                 // create metas in database
-                foreach($metas as $key => $value){
+                foreach ($metas as $key => $value) {
                     $meta = ProductMeta::create([
-                        'meta_key'      => $key ,
+                        'meta_key'      => $key,
                         'meta_value'    => $value,
                         'product_id'    => $product->id,
                     ]);
                 }
-            }   
+            }
         });
         return to_route('admin.market.product.index')
-        ->with('alert-section-success', 'کالای جدید شما با موفقیت ثبت شد');
+            ->with('alert-section-success', 'کالای جدید شما با موفقیت ثبت شد');
+    }
+
+
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadImagesCkeditor(Request $request, ImageService $imageService)
+    {
+        $request->validate([
+            'upload' => 'sometimes|required|max:10240|image|mimes:png,jpg,jpeg,gif,ico,svg,webp'
+        ]);
+        // image Upload
+        if ($request->hasFile('upload')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product-introduction');
+            $url = $imageService->save($request->file('upload'));
+            $url = str_replace('\\', '/', $url);
+            $url = asset($url);
+
+            return "<script>window.parent.CKEDITOR.tools.callFunction(1, '{$url}' , '')</script>";
+        }
     }
 
     /**
@@ -132,18 +155,16 @@ class ProductController extends Controller
         $realTimestampStart = substr($request->published_at, 0, 10);
         $inputs['published_at'] = date("Y-m-d H:i:s", (int)$realTimestampStart);
 
-                
+
         // image Upload
-        if($request->hasFile('image'))
-        {
+        if ($request->hasFile('image')) {
             if (!empty($product)) {
                 $imageservice->deleteDirectoryAndFiles($product->image['directory']);
             }
             $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'product');
             $result = $imageservice->createIndexAndSave($request->file('image'), true);
-            if($result === false)
-            {
-                return to_route('admin.market.product.edit', $product->id )->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
+            if ($result === false) {
+                return to_route('admin.market.product.edit', $product->id)->with('swal-error', 'آپلود تصویر با خطا مواجه شد');
             }
             $inputs['image'] = $result;
         } else {
@@ -153,23 +174,23 @@ class ProductController extends Controller
                 $inputs['image'] = $image;
             }
         }
-        
-        
+
+
         // use transaction for multi oprations and back after warning oprations
-        DB::transaction(function () use ($inputs, $request, $product) { 
+        DB::transaction(function () use ($inputs, $request, $product) {
             // store data in database
             $product->update($inputs);
 
-            if($request->meta_key != null){ 
+            if ($request->meta_key != null) {
                 $metas = array_combine($request->meta_key, $request->meta_value);
                 // update metas in database
                 $result = ProductMeta::where('product_id', $product->id)->delete();
-                if($result){
+                if ($result) {
                     // create metas in database
-                    foreach($metas as $key => $value){
-                        if(!empty($key) && !empty($value)){
+                    foreach ($metas as $key => $value) {
+                        if (!empty($key) && !empty($value)) {
                             $meta = ProductMeta::create([
-                                'meta_key'      => $key ,
+                                'meta_key'      => $key,
                                 'meta_value'    => $value,
                                 'product_id'    => $product->id,
                             ]);
@@ -179,7 +200,7 @@ class ProductController extends Controller
             }
         });
         return to_route('admin.market.product.index')
-        ->with('alert-section-success', ' ویرایش کالای شماره '.$product->id.' با موفقیت انجام شد');
+            ->with('alert-section-success', ' ویرایش کالا با نام ' . $product->name . ' با موفقیت انجام شد');
     }
 
     /**
@@ -192,11 +213,11 @@ class ProductController extends Controller
     {
         $result = $product->delete();
         return to_route('admin.market.product.index')
-        ->with('alert-section-success', ' کالا شماره '.$product->id.' با موفقیت حذف شد');
+            ->with('alert-section-success', ' کالا با نام ' . $product->name . ' با موفقیت حذف شد');
     }
 
 
-         /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -208,18 +229,18 @@ class ProductController extends Controller
         $product->status = $product->status == 0 ? 1 : 0;
         $result = $product->save();
 
-        if($result){
-            if($product->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $product->id]);
-            }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $product->id]);
+        if ($result) {
+            if ($product->status == 0) {
+                return response()->json(['status' => true, 'checked' => false, 'id' => $product->name]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true, 'id' => $product->name]);
             }
-        }else{
+        } else {
             return response()->json(['status' => false]);
         }
     }
 
-             /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -231,13 +252,13 @@ class ProductController extends Controller
         $product->marketable = $product->marketable == 0 ? 1 : 0;
         $result = $product->save();
 
-        if($result){
-            if($product->marketable == 0){
-                return response()->json(['marketable' => true, 'checked' => false, 'id' => $product->id]);
-            }else{
-                return response()->json(['marketable' => true, 'checked' => true, 'id' => $product->id]);
+        if ($result) {
+            if ($product->marketable == 0) {
+                return response()->json(['marketable' => true, 'checked' => false, 'id' => $product->name]);
+            } else {
+                return response()->json(['marketable' => true, 'checked' => true, 'id' => $product->name]);
             }
-        }else{
+        } else {
             return response()->json(['marketable' => false]);
         }
     }

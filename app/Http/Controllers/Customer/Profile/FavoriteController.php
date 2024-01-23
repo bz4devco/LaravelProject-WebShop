@@ -9,21 +9,17 @@ use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        if (Auth::check()) {
-            return view('customer.profile.favorite.my-favorites');
-        } else {
-            return to_route('auth.customer.login-register-form');
-        }
+        return view('customer.profile.favorite.my-favorites');
     }
 
-        /**
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

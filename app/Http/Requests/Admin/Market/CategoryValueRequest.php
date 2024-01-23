@@ -25,7 +25,7 @@ class CategoryValueRequest extends FormRequest
     {
         return [
             'product_id' => 'required|exists:products,id',
-            'value' => 'required|max:120|min:1|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+            'value' => 'required|max:120|min:1|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
             'price_increase' => 'required|regex:/^\d{1,20}(\.\d{1,3})?$/',
             'type' => 'required|numeric|in:0,1',
         ];

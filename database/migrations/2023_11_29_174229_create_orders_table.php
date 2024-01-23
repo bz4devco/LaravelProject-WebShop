@@ -26,7 +26,7 @@ class CreateOrdersTable extends Migration
             $table->longText('delivery_object')->nullable();
             $table->decimal('delivery_amount', 20 , 3)->nullable();
             $table->tinyInteger('delivery_status')->default(0);
-            $table->timestamp('delivery_date')->comment('0 => ارسال نشده , 1 => درحال ارسال , 2 => ارسال شده, 3 => تحویل داده شده');
+            $table->timestamp('delivery_date')->nullable()->comment('0 => ارسال نشده , 1 => درحال ارسال , 2 => ارسال شده, 3 => تحویل داده شده');
             $table->decimal('order_final_amount', 20 , 3)->nullable();
             $table->decimal('order_discount_amount', 20 , 3)->nullable();
             $table->foreignId('copan_id')->nullable()->constrained('copans')->onUpdate('cascade')->onDelete('cascade');

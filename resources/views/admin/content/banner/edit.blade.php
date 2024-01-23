@@ -73,7 +73,7 @@
                                 @if($banner->image != null)
                                 <section class="row">
                                     <section class="col-md-6 mt-2">
-                                        <img src="{{asset($banner->image)}}" class="rounded-3" width="100" alt="image">
+                                        <img src="{{ hasFileUpload($banner->image)}}" class="rounded-3" width="100" alt="image">
                                     </section>
                                 </section>
                                 @endif

@@ -17,7 +17,7 @@ class CopanController extends Controller
      */
     public function index()
     {
-        $copans = Copan::orderBy('created_at', 'desc')->simplePaginate(15);
+        $copans = Copan::orderBy('created_at', 'desc')->paginate(15);
 
         return view('admin.market.discount.copan.index', compact('copans'));
     }
@@ -118,7 +118,7 @@ class CopanController extends Controller
 
         $copan->update($inputs);
         return to_route('admin.market.discount.copan.index')
-        ->with('alert-section-success', 'ویرایش کوپن تخفیف با شماره شناسه   '.$copan['id'].' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش کوپن تخفیف با کد   '.$copan['code'].' با موفقیت انجام شد');
     }
 
     /**
@@ -131,7 +131,7 @@ class CopanController extends Controller
     {
         $result = $copan->delete();
         return to_route('admin.market.discount.copan.index')
-        ->with('alert-section-success', ' کوپن تخفیف با شماره شناشه '.$copan->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' کوپن تخفیف با کد '.$copan->code.' با موفقیت حذف شد');
     }
 
          /**
@@ -148,9 +148,9 @@ class CopanController extends Controller
 
         if($result){
             if($copan->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $copan->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $copan->code]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $copan->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $copan->code]);
             }
         }else{
             return response()->json(['status' => false]);

@@ -65,7 +65,7 @@ class GalleryController extends Controller
         // store data in database
         $gallery = Gallery::create($inputs);
         return to_route('admin.market.product.gallery.index', $product->id)
-        ->with('alert-section-success', 'تصویر جدید شما برای محصول با موفقیت ثبت شد');
+        ->with('alert-section-success', ' تصویر جدید برای محصول'. $gallery->product->name .' با موفقیت ثبت شد');
     }
 
 
@@ -79,6 +79,6 @@ class GalleryController extends Controller
     {
         $result = $gallery->delete();
         return to_route('admin.market.product.gallery.index', $product->id)
-        ->with('alert-section-success', ' تصویر گالری به شناسه '.$gallery->id.' این محصول با موفقیت حذف شد');
+        ->with('alert-section-success', ' تصویر از گالری محصول '. $gallery->product->name .' با موفقیت حذف شد');
     }
 }

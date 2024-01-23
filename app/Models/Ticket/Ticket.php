@@ -10,7 +10,7 @@ class Ticket extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['subject','answer', 'description', 'status', 'seen', 'reference_id',  'prioritiy_id', 'ticket_id', 'answer_at', 'answer_status'];
+    protected $fillable = ['subject','answer', 'description', 'status', 'seen', 'reference_id',  'priority_id',  'category_id', 'ticket_id', 'user_id', 'answer_at', 'answer_status'];
 
 
     public function user()
@@ -28,7 +28,7 @@ class Ticket extends Model
         return $this->belongsTo('App\Models\Ticket\TicketCategory');
     }
 
-    public function TicketFile()
+    public function ticketFiles()
     {
         return $this->hasMany('App\Models\Ticket\TicketFile', 'ticket_id');
     }
@@ -39,4 +39,10 @@ class Ticket extends Model
     }
 
 
+
+    
+    public function ticketStatus()
+    {
+        return $this->answer ? 'پاسخ توسط ادمین' : ($this->seen == 1 ? 'در حال بررسی' : 'در انتظار پاسخ');
+    }
 }

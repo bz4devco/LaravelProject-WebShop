@@ -29,6 +29,7 @@
         
     </section>
 
+    @include('admin.alerts.sweetalert.error')
     @include('admin.alerts.sweetalert.success')
 
 </body>

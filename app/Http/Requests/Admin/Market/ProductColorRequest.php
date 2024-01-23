@@ -24,7 +24,7 @@ class ProductColorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+            'name' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
             'price_increase' => 'required|regex:/^\d{1,20}(\.\d{1,3})?$/',
             'status' => 'required|numeric|in:0,1',
         ];

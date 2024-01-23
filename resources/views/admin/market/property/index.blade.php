@@ -43,7 +43,7 @@
                     <tbody>
                         @forelse($category_attributes as $category_attribute)    
                         <tr class="align-middle">
-                            <th>{{ $category_attribute->id }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $category_attribute->name }}</td>
                             <td>{{ $category_attribute->unit }}</td>
                             <td>{{ $category_attribute->category->name }}</td>
@@ -64,6 +64,11 @@
                         @endforelse
                     </tbody>
                 </table>
+                <section class="mb-3 mt-5 d-flex justify-content-center border-0">
+                    <nav>
+                        {{ $category_attributes->links('pagination::bootstrap-5') }}
+                    </nav>
+                </section>
             </section>
         </section>
     </section>

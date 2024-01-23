@@ -2,8 +2,9 @@
 
 @section('haed-tag')
 <link rel="stylesheet" href="{{ asset('customer-assets/css/address.css') }}">
+<meta name="robots" content="index, nofollow">
 
-<title></title>
+<title>ویرایش آدرس | {{$setting->title}}</title>
 @endsection
 @section('content')
 <!-- start cart -->

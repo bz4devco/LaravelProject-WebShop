@@ -14,7 +14,7 @@
                         <select class="form-select form-select-sm" id="province" name="province_id">
                             <option disabled selected>استان را انتخاب کنید</option>
                             @foreach ($provinces as $province)
-                            <option value="{{$province->id}}" data-url="{{ route('customer.sales-process.get-cities', $province->id)}}" @selected(old('province_id')==$province->id) >{{$province->name}}</option>
+                            <option value="{{$province->id}}" data-url="{{ route('customer.profile.address.get-cities', $province->id)}}" @selected(old('province_id')==$province->id) >{{$province->name}}</option>
                             @endforeach
                         </select>
                         @error('province_id')

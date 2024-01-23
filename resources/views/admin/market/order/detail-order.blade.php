@@ -43,10 +43,10 @@
                     <tbody>
                         @forelse($order->orderItems as $item)
                         <tr class="align-middle">
-                            <th>{{$loop->iteration}}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$item->order->id}}</td>
-                            <td>{{$item->sengleProduct->name ?? '-'}}</td>
-                            <td>{{$item->amazingSale->percentage . '%' ?? '-'}}</td>
+                            <td>{{$item->products ? json_decode($item->products)->name : '-'}}</td>
+                            <td>{{$item->amazing_sale_object ? json_decode($item->amazing_sale_object)->percentage . '%' : '-'}}</td>
                             <td>{{number_format($item->amazing_sale_discount_amount) ?? 0}} <span>تومان</span></td>
                             <td>{{$item->number ?? '-'}}</td>
                             <td>{{$item->color->name ?? '-'}}</td>

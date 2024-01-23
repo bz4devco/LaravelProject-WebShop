@@ -1,7 +1,9 @@
 @extends('customer.layouts.master-two-col')
 
 @section('haed-tag')
-<title></title>
+<meta name="robots" content="noindex, nofollow">
+
+<title>ویرایش پروفایل | {{$setting->title}}</title>
 @endsection
 
 @section('content')

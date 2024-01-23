@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Market;
 
 use App\Http\Controllers\Controller;
 use App\Models\Market\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -16,7 +17,7 @@ class OrderController extends Controller
     public function total()
     {
         $orders = Order::orderBy('seen', 'asc')
-        ->orderBy('created_at', 'desc')->simplePaginate(15);
+        ->orderBy('created_at', 'desc')->paginate(15);
         foreach ($orders as $order) {
             if($order->seen == 0){
                 $order->seen = 1;
@@ -29,7 +30,7 @@ class OrderController extends Controller
 
     public function newOrder()
     {
-        $orders = Order::where('seen', 0)->orderBy('created_at', 'desc')->simplePaginate(15);
+        $orders = Order::where('seen', 0)->orderBy('created_at', 'desc')->paginate(15);
         foreach ($orders as $order) {
             $order->seen = 1;
             $order->save();
@@ -40,25 +41,25 @@ class OrderController extends Controller
 
     public function sending()
     {
-        $orders = Order::where('delivery_status', 1)->orderBy('created_at', 'desc')->simplePaginate(15);
+        $orders = Order::where('delivery_status', 1)->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.order.sending-order', compact('orders'));
     }
 
     public function canceled()
     {
-        $orders = Order::where('order_status', 3)->orderBy('created_at', 'desc')->simplePaginate(15);
+        $orders = Order::where('order_status', 3)->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.order.canceled-order', compact('orders'));
     }
 
     public function unpaind()
     {
-        $orders = Order::where('payment_status', 0)->orderBy('created_at', 'desc')->simplePaginate(15);
+        $orders = Order::where('payment_status', 0)->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.order.unpaind-order', compact('orders'));
     }
 
     public function returned()
     {
-        $orders = Order::where('order_status', 4)->orderBy('created_at', 'desc')->simplePaginate(15);
+        $orders = Order::where('order_status', 4)->orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.order.returned-order', compact('orders'));
     }
 
@@ -87,6 +88,7 @@ class OrderController extends Controller
                 break;
             case 2:
                 $order->delivery_status = 3;
+                $order->delivery_date = Carbon::now();
                 break;
             default:
                 $order->delivery_status = 0;

@@ -89,8 +89,8 @@
                             <div class="form-group mb-3">
                                 <label for="status">وضعیت</label>
                                 <select class="form-select form-select-sm" name="status" id="status">
-                                    <option value="0" @selected(old('status')==0) >غیر فعال</option>
-                                    <option value="1" @selected(old('status')==1) >فعال</option>
+                                    <option value="0" @selected(old('status')==0)>غیر فعال</option>
+                                    <option value="1" @selected(old('status')==1)>فعال</option>
                                 </select>
                                 @error('status')
                                 <span class="text-danger font-size-12">
@@ -118,6 +118,9 @@
 <script src="{{ asset('admin-assets/js/plugin/form/select2-input-config.js') }}"></script>
 
 <script>
-    CKEDITOR.replace('body');
+    CKEDITOR.replace('body', {
+        filebrowserUploadUrl: `{{route('admin.content.page.upload-images-ckeditor').'?_token='.csrf_token()}}`,
+        filebrowserImageUploadUrl: `{{route('admin.content.page.upload-images-ckeditor').'?_token='.csrf_token()}}`,
+    });
 </script>
 @endsection

@@ -16,7 +16,7 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $delivery_methods = Delivery::orderBy('created_at', 'desc')->simplePaginate(15);
+        $delivery_methods = Delivery::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.market.delivery.index', compact('delivery_methods'));
     }
 

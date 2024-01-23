@@ -18,19 +18,13 @@ class AddressController extends Controller
      */
     public function index()
     {
-        if (Auth::check()) {
+        $addresses = Address::where('user_id', Auth::user()->id)
+            ->where('status', 1)->orderBy('created_at', 'desc')
+            ->get();
 
-            $addresses = Address::where('user_id', Auth::user()->id)
-                ->where('status', 1)->orderBy('created_at', 'desc')
-                ->get();
+        $provinces = Province::where('status', 1)->orderBy('name', 'asc')->get();
 
-            $provinces = Province::where('status', 1)->orderBy('name', 'asc')->get();
-
-
-            return view('customer.profile.address.my-address', compact('addresses', 'provinces'));
-        } else {
-            return to_route('auth.customer.login-register-form');
-        }
+        return view('customer.profile.address.my-address', compact('addresses', 'provinces'));
     }
 
     /**
@@ -43,13 +37,13 @@ class AddressController extends Controller
     {
 
         $inputs = $request->all();
-        if(isset($inputs['mobile'])){
-             // filter mobile format
-             $inputs['mobile'] = "0" . preg_replace('/[^0-9]/', '', $inputs['mobile']);
-             $inputs['mobile'] = substr($inputs['mobile'], 0, 2) === '98' ? substr($inputs['mobile'], 2) : $inputs['mobile'];
-             $inputs['mobile'] = convertPersianToEnglish($inputs['mobile']);
-        }else{
-            if(isset($inputs['receiver']) && $inputs['receiver'] == 'on'){
+        if (isset($inputs['mobile'])) {
+            // filter mobile format
+            $inputs['mobile'] = "0" . preg_replace('/[^0-9]/', '', $inputs['mobile']);
+            $inputs['mobile'] = substr($inputs['mobile'], 0, 2) === '98' ? substr($inputs['mobile'], 2) : $inputs['mobile'];
+            $inputs['mobile'] = convertPersianToEnglish($inputs['mobile']);
+        } else {
+            if (isset($inputs['receiver']) && $inputs['receiver'] == 'on') {
                 $inputs['recipient_first_name'] = auth()->user()->first_name;
                 $inputs['recipient_last_name'] = auth()->user()->last_name;
                 $inputs['mobile'] = auth()->user()->mobile;
@@ -71,14 +65,9 @@ class AddressController extends Controller
      */
     public function edit(Address $address)
     {
-        if (Auth::check()) {
-            $provinces = Province::where('status', 1)->orderBy('name', 'asc')->get();
+        $provinces = Province::where('status', 1)->orderBy('name', 'asc')->get();
 
-
-            return view('customer.profile.address.edit-address', compact('address', 'provinces'));
-        } else {
-            return to_route('auth.customer.login-register-form');
-        }
+        return view('customer.profile.address.edit-address', compact('address', 'provinces'));
     }
 
     /**
