@@ -24,6 +24,12 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     // dashboard route
     Route::get('/', 'AdminDashboardController@index')->name('admin.home');
 
+    // section admin profile in admin panel
+    Route::prefix('profile')->controller("ProfileController")->group(function () {
+        Route::get('/{user:slug?}', 'index')->name('admin.profile.index');
+        Route::get('/edit/{user}', 'edit')->name('admin.profile.edit');
+        Route::put('/update/{user}', 'update')->name('admin.profile.update');
+    });
 
     // Market Module
 
@@ -149,6 +155,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
                 Route::get('/', 'index')->name('admin.market.product.index');
                 Route::get('/create', 'create')->name('admin.market.product.create');
                 Route::post('/store', 'store')->name('admin.market.product.store');
+                Route::post('/upload-images', 'uploadImagesCkeditor')->name('admin.market.product.upload-images-ckeditor');
                 Route::get('/edit/{product}', 'edit')->name('admin.market.product.edit');
                 Route::put('/update/{product}', 'update')->name('admin.market.product.update');
                 Route::delete('/destroy/{product}', 'destroy')->name('admin.market.product.destroy');
@@ -278,6 +285,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/', 'index')->name('admin.content.post.index');
             Route::get('/create', 'create')->name('admin.content.post.create');
             Route::post('/store', 'store')->name('admin.content.post.store');
+            Route::post('/upload-images', 'uploadImagesCkeditor')->name('admin.content.post.upload-images-ckeditor');
             Route::get('/edit/{post}', 'edit')->name('admin.content.post.edit');
             Route::put('/update/{post}', 'update')->name('admin.content.post.update');
             Route::delete('/destroy/{post}', 'destroy')->name('admin.content.post.destroy');
@@ -291,6 +299,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/', 'index')->name('admin.content.page.index');
             Route::get('/create', 'create')->name('admin.content.page.create');
             Route::post('/store', 'store')->name('admin.content.page.store');
+            Route::post('/upload-images', 'uploadImagesCkeditor')->name('admin.content.page.upload-images-ckeditor');
             Route::get('/edit/{page}', 'edit')->name('admin.content.page.edit');
             Route::put('/update/{page}', 'update')->name('admin.content.page.update');
             Route::delete('/destroy/{page}', 'destroy')->name('admin.content.page.destroy');
@@ -383,10 +392,12 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/', 'index')->name('admin.notify.email.index');
             Route::get('/create', 'create')->name('admin.notify.email.create');
             Route::post('/store', 'store')->name('admin.notify.email.store');
+            Route::post('/upload-images', 'uploadImagesCkeditor')->name('admin.notify.email.upload-images-ckeditor');
             Route::get('/edit/{email}', 'edit')->name('admin.notify.email.edit');
             Route::put('/update/{email}', 'update')->name('admin.notify.email.update');
             Route::delete('/destroy/{email}', 'destroy')->name('admin.notify.email.destroy');
             Route::get('/status/{email}', 'status')->name('admin.notify.email.status');
+            Route::get('/send-mail/{email}', 'sendMail')->name('admin.notify.email.send-mail');
         });
 
         // section notify and email file side in admin panel
@@ -410,6 +421,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::put('/update/{sms}', 'update')->name('admin.notify.sms.update');
             Route::delete('/destroy/{sms}', 'destroy')->name('admin.notify.sms.destroy');
             Route::get('/status/{sms}', 'status')->name('admin.notify.sms.status');
+            Route::get('/send-sms/{sms}', 'sendSMS')->name('admin.notify.sms.send-sms');
         });
     });
 
@@ -448,6 +460,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
             Route::get('/set/{admin}', 'set')->name('admin.ticket.admin.set');
         });
 
+
         Route::controller("TicketController")->group(function () {
             Route::get('/new-tickets', 'newTickets')->name('admin.ticket.new-ticket');
             Route::get('/open-tickets', 'openTickets')->name('admin.ticket.open-ticket');
@@ -473,6 +486,33 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
         Route::put('/update/{setting}', 'update')->name('admin.setting.update');
         Route::delete('/destroy/{setting}', 'destroy')->name('admin.setting.destroy');
         Route::get('/status/{setting}', 'status')->name('admin.setting.status');
+
+        // section index of website and admin settings side in admin panel
+        Route::get('/edit-index-page/{setting}', 'editIndexPage')->name('admin.setting.index-page.edit');
+        Route::put('/update-index-page/{setting}', 'updateIndexPage')->name('admin.setting.index-page.update');
+
+        // section province and admin settings side in admin panel
+        Route::prefix('province')->controller("ProvinceController")->group(function () {
+            Route::get('/', 'index')->name('admin.setting.province.index');
+            Route::get('/create', 'create')->name('admin.setting.province.create');
+            Route::post('/store', 'store')->name('admin.setting.province.store');
+            Route::get('/edit/{province}', 'edit')->name('admin.setting.province.edit');
+            Route::put('/update/{province}', 'update')->name('admin.setting.province.update');
+            Route::delete('/destroy/{province}', 'destroy')->name('admin.setting.province.destroy');
+            Route::get('/status/{province}', 'status')->name('admin.setting.province.status');
+
+
+            // section city and admin settings side in admin panel
+            Route::controller("CityController")->group(function () {
+                Route::get('/city/{province}', 'index')->name('admin.setting.city.index');
+                Route::get('/city/create/{province}', 'create')->name('admin.setting.city.create');
+                Route::post('/city/store/{province}', 'store')->name('admin.setting.city.store');
+                Route::get('/city/edit/{province}/{city}', 'edit')->name('admin.setting.city.edit');
+                Route::put('/city/update/{province}/{city}', 'update')->name('admin.setting.city.update');
+                Route::delete('/city/destroy/{province}/{city}', 'destroy')->name('admin.setting.city.destroy');
+                Route::get('/city/status/{city}', 'status')->name('admin.setting.city.status');
+            });
+        });
     });
 
     Route::post('/notification/read-all', 'NotificationController@readAll')->name('admin.notification.read-all');
@@ -489,14 +529,16 @@ Route::namespace('customer')->group(function () {
 
     Route::controller("HomeController")->group(function () {
         Route::get('/', 'home')->name('customer.home');
+        Route::get('/page/{page:slug}', 'page')->name('customer.page');
         Route::get('/add-to-favorite/{product:slug}', 'addToFavorite')->name('customer.add-to-favorite');
+        Route::get('/search-ajax', 'searchAjax')->name('customer.search-ajax');
     });
 
 
     // section sales process
     Route::namespace('SalesProcess')->group(function () {
         // cart items
-        Route::controller("CartController")->group(function () {
+        Route::middleware('customer.auth')->controller("CartController")->group(function () {
             Route::get('/cart', 'cart')->name('customer.sales-process.cart');
             Route::post('/cart', 'updateCart')->name('customer.sales-process.update-cart');
             Route::post('/add-to-cart/{product:slug}', 'addToCart')->name('customer.sales-process.add-to-cart');
@@ -505,10 +547,8 @@ Route::namespace('customer')->group(function () {
 
         Route::middleware(['cart.items', 'profile.completion'])->group(function () {
             // address
-            Route::controller("AddressAndDeliveryController")->group(function () {
+            Route::middleware('customer.auth')->controller("AddressAndDeliveryController")->group(function () {
                 Route::get('/address-and-delivery', 'addressAndDelivery')->name('customer.sales-process.address-and-delivery');
-                Route::post('/add-address', 'addAddress')->name('customer.sales-process.add-address');
-                Route::get('/get-cities/{province}', 'getCities')->name('customer.sales-process.get-cities');
                 Route::get('/edit-address/{address}', 'editAddress')->name('customer.sales-process.edit-address');
                 Route::put('/update-address/{address}', 'updateAddress')->name('customer.sales-process.update-address');
                 Route::delete('/delete-address/{address}', 'deleteAddress')->name('customer.sales-process.delete-address');
@@ -516,7 +556,7 @@ Route::namespace('customer')->group(function () {
             });
 
 
-            Route::middleware('payment.order')->controller("PaymentController")->group(function () {
+            Route::middleware('customer.auth')->controller("PaymentController")->group(function () {
                 // payment
                 Route::get('/payment', 'payment')->name('customer.sales-process.payment');
                 Route::post('/copan-discount', 'copanDiscount')->name('customer.sales-process.copan-discount');
@@ -526,7 +566,7 @@ Route::namespace('customer')->group(function () {
         });
 
         // profile completion
-        Route::controller("ProfileCompletionController")->group(function () {
+        Route::middleware('customer.auth')->controller("ProfileCompletionController")->group(function () {
             Route::get('/profile-completion', 'profileCompletion')->name('customer.sales-process.profile-completion');
             Route::post('/profile-completion', 'ProfileUpdate')->name('customer.sales-process.profile-completion-update');
         });
@@ -535,26 +575,31 @@ Route::namespace('customer')->group(function () {
 
     // section products in customer view website
     Route::namespace('Market')->controller("ProductController")->group(function () {
+        Route::get('/products/{category?}', 'products')->name('customer.market.products');
+
+        // product details
         Route::get('/product/{product:slug}', 'product')->name('customer.market.product');
         Route::post('/add-comment/product/{product:slug}', 'addComment')->name('customer.market.add-comment');
         Route::get('/add-to-favorite/product/{product:slug}', 'addToFavorite')->name('customer.market.add-to-favorite');
+        Route::middleware('customer.auth')->get('/add-to-compare/product/{product:slug}', 'addToCompare')->name('customer.market.add-to-compare');
+        Route::get('/add-rate/product/{product}', 'addRating')->name('customer.market.product.add-rate');
     });
 
 
     // section profile in customer view website
     Route::prefix('profile')->namespace('Profile')->group(function () {
         // orders profile
-        Route::get('/orders', 'OrderController@index')->name('customer.profile.order.orders');
+        Route::middleware('customer.auth')->get('/orders', 'OrderController@index')->name('customer.profile.order.orders');
 
         // account profile
-        Route::controller("AccountProfileController")->group(function () {
+        Route::middleware('customer.auth')->controller("AccountProfileController")->group(function () {
             Route::get('/', 'index')->name('customer.profile.my-profile');
             Route::get('/edit-profile/{user:id}', 'edit')->name('customer.profile.edit-profile');
             Route::put('/update-profile/{user}', 'update')->name('customer.profile.update-profile');
         });
 
         // address profile
-        Route::controller("AddressController")->group(function () {
+        Route::middleware('customer.auth')->controller("AddressController")->group(function () {
             Route::get('/my-address', 'index')->name('customer.profile.address.my-address');
             Route::post('/add-address', 'store')->name('customer.profile.address.add-address');
             Route::get('/edit-address/{address}', 'edit')->name('customer.profile.address.edit-address');
@@ -564,15 +609,21 @@ Route::namespace('customer')->group(function () {
         });
 
         // favorites profile
-        Route::controller("FavoriteController")->group(function () {
+        Route::middleware('customer.auth')->controller("FavoriteController")->group(function () {
             Route::get('/my-favorite', 'index')->name('customer.profile.favorite.my-favorites');
             Route::get('/destroy-favorite/{favorite}', 'destroy')->name('customer.profile.favorite.destroy-favorites');
         });
 
+        // compares profile
+        Route::middleware('customer.auth')->controller("CompareController")->group(function () {
+            Route::get('/my-comperes', 'index')->name('customer.profile.compare.my-comperes');
+            Route::get('/add-to-compare/{product:slug}', 'addToCompare')->name('customer.profile.compare.add-to-compare');
+            Route::get('/destroy-compare/{product:slug}', 'destroy')->name('customer.profile.compare.destroy-compare');
+        });
+
         // tickets profile
-        Route::controller("TicketController")->group(function () {
+        Route::middleware('customer.auth')->controller("TicketController")->group(function () {
             Route::get('/my-ticket', 'index')->name('customer.profile.ticket.my-tickets');
-            Route::get('/new-ticket', 'create')->name('customer.profile.tickets.my-tikcet.create');
             Route::post('/my-ticket/store', 'store')->name('customer.profile.ticket.my-tickets.store');
             Route::get('/my-ticket/{ticket}', 'show')->name('customer.profile.ticket.my-tickets.show');
         });
@@ -598,18 +649,25 @@ Route::namespace('Auth\Customer')->controller("LoginRegisterController")->group(
 
     Route::get('/logout', "Logout")->name('auth.customer.logout');
 });
+
+
 /*
 |--------------------------------------------------------------------------
-| Jetstream
+| Admin Auth
 |--------------------------------------------------------------------------
 */
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+Route::prefix('admin')->namespace('Auth')->controller("LoginController")->group(function () {
+    // Authenticate Routes...
+    Route::get('login', "sohwLoginForm");
+    Route::post('login', "login")->name('login');
+    Route::post('logout', "logout")->name('logout');
+    
+    // Password Reset Routes...
+    Route::get('password/reset', "showLinkRequestForm")->name('admin.password.request');
+    Route::post('password/email', "sendRequestLinkEmail")->name('admin.password.email');
+    Route::get('password/reset/{token}', "showResetForm")->name('admin.password.reset');
+    Route::post('password/reset', "reset");
+
+
 });
