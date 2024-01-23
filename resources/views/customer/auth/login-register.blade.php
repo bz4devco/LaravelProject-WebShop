@@ -4,7 +4,7 @@
 @section('haed-tag')
 <link rel="stylesheet" href="{{ asset('customer-assets/css/login.css') }}">
 
-<title>{{-- $setting->title --}} | ورود / ثبت نام</title>
+<title>ورود / ثبت نام | {{ $setting->title }} </title>
 @endsection
 
 @section('content')
@@ -26,7 +26,7 @@
                 <section class="col-12">
                     <section class="login-logo mb-3">
                         <a class="text-decoration-none" href="{{route('customer.home')}}">
-                            <img src="{{ asset('customer-assets/images/logo/4.png') }}" alt="logo">
+                            <img src="{{ hasFileUpload($setting->logo, 'logo') }}" alt="logo">
                         </a>
                     </section>
                 </section>
