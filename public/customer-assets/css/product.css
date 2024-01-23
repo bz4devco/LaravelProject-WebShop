@@ -1,3 +1,5 @@
+@import url(../fontawesome/rating-font/all.min.css);
+
 .product-gallery {
 
 }
@@ -223,3 +225,33 @@
 .comment-add-wrapper .form-select-sm {
     font-size: 0.8rem;
 }
+
+
+/* start rating section */
+/* Styling h1 and links
+––––––––––––––––––––––––––––––––– */
+
+
+.starrating > input {display: none;}
+
+.starrating > label:before { 
+  content: "\f005"; /* Star */
+  margin: 2px;
+  font-size: 1.5em;
+  font-family: FontAwesome;
+  display: inline-block; 
+}
+
+.starrating > label
+{
+  color: #222222; /* Start color when not clicked */
+}
+
+.starrating > input:checked ~ label
+{ color: #ffca08 ; } /* Set yellow color when star checked */
+
+.starrating > input:hover ~ label
+{ color: #ffca08 ;  } /* Set yellow color when star hover */
+
+
+/* start rating section */

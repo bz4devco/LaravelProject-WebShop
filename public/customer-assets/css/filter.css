@@ -1,7 +1,3 @@
-.sidebar-nav {
-
-}
-
 .sidebar-nav-item {
     border-bottom: 1px solid #efefef;
 }
@@ -30,6 +26,9 @@
     color: #ff253a;
     transition: 0.4s;
 }
+.sidebar-nav-item-title.active {
+    color: #ff253a;
+}
 
 .sidebar-nav-item-title > a{
     display: block;
@@ -51,9 +50,6 @@
     display: none;
 }
 
-.sidebar-nav-sub-item {
-
-}
 
 .sidebar-nav-sub-item-title {
     padding: 0.3rem 1rem 0.3rem 0.6rem;
