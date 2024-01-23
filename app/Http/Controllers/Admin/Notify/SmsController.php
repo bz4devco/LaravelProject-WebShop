@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin\Notify;
 
+use App\Models\User;
 use App\Models\Notify\SMS;
+use App\Jobs\SendSMSToUsers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Notify\SMSRequest;
@@ -16,7 +18,7 @@ class SmsController extends Controller
      */
     public function index()
     {
-        $smses = SMS::orderBy('created_at', 'desc')->simplePaginate(15);
+        $smses = SMS::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.notify.sms.index', compact('smses'));
        
     }
@@ -95,7 +97,7 @@ class SmsController extends Controller
 
         $sms->update($inputs);
         return to_route('admin.notify.sms.index')
-        ->with('alert-section-success', 'ویرایش اعلامیه پیامیکی شماره   '.$sms['id'].' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش اعلامیه پیامیکی با عنوان   '.$sms['title'].' با موفقیت انجام شد');
     }
 
     /**
@@ -108,7 +110,7 @@ class SmsController extends Controller
     {
         $result = $sms->delete();
         return to_route('admin.notify.sms.index')
-        ->with('alert-section-success', 'اعلامیه پیامکی شماره '.$sms->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', 'اعلامیه پیامکی با عنوان '.$sms->title.' با موفقیت حذف شد');
     }
 
 
@@ -127,12 +129,25 @@ class SmsController extends Controller
 
         if($result){
             if($sms->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $sms->id]);
+                return response()->json(['status' => true, 'checked' => false, 'id' => $sms->title]);
             }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $sms->id]);
+                return response()->json(['status' => true, 'checked' => true, 'id' => $sms->title]);
             }
         }else{
             return response()->json(['status' => false]);
+        }
+    }
+
+
+    public function sendMail(SMS $sms, User $userModel)
+    {
+        $users = $userModel->ActivatedUsersEmail();
+
+        if ($users->count() > 0) {
+            SendSMSToUsers::dispatch($sms, $users);
+            return back()->with('alert-section-success', ' اعلامیه پیامکی با عنوان   ' . $sms['title'] . ' با موفقیت برای کاربران سایت ارسال شد');
+        } else {
+            return back()->with('alert-section-error', ' متاسفانه کاربری برای ارسال اطلاعیه پیامکی پیدا نشد ');
         }
     }
 }

@@ -135,7 +135,7 @@ class EmailFileController extends Controller
         $file->update($inputs);
 
         return to_route('admin.notify.email-file.index', $file->email->id)
-        ->with('alert-section-success', 'ویرایش فایل   '.$file->email->subject.' با موفقیت انجام شد');
+        ->with('alert-section-success', 'ویرایش فایل اطلاعالیه ایمیلی با عنوان  '.$file->email->subject.' با موفقیت انجام شد');
     }
 
     /**
@@ -148,7 +148,7 @@ class EmailFileController extends Controller
     {
         $result = $file->delete();
         return to_route('admin.notify.email-file.index', $file->public_mail_id)
-        ->with('alert-section-success', ' فایل شماره'.$file->id.' با موفقیت حذف شد');
+        ->with('alert-section-success', ' فایل اطلاعالیه ایمیلی با عنوان' .$file->email->subject. ' با موفقیت حذف شد');
     }
 
     

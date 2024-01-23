@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Notify;
 
-use App\Models\Notify\SMS;
+use App\Models\User;
 use App\Models\Notify\Email;
 use Illuminate\Http\Request;
+use App\Jobs\SendEmailToUsers;
 use App\Http\Controllers\Controller;
+use App\Http\Services\Image\ImageService;
 use App\Http\Requests\Admin\Notify\EmailRequest;
 
 class EmailController extends Controller
@@ -17,9 +19,8 @@ class EmailController extends Controller
      */
     public function index()
     {
-        $emails = Email::orderBy('created_at', 'desc')->simplePaginate(15);
+        $emails = Email::orderBy('created_at', 'desc')->paginate(15);
         return view('admin.notify.email.index', compact('emails'));
-    
     }
 
     /**
@@ -49,8 +50,34 @@ class EmailController extends Controller
         // store data in database
         $email->create($inputs);
         return to_route('admin.notify.email.index')
-        ->with('alert-section-success', 'اعلامیه ایمیلی جدید شما با موفقیت ثبت شد');
+            ->with('alert-section-success', 'اعلامیه ایمیلی جدید شما با موفقیت ثبت شد');
     }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function uploadImagesCkeditor(Request $request, ImageService $imageService)
+    {
+        $request->validate([
+            'upload' => 'sometimes|required|max:10240|image|mimes:png,jpg,jpeg,gif,ico,svg,webp'
+        ]);
+        // image Upload
+        if ($request->hasFile('upload')) {
+            $imageService->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'email-body');
+            $url = $imageService->save($request->file('upload'));
+            $url = str_replace('\\', '/', $url);
+            $url = asset($url);
+
+            return "<script>window.parent.CKEDITOR.tools.callFunction(1, '{$url}' , '')</script>";
+        }
+    }
+
+
+
     /**
      * Display the specified resource.
      *
@@ -62,7 +89,7 @@ class EmailController extends Controller
         //
     }
 
-     /**
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -73,7 +100,7 @@ class EmailController extends Controller
         $timestampStart = strtotime($email['published_at']);
         $email['published_at'] = $timestampStart . '000';
 
-        return view('admin.notify.email.edit', compact('email'));        
+        return view('admin.notify.email.edit', compact('email'));
     }
 
     /**
@@ -93,7 +120,7 @@ class EmailController extends Controller
 
         $email->update($inputs);
         return to_route('admin.notify.email.index')
-        ->with('alert-section-success', 'ویرایش اعلامیه ایمیلی شماره   '.$email['id'].' با موفقیت انجام شد');
+            ->with('alert-section-success', 'ویرایش اعلامیه ایمیلی با موضوع   ' . $email['subject'] . ' با موفقیت انجام شد');
     }
 
     /**
@@ -106,10 +133,10 @@ class EmailController extends Controller
     {
         $result = $email->delete();
         return to_route('admin.notify.email.index')
-        ->with('alert-section-success', 'اعلامیه ایمیلی شماره '.$email->id.' با موفقیت حذف شد');
+            ->with('alert-section-success', 'اعلامیه ایمیلی با موضوع ' . $email->subject . ' با موفقیت حذف شد');
     }
 
-     /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -121,14 +148,27 @@ class EmailController extends Controller
         $email->status = $email->status == 0 ? 1 : 0;
         $result = $email->save();
 
-        if($result){
-            if($email->status == 0){
-                return response()->json(['status' => true, 'checked' => false, 'id' => $email->id]);
-            }else{
-                return response()->json(['status' => true, 'checked' => true, 'id' => $email->id]);
+        if ($result) {
+            if ($email->status == 0) {
+                return response()->json(['status' => true, 'checked' => false, 'id' => $email->subject]);
+            } else {
+                return response()->json(['status' => true, 'checked' => true, 'id' => $email->subject]);
             }
-        }else{
+        } else {
             return response()->json(['status' => false]);
+        }
+    }
+
+
+    public function sendMail(Email $email, User $userModel)
+    {
+        $users = $userModel->ActivatedUsersEmail();
+
+        if ($users->count() > 0) {
+            SendEmailToUsers::dispatch($email, $users);
+            return back()->with('alert-section-success', ' اعلامیه ایمیلی با موضوع   ' . $email['subject'] . ' با موفقیت برای کاربران سایت ارسال شد');
+        } else {
+            return back()->with('alert-section-error', ' متاسفانه کاربری برای ارسال اطلاعیه ایمیلی پیدا نشد ');
         }
     }
 }

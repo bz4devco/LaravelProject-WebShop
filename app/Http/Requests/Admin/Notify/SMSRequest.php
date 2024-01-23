@@ -25,15 +25,15 @@ class SMSRequest extends FormRequest
     {
         if($this->isMethod('post')){
             return [
-                'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
-                'body' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+                'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
+                'body' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
                 'published_at' => 'required|numeric',
                 'status' => 'required|numeric|in:0,1',
             ];
         }else{
             return [
-                'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
-                'body' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
+                'title' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
+                'body' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،:() ]+$/u',
                 'published_at' => 'required|numeric',
                 'status' => 'required|numeric|in:0,1',
             ];

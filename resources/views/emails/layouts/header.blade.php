@@ -1,16 +1,73 @@
-  <!-- start header -->
-  <header class="header mb-4">
-      <!-- start top-header logo, searchbox and cart -->
-      <section class="top-header">
-          <section class="container-xxl ">
-              <section class="d-flex justify-content-between align-items-center py-3">
-                  <section class="">
-                      <a class="text-decoration-none" href="{{ route('customer.home') }}"><img src="{{ asset('customer-assets/images/logo/8.png') }}" alt="logo"></a>
-                  </section>
-              </section>
-          </section>
-      </section>
-      <!-- end top-header logo, searchbox and cart -->
+<style type="text/css">
+    img {
+        max-width: 100%;
+    }
 
-  </header>
-  <!-- end header -->
+    body {
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: none;
+        width: 100% !important;
+        height: 100%;
+        line-height: 1.6em;
+        direction: rtl;
+    }
+
+    body {
+        background-color: #f6f6f6;
+    }
+
+    @media only screen and (max-width: 640px) {
+        body {
+            padding: 0 !important;
+        }
+
+        h1 {
+            font-weight: 800 !important;
+            margin: 20px 0 5px !important;
+        }
+
+        h2 {
+            font-weight: 800 !important;
+            margin: 20px 0 5px !important;
+        }
+
+        h3 {
+            font-weight: 800 !important;
+            margin: 20px 0 5px !important;
+        }
+
+        h4 {
+            font-weight: 800 !important;
+            margin: 20px 0 5px !important;
+        }
+
+        h1 {
+            font-size: 22px !important;
+        }
+
+        h2 {
+            font-size: 18px !important;
+        }
+
+        h3 {
+            font-size: 16px !important;
+        }
+
+        .container {
+            padding: 0 !important;
+            width: 100% !important;
+        }
+
+        .content {
+            padding: 0 !important;
+        }
+
+        .content-wrap {
+            padding: 10px !important;
+        }
+
+        .invoice {
+            width: 100% !important;
+        }
+    }
+</style>
