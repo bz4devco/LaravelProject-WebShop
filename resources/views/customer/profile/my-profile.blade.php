@@ -30,7 +30,7 @@
             <section class="address-alert alert alert-primary d-flex align-items-center p-2" role="alert">
                 <i class="fa fa-info-circle flex-shrink-0 me-2"></i>
                 <secrion>
-                   جهت تکمیل اطلاعت حساب کاربری خود اقدام نمایید. جهت تکمیل بر روی گزنه ویرایش حساب کلیک فرماید.
+                   جهت تکمیل اطلاعت حساب کاربری خود اقدام نمایید. جهت تکمیل بر روی گزینه ویرایش حساب کلیک فرماید.
                 </secrion>
             </section>
         </section>

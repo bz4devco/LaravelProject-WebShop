@@ -38,7 +38,7 @@
                 <section class="col-12">
                     <section class="login-input-text position-relative mb-4">
                         <input class="text-center confirm-input number" type="text" name="otp" id="otp" @error('otp') data-error="error" @enderror @if($errors->first()) data-error="error" @endif
-                        @enderrorvalue="{{ old('otp') }}" autofocus required autocomplete="of">
+                        value="{{ old('otp') }}" autofocus required autocomplete="of">
                         @error('otp')
                         <span class="text-danger font-size-12">
                             <strong>

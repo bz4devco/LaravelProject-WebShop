@@ -9,7 +9,7 @@
     <link rel="icon" type="image/x-icon" href="{{asset('customer-assets/images/404/969655.png')}}">
     <link rel="stylesheet" href="{{ asset('customer-assets/css/bootstrap/bootstrap-reboot.rtl.min.css') }}">
     <link rel="stylesheet" href="{{ asset('customer-assets/css/bootstrap/bootstrap.rtl.min.css') }}">
-    <title>صفحه ای پیدا نشد | صفحه 404</title>
+    <title>درخواست غیرمجاز | صفحه 429</title>
 
     <style>
         /*======================
@@ -67,15 +67,15 @@
                 <div class="col-1"></div>
                 <div class="col-10">
                     <div class="four_zero_four_bg">
-                        <h1 class="text-center ">404</h1>
+                        <h1 class="text-center "></h1>
                     </div>
 
                     <div class="contant_box_404 text-center">
                         <h3 class="h2">
-                            به نظر می رسد گم شده اید
+                            درخواست شما بیش از حد مجاز بوده است
                         </h3>
 
-                        <p>صفحه ای که بدنبال آن هستید در دسترس نیست!</p>
+                        <p>لطفاً پس از چند دقیقه مجدداً تلاش فرمایید!</p>
                         @if(request()->is('admin/*'))
                         <a href="{{ route('admin.home') }}" class="link_404 text-decoration-none">بازگشت به صفحه قبل</a>
                         @else

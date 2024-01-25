@@ -24,7 +24,7 @@
 
                      <section class="col-md-12 col-sm-6 col-6 text-end mt-3 mt-md-auto ">
                          <!-- customer profile drop down and register button aria -->
-                         @include('customer.layouts.partials.header.profile-header', ['categories' => $headerCateegories])
+                         @include('customer.layouts.partials.header.profile-header')
                          <!-- customer profile drop down and register button aria -->
 
                          <!-- header cart area -->
