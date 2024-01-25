@@ -4,9 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CustomerAthenticate
+class CheckEmailStatus
 {
     /**
      * Handle an incoming request.
@@ -17,18 +16,10 @@ class CustomerAthenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::check() ){
-            return redirect()->route('auth.customer.login-register-form');
+        if($request->user() && !$request->user()->hasVerifiedEmail())
+        {
+            session()->flash('mustVerifyEmail', true);
         }
-
-        if (auth()->user()->user_type !== 0) {
-            return redirect()->route('auth.customer.login-register-form');
-        }
-
-        if ( auth()->user()->status !== 1) {
-            return redirect()->route('auth.customer.login-register-form');
-        }
-        
         return $next($request);
     }
 }

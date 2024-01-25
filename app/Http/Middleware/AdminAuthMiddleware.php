@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerAthenticate
+class AdminAuthMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,18 +17,21 @@ class CustomerAthenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::check() ){
-            return redirect()->route('auth.customer.login-register-form');
+        if (!Auth::check()) {
+            return redirect()->route('admin.auth.login.form');
         }
 
-        if (auth()->user()->user_type !== 0) {
-            return redirect()->route('auth.customer.login-register-form');
+        if (auth()->user()->user_type !== 1) {
+            return redirect()->route('customer.home');
         }
 
-        if ( auth()->user()->status !== 1) {
-            return redirect()->route('auth.customer.login-register-form');
+        if (auth()->user()->status !== 1) {
+            session()->invalidate();
+            Auth::logout();
+
+            return redirect()->route('admin.auth.login.form')->with('accessDenied', true);
         }
-        
+
         return $next($request);
     }
 }

@@ -37,6 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\CheckEmailStatus::class,
         ],
 
         'api' => [
@@ -65,6 +66,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'cart.items' => \App\Http\Middleware\HasCartItems::class,
         'customer.auth' => \App\Http\Middleware\CustomerAthenticate::class,
+        'admin.auth' => \App\Http\Middleware\AdminAuthMiddleware::class,
         'profile.completion' => \App\Http\Middleware\ProfileCompletion::class,
         'payment.order' => \App\Http\Middleware\HasOrder::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,

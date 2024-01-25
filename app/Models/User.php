@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Jobs\SendEmail;
+use App\Mail\ResetPassword;
+use App\Mail\VerficationEmail;
 use App\Models\Content\Comment;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -86,6 +89,18 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    public function sendEmailVerificationNotification()
+    {
+        SendEmail::dispatchNow($this, new VerficationEmail($this));
+    }
+
+    
+    public function sendPasswordResetNotification($token)
+    {
+        SendEmail::dispatchNow($this, new ResetPassword($this, $token));
+    }
 
     public function getFullNameAttribute()
     {

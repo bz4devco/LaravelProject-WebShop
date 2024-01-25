@@ -190,8 +190,6 @@ class ProductController extends Controller
         $product->view += 1;
         $product->save();
 
-        Auth::loginUsingId(9);
-
         return view('customer.market.product.product', compact('product', 'relatedProducts', 'userRate'));
     }
 

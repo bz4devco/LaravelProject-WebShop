@@ -35,6 +35,7 @@ trait HasPermissionsTrait
                 return true;
             }
         }
+        return false;
     }
 
 

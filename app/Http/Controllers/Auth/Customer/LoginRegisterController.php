@@ -176,7 +176,8 @@ class LoginRegisterController extends Controller
                 $user->update(['email_verified_at' => Carbon::now()]);
             }
 
-            
+            session()->regenerate();
+
             Auth::login($user);
 
             if($user->checkNotCompletionProfile()){
@@ -247,7 +248,9 @@ class LoginRegisterController extends Controller
     }
 
     public function Logout(){
+        session()->invalidate();
         Auth::logout();
+        
         return back();
     }
 
