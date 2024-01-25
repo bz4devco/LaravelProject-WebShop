@@ -7,11 +7,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item active" aria-current="page">فرم کالا</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item active" aria-current="page">فرم کالا</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -21,19 +21,23 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                فرم کالا
+                    فرم کالا
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.market.property.create') }}" class="btn btn-sm btn-info text-white">ایجاد فرم جدید</a>
+                <section>
+                    @can('create-product-property')
+                    <a href="{{ route('admin.market.property.create') }}" class="btn btn-sm btn-info text-white">ایجاد فرم جدید</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
             </section>
             <section class="table-responsive overflow-x-auto">
                 <table class="table table-striped table-hover">
-                <thead class="border-bottom border-dark table-col-count">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>عنوان فرم</th>
                         <th>واحد اندازه گیری</th>
@@ -41,20 +45,26 @@
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
-                        @forelse($category_attributes as $category_attribute)    
+                        @forelse($category_attributes as $category_attribute)
                         <tr class="align-middle">
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $category_attribute->name }}</td>
                             <td>{{ $category_attribute->unit }}</td>
                             <td>{{ $category_attribute->category->name }}</td>
                             <td class="width-22-rem text-start">
+                                @can('view-property-values-list')
                                 <a href="{{ route('admin.market.property.value.index', $category_attribute->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>ویژگی</a>
+                                @endcan
+                                @can('edit-product-property')
                                 <a href="{{ route('admin.market.property.edit', $category_attribute->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-product-property')
                                 <form class="d-inline" action="{{ route('admin.market.property.destroy', $category_attribute->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $category_attribute->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

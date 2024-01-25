@@ -45,7 +45,9 @@
                         <th>نام محصول</th>
                         <th>شناسه محصول</th>
                         <th>تاریخ درج نظر</th>
+                        @can('approved-comment-product')
                         <th>وضعیت نظر</th>
+                        @endcan
                         <th>وضعیت پاسخ</th>
                         <th>وضعیت تایید</th>
                         <th class="text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
@@ -65,20 +67,21 @@
                         @php
                         $bg_notif = ($comment->seen == 0) ? 'bg-new-notif' : '';
                         $icon_notif = ($comment->seen == 0) ? 'icon-before-notif' : '';
-                        
+
                         @endphp
 
 
 
                         <tr class="align-middle {{$bg_notif}}">
                             <td class="position-relative {{$icon_notif}}"></td>
-                            <th >{{ iteration($loop->iteration, request()->page) }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$comment->id}}</td>
                             <td>{{$comment->author->fullname}}</td>
                             <td>{{$comment->author_id}}</td>
                             <td class="text-truncate" style="max-width: 120px;" title="{{$comment->commentable->name}}">{{$comment->commentable->name}}</td>
                             <td>{{$comment->commentable->id}}</td>
                             <td>{{jalaliDate($comment->created_date)}}</td>
+                            @can('approved-comment-product')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-market-center" dir="ltr">
@@ -87,11 +90,16 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td>{{ $comment->answer == null ? 'بدون پاسخ' : 'پاسخ داده شده'}}</td>
                             <td>{{ $comment->approved == 1 ? 'تایید شده' : 'در انتظار تایید'}}</td>
                             <td class=" text-start">
+                                @can('show-comment-product')
                                 <a href="{{ route('admin.market.comment.show', $comment->id ) }}" class="btn btn-info btn-sm text-white"><i class="fa fa-eye ms-1 align-middle"></i>نمایش</a>
+                                @endcan
+                                @can('approved-comment-product')
                                 <button {{$attr_checked}} type="button" data-url="{{ route('admin.market.comment.approved', $comment->id) }}" onclick="approvedstatus(this.id)" id="{{ $comment->id }}-approved" class="btn btn-{{$btn_style}} btn-sm"><i class="fa fa-{{$icon_style}} ms-1 align-middle"></i>{{$btn_text}}</button>
+                                @endcan
                             </td>
                         </tr>
                         @empty

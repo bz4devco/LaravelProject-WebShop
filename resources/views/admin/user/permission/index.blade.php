@@ -28,7 +28,11 @@
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.user.permission.create') }}" class="btn btn-sm btn-info text-white">ایجاد دسترسی جدید</a>
+                <section>
+                    @can('create-permission')
+                    <a href="{{ route('admin.user.permission.create') }}" class="btn btn-sm btn-info text-white">ایجاد دسترسی جدید</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -40,7 +44,9 @@
                         <th>عنوان سطح دسترسی</th>
                         <th>نام نقش ها</th>
                         <th>توضیحات دسترسی</th>
+                        @can('edit-permission')
                         <th>وضعیت</th>
+                        @endcan
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -60,6 +66,7 @@
                             <td class="text-truncate" style="max-width: 150px;" title="{{ $permission->description }}">
                                 {{ $permission->description}}
                             </td>
+                            @can('edit-permission')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -68,13 +75,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-22-rem text-start">
+                                @can('edit-permission')
                                 <a href="{{ route('admin.user.permission.edit', $permission->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-permission')
                                 <form class="d-inline" action="{{ route('admin.user.permission.destroy', $permission->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $permission->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

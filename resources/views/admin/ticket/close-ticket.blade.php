@@ -7,12 +7,12 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش تیکت ها</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.ticket.index') }}">تیکت ها</a></li>
-    <li class="breadcrumb-item active" aria-current="page">تیکت های بسته</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش تیکت ها</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.ticket.index') }}">تیکت ها</a></li>
+        <li class="breadcrumb-item active" aria-current="page">تیکت های بسته</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -22,7 +22,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                تیکت های بسته
+                    تیکت های بسته
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
@@ -51,7 +51,7 @@
                         @php
                         $bg_notif = ($ticket->seen == 0) ? 'bg-new-notif' : '';
                         $icon_notif = ($ticket->seen == 0) ? 'icon-before-notif' : '';
-                        
+
                         @endphp
 
                         <tr class="align-middle {{$bg_notif}}">
@@ -64,7 +64,9 @@
                             <td>{{ $ticket->admin ?  $ticket->admin->user->full_name : 'مسئول تیکت' }}</td>
                             <td>{{ $ticket->answer == null ? 'در انتظار پاسخ' : 'پاسخ داده شد'}}</td>
                             <td class="width-16-rem text-start">
+                                @can('show-ticket')
                                 <a href="{{ route('admin.ticket.show', $ticket->id) }}" class="btn bg-custom-blue border-0 text-white btn-sm d-inline-flex align-items-center "><i class="fa fa-eye ms-2"></i><span>نمایش تیکت</span></a>
+                                @endcan
                             </td>
                         </tr>
                         @empty

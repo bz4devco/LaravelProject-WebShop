@@ -10,11 +10,11 @@
 @section('content')
 <!-- priority page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
-    <li class="breadcrumb-item active" aria-current="page">اولویت</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش محتوی</a></li>
+        <li class="breadcrumb-item active" aria-current="page">اولویت</li>
+    </ol>
 </nav>
 <!-- priority page Breadcrumb area -->
 
@@ -24,12 +24,16 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 اولویت
+                    اولویت
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.ticket.priority.create') }}" class="btn btn-sm btn-info text-white">ایجاد اولویت</a>
+                <section>
+                    @can('create-priority')
+                    <a href="{{ route('admin.ticket.priority.create') }}" class="btn btn-sm btn-info text-white">ایجاد اولویت</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -39,8 +43,9 @@
                     <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام اولویت</th>
-                      
+                        @can('edit-priority')
                         <th>وضعیت</th>
+                        @endcan
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -48,6 +53,7 @@
                         <tr class="align-middle">
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $ticketPriority->name }}</td>
+                            @can('edit-priority')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -56,13 +62,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-16-rem text-start">
+                                @can('edit-priority')
                                 <a href="{{ route('admin.ticket.priority.edit', $ticketPriority->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-priority')
                                 <form class="d-inline" action="{{ route('admin.ticket.priority.destroy', $ticketPriority->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $ticketPriority->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty
@@ -91,4 +102,3 @@
 
 
 @endsection
-

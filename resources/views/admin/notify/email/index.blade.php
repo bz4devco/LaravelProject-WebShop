@@ -10,11 +10,11 @@
 @section('content')
 <!-- email page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">اطلاع رسانی</a></li>
-    <li class="breadcrumb-item active" aria-current="page">اطلاعیه ایمیلی</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">اطلاع رسانی</a></li>
+        <li class="breadcrumb-item active" aria-current="page">اطلاعیه ایمیلی</li>
+    </ol>
 </nav>
 <!-- email page Breadcrumb area -->
 
@@ -24,13 +24,17 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                اطلاعیه ایمیلی
+                    اطلاعیه ایمیلی
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             @include('admin.alerts.alert-section.error')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.notify.email.create') }}" class="btn btn-sm btn-info text-white">ایجاد اطلاعیه ایمیلی</a>
+                <section>
+                    @can('create-notify-email')
+                    <a href="{{ route('admin.notify.email.create') }}" class="btn btn-sm btn-info text-white">ایجاد اطلاعیه ایمیلی</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -41,7 +45,9 @@
                         <th>#</th>
                         <th>عنون اطلاعیه</th>
                         <th>تاریخ ارسال</th>
+                        @can('edit-notify-email')
                         <th>وضعیت</th>
+                        @endcan
                         <th class=" text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -50,6 +56,7 @@
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $email->subject }}</td>
                             <td>{{ jalaliDate($email->published_at) }}</td>
+                            @can('edit-notify-email')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -58,15 +65,24 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="text-start">
+                                @can('sync-notify-email-file')
                                 <a href="{{ route('admin.notify.email-file.index', $email->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-file ms-2"></i>فایل های ضمیمه شده</a>
+                                @endcan
+                                @can('edit-notify-email')
                                 <a href="{{ route('admin.notify.email.edit', $email->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-notify-email')
                                 <form class="d-inline" action="{{ route('admin.notify.email.destroy', $email->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $email->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
+                                @can('send-notify-email')
                                 <a href="{{ route('admin.notify.email.send-mail', $email->id) }}" class="btn btn-success btn-sm"><i class="fa fa-edit ms-2"></i>ارسال</a>
+                                @endcan
                             </td>
                         </tr>
                         @empty

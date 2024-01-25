@@ -29,7 +29,11 @@
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.content.post.create') }}" class="btn btn-sm btn-info text-white">ایجاد پست جدید</a>
+                <section>
+                    @can('create-post')
+                    <a href="{{ route('admin.content.post.create') }}" class="btn btn-sm btn-info text-white">ایجاد پست جدید</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -41,7 +45,9 @@
                         <th>عنوان پست</th>
                         <th>دسته</th>
                         <th>تصویر</th>
+                        @can('edit-post')
                         <th>وضعیت</th>
+                        @endcan
                         <th>امکان درج نظرات</th>
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
@@ -54,6 +60,7 @@
                             <td>
                                 <img src="{{ hasFileUpload($post->image['indexArray'][$post->image['currentImage']]) }}" width="50" height="50" alt="{{ $post->name }}">
                             </td>
+                            @can('edit-post')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -70,13 +77,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-16-rem text-start">
+                                @can('edit-post')
                                 <a href="{{ route('admin.content.post.edit', $post->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-post')
                                 <form class="d-inline" action="{{ route('admin.content.post.destroy', $post->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $post->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

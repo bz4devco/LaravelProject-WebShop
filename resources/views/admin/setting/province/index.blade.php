@@ -10,11 +10,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">تنظیمات</a></li>
-    <li class="breadcrumb-item active" aria-current="page">استان ها</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">تنظیمات</a></li>
+        <li class="breadcrumb-item active" aria-current="page">استان ها</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -24,12 +24,16 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                استان ها
+                    استان ها
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.setting.province.create') }}" class="btn btn-sm btn-info text-white">ایجاد استان جدید</a>
+                <section>
+                    @can('create-province')
+                    <a href="{{ route('admin.setting.province.create') }}" class="btn btn-sm btn-info text-white">ایجاد استان جدید</a>
+                    @endcan
+                </section>
                 <div class="max-width-22-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -39,7 +43,9 @@
                     <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام استان</th>
+                        @can('edit-province')
                         <th>وضعیت</th>
+                        @endcan
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -47,6 +53,7 @@
                         <tr class="align-middle">
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $province->name }}</td>
+                            @can('edit-province')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -55,14 +62,21 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-22-rem text-start">
-                                <a href="{{ route('admin.setting.city.index', $province->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-route ms-2"></i>مدیریت استان</a>
+                                @can('view-cities-list')
+                                <a href="{{ route('admin.setting.city.index', $province->id) }}" class="btn btn-warning btn-sm"><i class="fas fa-route ms-2"></i>مدیریت شهرستان</a>
+                                @endcan
+                                @can('edit-province')
                                 <a href="{{ route('admin.setting.province.edit', $province->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-province')
                                 <form class="d-inline" action="{{ route('admin.setting.province.destroy', $province->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $province->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty
@@ -91,4 +105,3 @@
 
 
 @endsection
-

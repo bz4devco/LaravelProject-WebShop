@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Services\File\FileService;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Admin\Ticket\TicketRequest;
+use App\Models\Ticket\TicketAdmin;
 use Carbon\Carbon;
 
 class TicketController extends Controller
@@ -96,7 +97,9 @@ class TicketController extends Controller
 
         $file = isset($file) ? $file : '';
 
-        return view('admin.ticket.show', compact(['ticket', 'file']));
+        $hasTicketAdmin = TicketAdmin::where('user_id', auth()->user()->id)->first() ?? null;
+
+        return view('admin.ticket.show', compact('ticket', 'file', 'hasTicketAdmin'));
     }
 
     /**

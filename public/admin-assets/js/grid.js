@@ -150,22 +150,23 @@ $(document).ready(function () {
 
 
     // show sidebar part title when has sidebar dropdown
-
     $('#markets-section + .sidebar-group-link').length > 0 || $('#markets-section + a').length > 0 ? $('#markets-section').show() : $('#markets-section').remove();
     $('#products-section .sidebar-dropdown a').length > 0 ? $('#products-section').show() : $('#products-section').remove();
     $('#order-section .sidebar-dropdown a').length > 0 ? $('#order-section').show() : $('#order-section').remove();
     $('#payments-section .sidebar-dropdown a').length > 0 ? $('#payments-section').show() : $('#payments-section').remove();
     $('#dicounts-section .sidebar-dropdown a').length > 0 ? $('#dicounts-section').show() : $('#dicounts-section').remove();
     
-    $('#contents-section + a').length > 0 || $('#contents-section + .sidebar-group-link').length > 0? $('#contents-section').show() : $('#contents-section').remove();
-    $('#users-section + a').length > 0 || $('#users-section + .sidebar-group-link').length > 0 ? $('#users-section').show() : $('#users-section').remove();
+    $('#contents-section + a').length > 0 || $('#contents-section + .sidebar-group-link').length > 0 ? $('#contents-section').show() : $('#contents-section').remove();
+
     $('#roles-section .sidebar-dropdown a').length > 0 ? $('#roles-section').show() : $('#roles-section').remove();
     
-    $('#tickets-section + a').length > 0 || $('#tickets-section + .sidebar-group-link').length > 0? $('#tickets-section').show() : $('#tickets-section').remove();
-    $('#notifies-section + a').length > 0 || $('#notifies-section + .sidebar-group-link').length > 0? $('#notifies-section').show() : $('#notifies-section').remove();
+    $('#tickets-section + a').length > 0 || $('#tickets-section + .sidebar-group-link').length > 0 ? $('#tickets-section').show() : $('#tickets-section').remove();
     
-    $('#settings-section + a').length > 0 || $('#settings-section + .sidebar-group-link').length > 0? $('#settings-section').show() : $('#settings-section').remove();
-
+    $('#notifies-section + a').length > 0 || $('#notifies-section + .sidebar-group-link').length > 0 ? $('#notifies-section').show() : $('#notifies-section').remove();
+    
+    $('#settings-section + a').length > 0 || $('#settings-section + .sidebar-group-link').length > 0 ? $('#settings-section').show() : $('#settings-section').remove();
+    
+    $('#users-section + a').length > 0 || $('#users-section + .sidebar-group-link').length > 0 ? $('#users-section').show() : $('#users-section').remove();
 
     // show sidebar part title when has sidebar dropdown
 });

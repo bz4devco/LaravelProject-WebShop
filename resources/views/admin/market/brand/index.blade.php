@@ -10,11 +10,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item active" aria-current="page">برندها</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item active" aria-current="page">برندها</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -24,24 +24,30 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                برندها
+                    برندها
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.market.brand.create') }}" class="btn btn-sm btn-info text-white">ایجاد برند</a>
+                <section>
+                    @can('create-brand')
+                    <a href="{{ route('admin.market.brand.create') }}" class="btn btn-sm btn-info text-white">ایجاد برند</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                <thead class="border-bottom border-dark table-col-count">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام برند</th>
                         <th>نام لاتین</th>
                         <th>لگو</th>
+                        @can('edit-brand')
                         <th>وضعیت</th>
+                        @endcan
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -51,6 +57,7 @@
                             <td>{{ $brand->persian_name }}</td>
                             <td>{{ $brand->orginal_name }}</td>
                             <td><img src="{{ hasFileUpload($brand->logo) }}" width="50" height="50" class="max-height-2rem" alt="برند"></td>
+                            @can('edit-brand')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -59,13 +66,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-16-rem text-start">
+                                @can('edit-brand')
                                 <a href="{{ route('admin.market.brand.edit', $brand->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-brand')
                                 <form class="d-inline" action="{{ route('admin.market.brand.destroy', $brand->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $brand->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

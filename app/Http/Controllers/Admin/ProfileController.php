@@ -17,8 +17,6 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        Auth::loginUsingId(5);
-
         return view('admin.profile.index');
     }
 

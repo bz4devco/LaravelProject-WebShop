@@ -29,7 +29,11 @@
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.content.faq.create') }}" class="btn btn-sm btn-info text-white">ایجاد پرسش جدید</a>
+                <section>
+                    @can('craete-faq')
+                    <a href="{{ route('admin.content.faq.create') }}" class="btn btn-sm btn-info text-white">ایجاد پرسش جدید</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -40,7 +44,9 @@
                         <th>#</th>
                         <th>پرسش</th>
                         <th>خلاصه پاسخ</th>
+                        @can('edit-faq')
                         <th>وضعیت</th>
+                        @endcan
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -49,6 +55,7 @@
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $faq->qusetion }}</td>
                             <td class="text-truncate" style="max-width: 120px;">{{ strip_tags($faq->answer) }}</td>
+                            @can('edit-faq')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -57,13 +64,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-16-rem text-start">
+                                @can('edit-faq')
                                 <a href="{{ route('admin.content.faq.edit', $faq->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-faq')
                                 <form class="d-inline" action="{{ route('admin.content.faq.destroy', $faq->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $faq->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

@@ -54,10 +54,12 @@
 
                         <tr class="align-middle">
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
-                            <td>{{ $admin->full_name }}</td>
+                            <td>{{ $admin->full_name ?? '-' }}</td>
                             <td>{{ $admin->email }}</td>
                             <td class="width-16-rem text-start">
+                            @can('edit-ticket-admin')
                             <button {{$attr_checked}} type="button" data-url="{{ route('admin.ticket.admin.set', $admin->id) }}" onclick="adminTicket(this.id)" id="{{ $admin->id }}-adminTicket" class="btn border-0 btn-{{$btn_style}} btn-sm"><i class="fa fa-{{$icon_style}} ms-1 align-middle"></i>{{$btn_text}}</button>
+                            @endcan
                             </td>
                         </tr>
                         @empty

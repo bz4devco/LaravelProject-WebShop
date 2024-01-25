@@ -34,13 +34,13 @@ class TicketAdminController extends Controller
         if($admin->user_type == 1){
            
             $result = $ticketAdmin->where('user_id', $admin->id)->first() ?
-            $ticketAdmin->where(['user_id' => $admin->id])->forceDelete() :
+            $ticketAdmin->where(['user_id' => $admin->id])->delete() :
             $ticketAdmin->create(['user_id' => $admin->id]);
 
             if(is_numeric($result)){
-                return response()->json(['set' => true, 'checked' => false, 'fullName' => $admin->full_name]);
+                return response()->json(['set' => true, 'checked' => false, 'fullName' => $admin->full_name != '' ? $admin->full_name : ($admin->email ?? $admin->mobile) ]);
             }else{
-                return response()->json(['set' => true, 'checked' => true, 'fullName' => $admin->full_name]);
+                return response()->json(['set' => true, 'checked' => true, 'fullName' => $admin->full_name != '' ? $admin->full_name : ($admin->email ?? $admin->mobile) ]);
             }
         }else{
             return response()->json(['set' => false]);

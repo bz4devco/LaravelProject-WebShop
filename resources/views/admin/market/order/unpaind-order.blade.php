@@ -7,11 +7,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item active" aria-current="page">سفارشات پرداخت نشده</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item active" aria-current="page">سفارشات پرداخت نشده</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -21,7 +21,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                سفارشات پرداخت نشده
+                    سفارشات پرداخت نشده
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
@@ -78,10 +78,16 @@
                                     <i class="fa fa-tools ms-1"></i>عملیات
                                 </a>
                                 <div class="dropdown-menu">
+                                    @can('show-order')
                                     <a href="{{ route('admin.market.order.show-order', $order->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-images ms-2"></i>مشاهده فاکتور</a>
+                                    @endcan
+                                    @can('change-order-send-status')
                                     <a href="{{ route('admin.market.order.change-send-status', $order->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-list-ul ms-2"></i>تغییر وضعیت ارسال</a>
+                                    @endcan
+                                    @can('change-order-status')
                                     <a href="{{ route('admin.market.order.change-order-status', $order->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-edit ms-2"></i>تغییر وضعیت سفارش</a>
                                     <a href="{{ route('admin.market.order.cancel-order', $order->id) }}" class="dropdown-item text-end ms-2"><i class="fa fa-times ms-3 me-1"></i>باطل کردن سفارش</a>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

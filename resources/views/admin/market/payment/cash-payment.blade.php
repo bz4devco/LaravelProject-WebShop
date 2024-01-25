@@ -7,11 +7,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item active" aria-current="page">پرداخت در محل</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item active" aria-current="page">پرداخت در محل</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -21,7 +21,7 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                پرداخت در محل
+                    پرداخت در محل
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
@@ -43,7 +43,7 @@
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
-                        @forelse($payments as $payment)    
+                        @forelse($payments as $payment)
                         <tr class="align-middle">
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$payment->paymentable->transaction_id ?? 'بدون کد تراکنش'}}</td>
@@ -52,9 +52,15 @@
                             <td>{{$payment->status == 0 ? 'پرداخت نشده' : ($payment->status == 1 ? 'پرداخت شده' : ($payment->status == 2 ? 'باطل شده' : 'برگشت داده شده'))}}</td>
                             <td>{{$payment->type == 0 ? 'آنلاین' : ($payment->type == 1 ? 'آفلاین' : 'در محل')}}</td>
                             <td class="width-22-rem text-start">
-                            <a href="{{ route('admin.market.payment.show', $payment->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
+                                @can('show-order')
+                                <a href="{{ route('admin.market.payment.show', $payment->id) }}" class="btn btn-info btn-sm"><i class="fa fa-eye ms-2"></i>مشاهده</a>
+                                @endcan
+                                @can('canceled-payment')
                                 <a href="{{ route('admin.market.payment.canceled', $payment->id) }}" class="btn btn-warning btn-sm">باطل کردن</a>
+                                @endcan
+                                @can('returned-payment')
                                 <a href="{{ route('admin.market.payment.returned', $payment->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-reply ms-2"></i>برگرداندن</a>
+                                @endcan
                             </td>
                         </tr>
                         @empty

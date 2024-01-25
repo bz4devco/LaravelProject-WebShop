@@ -10,13 +10,13 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.product.index') }}">کالا ها</a></li>
-    <li class="breadcrumb-item active" aria-current="page">گالری کالا</li>
-    <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.market.product.index') }}">کالا ها</a></li>
+        <li class="breadcrumb-item active" aria-current="page">گالری کالا</li>
+        <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -26,14 +26,16 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 گالری کالا 
+                    گالری کالا
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
                 <div>
                     <a href="{{ route('admin.market.product.index') }}" class="btn btn-sm btn-primary text-white">بازگشت</a>
+                    @can('create-gallery')
                     <a href="{{ route('admin.market.product.gallery.create', $product->id) }}" class="btn btn-sm btn-info text-white">ایجاد تصویر جدید </a>
+                    @endcan
                 </div>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
@@ -41,7 +43,7 @@
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
-                <thead class="border-bottom border-dark table-col-count">
+                    <thead class="border-bottom border-dark table-col-count">
                         <th>#</th>
                         <th>نام کالا </th>
                         <th>تصویر کالا</th>
@@ -56,11 +58,13 @@
                                 <img src="{{ hasFileUpload($gallery->image['indexArray'][$gallery->image['currentImage']]) }}" width="50" height="50" alt="{{ $product->name }}">
                             </td>
                             <td class="width-16-rem text-start">
+                                @can('delete-gallery')
                                 <form class="d-inline" action="{{ route('admin.market.product.gallery.destroy',['product' => $product->id, 'gallery' => $gallery->id]) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $gallery->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty
@@ -89,4 +93,3 @@
 
 
 @endsection
-

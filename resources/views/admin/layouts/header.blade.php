@@ -179,7 +179,7 @@
                             <!-- <a href="#" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-lock"></i>قفل صفحه
                             </a> -->
-                            <a href="#" class="list-group-item list-group-item-action header-profile-link">
+                            <a href="{{ route('admin.auth.logout') }}" class="list-group-item list-group-item-action header-profile-link">
                                 <i class="fas fa-sign-out-alt"></i>خروج
                             </a>
                         </section>

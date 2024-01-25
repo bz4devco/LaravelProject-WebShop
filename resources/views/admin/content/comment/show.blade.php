@@ -30,10 +30,10 @@
             </section>
             <section class="card mb-3">
                 <section class="card-header bg-custom-yellow text-white font-size-14">
-                {{$comment->author->full_name}}  - {{$comment->author->id}}
+                    {{$comment->author->full_name}} - {{$comment->author->id}}
                 </section>
                 <section class="card-body">
-                    <h5 class="card-title mb-3">عنوان خبر : {{$comment->commentable->title}}  &nbsp;-&nbsp;  کد خبر: {{$comment->commentable->id}}</h5>
+                    <h5 class="card-title mb-3">عنوان خبر : {{$comment->commentable->title}} &nbsp;-&nbsp; کد خبر: {{$comment->commentable->id}}</h5>
                     <section class="d-flex">
                         <i class="far fa-comments ms-2"></i>
                         <p class="card-text font-size-14">{{strip_tags($comment->body)}}</p>
@@ -43,6 +43,8 @@
                     </section>
                 </section>
             </section>
+            
+            @can('answer-comment-content')
             @if($comment->answer == null)
             <section class="">
                 <form id="form" action="{{ route('admin.content.comment.update', $comment->id) }}" method="post">
@@ -54,11 +56,11 @@
                                 <label for="answer">پاسخ ادمین</label>
                                 <textarea class="form-control form-control-sm d-block" name="answer" id="answer" rows="6">{{old('answer')}}</textarea>
                                 @error('answer')
-                                    <span class="text-danger font-size-12">
-                                        <strong>
-                                            {{ $message }}
-                                        </strong>
-                                    </span>
+                                <span class="text-danger font-size-12">
+                                    <strong>
+                                        {{ $message }}
+                                    </strong>
+                                </span>
                                 @enderror
                             </div>
                         </section>
@@ -69,7 +71,7 @@
                 </form>
             </section>
             @else
-
+            @endcan
 
             {{-- approved button status check and show --}}
             @php
@@ -83,7 +85,9 @@
             <section class="card mb-3">
                 <section class="card-header bg-custom-green text-white font-size-14 d-flex justify-content-between">
                     <span>ادمین - {{$comment->responder->fullname}}</span>
+                    @can('answer-comment-content')
                     <button {{$attr_checked}} type="button" data-url="{{ route('admin.content.comment.answershow', $comment->id) }}" onclick="answershow(this.id)" id="{{ $comment->id }}-answershow" class="btn btn-{{$btn_style}} btn-sm"><i class="fa fa-{{$icon_style}} ms-1 align-middle"></i>{{$btn_text}}</button>
+                    @endcan
                 </section>
                 <section class="card-body">
                     <h5 class="card-title mb-3">پاسخ ادمین</h5>

@@ -10,11 +10,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item active" aria-current="page">دسته بندی</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item active" aria-current="page">دسته بندی</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -24,12 +24,16 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                 دسته بندی
+                    دسته بندی
                 </h5>
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.market.category.create') }}" class="btn btn-sm btn-info text-white">ایجاد دسته بندی</a>
+                <section>
+                    @can('create-product-category')
+                    <a href="{{ route('admin.market.category.create') }}" class="btn btn-sm btn-info text-white">ایجاد دسته بندی</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -42,7 +46,9 @@
                         <th>دسته والد</th>
                         <th>تصویر</th>
                         <th>عنوان مسیر</th>
+                        @can('edit-product-category')
                         <th>وضعیت</th>
+                        @endcan
                         <th>نمایش در منو</th>
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
@@ -55,9 +61,10 @@
                             <td>
                                 <img src="{{ hasFileUpload($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}" width="50" height="50" alt="{{ $productCategory->name }}">
                             </td>
-                            <td  class="text-truncate" style="max-width: 150px;" title="{{ $productCategory->slug }}">
+                            <td class="text-truncate" style="max-width: 150px;" title="{{ $productCategory->slug }}">
                                 {{ $productCategory->slug }}
                             </td>
+                            @can('edit-product-category')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -74,13 +81,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-16-rem text-start">
+                                @can('edit-product-category')
                                 <a href="{{ route('admin.market.category.edit', $productCategory->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-product-category')
                                 <form class="d-inline" action="{{ route('admin.market.category.destroy', $productCategory->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $productCategory->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty
@@ -109,4 +121,3 @@
 
 
 @endsection
-

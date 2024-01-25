@@ -29,7 +29,12 @@
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.content.banner.create') }}" class="btn btn-sm btn-info text-white">ایجاد بنر جدید</a>
+                <section>
+                    @can('create-banner')
+                    <a href="{{ route('admin.content.banner.create') }}" class="btn btn-sm btn-info text-white">ایجاد بنر جدید</a>
+                    @endcan
+                </section>
+
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -43,7 +48,9 @@
                         <th>تصویر</th>
                         <th>موقعیت</th>
                         <th>ترتیب نمایش</th>
+                        @can('edit-banner')
                         <th>وضعیت</th>
+                        @endcan
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -59,6 +66,7 @@
                             </td>
                             <td>{{ $positions[$banner->position] }}</td>
                             <td>{{ $banner->sort }}</td>
+                            @can('edit-banner')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -67,13 +75,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-16-rem text-start">
+                                @can('edit-banner')
                                 <a href="{{ route('admin.content.banner.edit', $banner->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-banner')
                                 <form class="d-inline" action="{{ route('admin.content.banner.destroy', $banner->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $banner->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

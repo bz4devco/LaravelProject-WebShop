@@ -32,7 +32,7 @@
                 <section class="card mb-3">
                     <section class="card-header bg-custom-blue text-white font-size-14 d-flex justify-content-between">
                     <span class="d-inline-flex align-items-center">
-                    {{$ticket->user->full_name}}  - {{$ticket->user->id}}
+                    {{ $ticket->user->full_name != ' ' || '' || null ? $ticket->user->full_name : ($ticket->user->email ?? $ticket->user->mobile)}}  - {{$ticket->user->id}}
                     </span>
                     <section class="d-flex">
                         <span class="badge p-2 bg-success ms-2"> دسته بندی : {{$ticket->category->name}}</span>
@@ -62,6 +62,7 @@
                     </section>
                 </section>
                 @if($ticket->answer == null)
+                @if($hasTicketAdmin)
                 <section class="">
                     <form id="form" action="{{ route('admin.ticket.update', $ticket->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -98,6 +99,7 @@
                         </section>
                     </form>
                 </section>
+                @endif
                 @else
                 <section class="card mb-3">
                     <section class="card-header bg-custom-green text-white font-size-14 d-flex justify-content-between">

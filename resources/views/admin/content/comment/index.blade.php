@@ -45,7 +45,9 @@
                         <th>عنوان خبر</th>
                         <th>شناسه خبر</th>
                         <th>تاریخ درج نظر</th>
+                        @can('approved-content-comment')
                         <th>وضعیت نظر</th>
+                        @endcan
                         <th>وضعیت پاسخ</th>
                         <th>وضعیت تایید</th>
                         <th class="text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
@@ -65,19 +67,20 @@
                         @php
                         $bg_notif = ($comment->seen == 0) ? 'bg-new-notif' : '';
                         $icon_notif = ($comment->seen == 0) ? 'icon-before-notif' : '';
-                        
+
                         @endphp
 
 
                         <tr class="align-middle {{$bg_notif}}">
                             <td class="position-relative {{$icon_notif}}"></td>
-                            <th >{{ iteration($loop->iteration, request()->page) }}</th>
+                            <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$comment->id}}</td>
                             <td>{{$comment->author->fullname}}</td>
                             <td>{{$comment->author_id}}</td>
                             <td class="text-truncate" style="max-width: 120px;" title="{{$comment->commentable->title}}">{{$comment->commentable->title}}</td>
                             <td>{{$comment->commentable->id}}</td>
                             <td>{{jalaliDate($comment->created_date)}}</td>
+                            @can('approved-content-comment')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -86,11 +89,17 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td>{{ $comment->answer == null ? 'بدون پاسخ' : 'پاسخ داده شده'}}</td>
                             <td>{{ $comment->approved == 1 ? 'تایید شده' : 'در انتظار تایید'}}</td>
                             <td class=" text-start">
+
+                                @can('show-content-comment')
                                 <a href="{{ route('admin.content.comment.show', $comment->id ) }}" class="btn btn-info btn-sm text-white"><i class="fa fa-eye ms-1 align-middle"></i>نمایش</a>
+                                @endcan
+                                @can('approved-content-comment')
                                 <button {{$attr_checked}} type="button" data-url="{{ route('admin.content.comment.approved', $comment->id) }}" onclick="approvedstatus(this.id)" id="{{ $comment->id }}-approved" class="btn btn-{{$btn_style}} btn-sm"><i class="fa fa-{{$icon_style}} ms-1 align-middle"></i>{{$btn_text}}</button>
+                                @endcan
                             </td>
                         </tr>
                         @empty

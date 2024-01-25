@@ -30,7 +30,11 @@
             @include('admin.alerts.alert-section.success')
             @include('admin.alerts.alert-section.error')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.content.menu.create') }}" class="btn btn-sm btn-info text-white">ایجاد منو جدید</a>
+                <section>
+                    @can('create-menu')
+                    <a href="{{ route('admin.content.menu.create') }}" class="btn btn-sm btn-info text-white">ایجاد منو جدید</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -44,7 +48,9 @@
                         <th>منو والد</th>
                         <th>لینک منو</th>
                         <th>ترتیب نمایش</th>
+                        @can('edit-menu')
                         <th>وضعیت</th>
+                        @endcan
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -56,6 +62,7 @@
                             <td>{{ $menu->parent_id ? $menu->parent->name : 'منوی اصلی'}}</td>
                             <td class="text-truncate" style="max-width: 120px;">{{ $menu->url }}</td>
                             <td>{{ $menu->sort }}</td>
+                            @can('edit-menu')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -64,13 +71,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-16-rem text-start">
+                                @can('edit-menu')
                                 <a href="{{ route('admin.content.menu.edit', $menu->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-menu')
                                 <form class="d-inline" action="{{ route('admin.content.menu.destroy', $menu->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $menu->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

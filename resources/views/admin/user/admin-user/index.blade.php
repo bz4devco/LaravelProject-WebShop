@@ -28,7 +28,11 @@
             </section>
             @include('admin.alerts.alert-section.success')
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.user.admin-user.create') }}" class="btn btn-sm btn-info text-white">ایجاد ادمین جدید</a>
+                <section>
+                    @can('create-admin')
+                    <a href="{{ route('admin.user.admin-user.create') }}" class="btn btn-sm btn-info text-white">ایجاد ادمین جدید</a>
+                    @endcan
+                </section>
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -43,7 +47,9 @@
                         <th>نام خانوادگی</th>
                         <th>نقش</th>
                         <th>فعال سازی</th>
+                        @can('edit-admin')
                         <th>وضعیت</th>
+                        @endcan
                         <th class="max-width-22-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -63,6 +69,7 @@
                                 @endforeach
                                 @endif
                             </td>
+                            @can('edit-admin')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -79,15 +86,24 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-22-rem text-start">
+                                @can('edit-admin-permission')
                                 <a href="{{ route('admin.user.admin-user.permissions', $admin->id) }}" class="btn btn-success btn-sm"><i class="fa fa-user-graduate ms-2"></i>دسترسی</a>
+                                @endcan
+                                @can('edit-admin-role')
                                 <a href="{{ route('admin.user.admin-user.roles', $admin->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-edit ms-2"></i>نقش</a>
+                                @endcan
+                                @can('edit-admin')
                                 <a href="{{ route('admin.user.admin-user.edit', $admin->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-admin')
                                 <form class="d-inline" action="{{ route('admin.user.admin-user.destroy', $admin->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $admin->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty

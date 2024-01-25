@@ -10,11 +10,11 @@
 @section('content')
 <!-- category page Breadcrumb area -->
 <nav aria-label="breadcrumb">
-<ol class="breadcrumb m-0 font-size-12">
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
-    <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
-    <li class="breadcrumb-item active" aria-current="page">فروش شگفت انگیز</li>
-</ol>
+    <ol class="breadcrumb m-0 font-size-12">
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="{{ route('admin.home') }}">خانه</a></li>
+        <li class="breadcrumb-item deco"><a class="text-decoration-none" href="#">بخش فروش</a></li>
+        <li class="breadcrumb-item active" aria-current="page">فروش شگفت انگیز</li>
+    </ol>
 </nav>
 <!-- category page Breadcrumb area -->
 
@@ -24,11 +24,16 @@
         <section class="main-body-container">
             <section class="main-body-container-header">
                 <h5>
-                فروش شگفت انگیز
+                    فروش شگفت انگیز
                 </h5>
             </section>
             <section class="d-flex justify-content-between align-items-center mt-4 pb-3 mb-3 border-bottom">
-                <a href="{{ route('admin.market.discount.amazing-sale.create') }}" class="btn btn-sm btn-info text-white">افزودن کالا به لیست فروش شگفت انگیز</a>
+                <section>
+                    @can('create-amazing-sale')
+                    <a href="{{ route('admin.market.discount.amazing-sale.create') }}" class="btn btn-sm btn-info text-white">افزودن کالا به لیست فروش شگفت انگیز</a>
+                    @endcan
+                </section>
+
                 <div class="max-width-16-rem">
                     <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
                 </div>
@@ -42,7 +47,9 @@
                         <th>درصد تخفیف</th>
                         <th>تاریخ شروع</th>
                         <th>تاریخ پایان</th>
+                        @can('edit-amazing-sale')
                         <th>وضعبت</th>
+                        @endcan
                         <th class="max-width-16-rem text-center"><i class="fa fa-cogs ms-2"></i>تنظیمات</th>
                     </thead>
                     <tbody>
@@ -53,6 +60,7 @@
                             <td>{{$amazingSale->percentage}}%</td>
                             <td>{{jalaliDate($amazingSale->start_date)}}</td>
                             <td>{{jalaliDate($amazingSale->end_date)}}</td>
+                            @can('edit-amazing-sale')
                             <td>
                                 <section>
                                     <div class="custom-switch custom-switch-label-onoff d-flex align-content-center" dir="ltr">
@@ -61,13 +69,18 @@
                                     </div>
                                 </section>
                             </td>
+                            @endcan
                             <td class="width-16-rem text-start">
+                                @can('edit-amazing-sale')
                                 <a href="{{ route('admin.market.discount.amazing-sale.edit', $amazingSale->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-edit ms-2"></i>ویرایش</a>
+                                @endcan
+                                @can('delete-amazing-sale')
                                 <form class="d-inline" action="{{ route('admin.market.discount.amazing-sale.destroy', $amazingSale->id) }}" method="post">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" id="{{ $amazingSale->id }}" class="btn btn-danger btn-sm delete"><i class="fa fa-trash ms-2"></i>حذف</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                         @empty
