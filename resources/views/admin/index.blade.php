@@ -184,6 +184,18 @@
         </a>
     </section>
 </section>
+<section class="row">
+    <section class="col-md-6">
+        <section class="main-body-container">
+            <canvas id="payments"></canvas>
+        </section>
+    </section>
+    <section class="col-md-6">
+        <section class="main-body-container">
+            <canvas id="sold-products"></canvas>
+        </section>
+    </section>
+</section>
 <!-- dashboard charts -->
 
 <!-- dashboard users information box -->
@@ -208,4 +220,10 @@
     </section>
 </section>
 <!-- dashboard users information box -->
+@endsection
+@section('script')
+<script src="{{ asset('admin-assets/js/chart/chart.min.js')}}"></script>
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/payment-chart-ajax.js')}}"></script>
+<script src="{{ asset('admin-assets/js/plugin/ajaxs/sold-products-chart-ajax.js')}}"></script>
+
 @endsection

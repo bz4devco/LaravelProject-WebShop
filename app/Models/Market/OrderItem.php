@@ -2,6 +2,7 @@
 
 namespace App\Models\Market;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,5 +42,14 @@ class OrderItem extends Model
     public function orderItemAttributes()
     {
         return $this->hasMany('App\Models\Market\OrderItemSelectedAttribute');
+    }
+
+
+    public function scopeSpanningSoldProducts($query, $month)
+    {
+        $query->selectRaw('monthname(created_at) month, count(number) sold')
+        ->where('created_at' , '>' , Carbon::now()->subMonth($month))
+        ->groupBy('month')
+        ->latest();
     }
 }

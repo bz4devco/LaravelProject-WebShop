@@ -23,6 +23,8 @@ Route::middleware('admin.auth')->prefix('admin')->namespace('Admin')->group(func
 
     // dashboard route
     Route::get('/', 'AdminDashboardController@index')->name('admin.home');
+    Route::get('/payments-data', 'ChartController@getData');
+    Route::get('/sold-products-data', 'ChartController@getSoldData');
 
     // section admin profile in admin panel
     Route::prefix('profile')->controller("ProfileController")->group(function () {
