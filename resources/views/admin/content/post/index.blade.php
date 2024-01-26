@@ -34,9 +34,12 @@
                     <a href="{{ route('admin.content.post.create') }}" class="btn btn-sm btn-info text-white">ایجاد پست جدید</a>
                     @endcan
                 </section>
-                <div class="max-width-16-rem">
-                    <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
-                </div>
+                <form class="d-flex" action="{{ route('admin.content.post.index') }}" method="get">
+                    <div class="max-width-16-rem">
+                        <input type="text" name="search" value="{{request()->search ?? ''}}" class="form-control form-control-sm form-text" placeholder="جستجو">
+                    </div>
+                    <button class="mt-1 btn btn-primary btn-sm me-2" style="height: fit-content;">جستجو</button>
+                </form>
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">

@@ -41,4 +41,9 @@ class Post extends Model
     {
         return $this->morphMany('App\Models\Content\Comment', 'commentable');
     }
+
+
+    public function scopeSearchPosts($search, $field) {
+        return $this->where($field, $search)->get();
+    }
 }

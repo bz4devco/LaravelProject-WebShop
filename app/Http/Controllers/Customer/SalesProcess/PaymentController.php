@@ -17,6 +17,7 @@ use App\Models\Market\OnlinePayment;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Market\OfflinePayment;
 use App\Http\Services\Payment\PaymentService;
+use App\Models\Market\Product;
 
 class PaymentController extends Controller
 {
@@ -210,6 +211,14 @@ class PaymentController extends Controller
                 ]);
 
 
+                $product = Product::where('id', $cartItem->product_id)->first();
+                if($product){
+                    $product->marketable_number = $product->marketable_number - $cartItem->number;
+                    $product->frozen_number = $product->frozen_number - $cartItem->number;
+                    $product->sold_number = $product->sold_number + $cartItem->number;
+                    $product->save();
+                }
+
                 $cartItem->delete();
             }
         });
@@ -257,6 +266,15 @@ class PaymentController extends Controller
                     'guarantee_id'                      => $cartItem->guarantee_id,
                 ]);
 
+                if ($result['success']) {
+                    $product = Product::where('id', $cartItem->product_id)->first();
+                    if($product){
+                        $product->marketable_number = $product->marketable_number - $cartItem->number;
+                        $product->frozen_number = $product->frozen_number - $cartItem->number;
+                        $product->sold_number = $product->sold_number + $cartItem->number;
+                        $product->save();
+                    }
+                }
                 // delete all cart items for cutomer
                 $cartItem->delete();
             }

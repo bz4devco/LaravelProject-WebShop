@@ -75,7 +75,7 @@
                             <td class="position-relative {{$icon_notif}}"></td>
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$comment->id}}</td>
-                            <td>{{$comment->author->fullname}}</td>
+                            <td>{{$comment->author->full_name}}</td>
                             <td>{{$comment->author_id}}</td>
                             <td class="text-truncate" style="max-width: 120px;" title="{{$comment->commentable->title}}">{{$comment->commentable->title}}</td>
                             <td>{{$comment->commentable->id}}</td>

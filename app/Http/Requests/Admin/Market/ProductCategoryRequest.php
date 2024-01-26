@@ -27,7 +27,7 @@ class ProductCategoryRequest extends FormRequest
             return [
                 'name' => 'required|max:120|min:2|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,،: ]+$/u',
                 'description' => 'required|min:2|',
-                'image' => 'required|image|mimes:png,jpg,jpeg,gif,ico,svg,webp',
+                'image' => 'nullable|image|mimes:png,jpg,jpeg,gif,ico,svg,webp',
                 'status' => 'required|numeric|in:0,1',
                 'show_in_menu' => 'required|numeric|in:0,1',
                 'tags' => 'required',

@@ -16,7 +16,7 @@
                         @foreach ( $brands as $brand )
                         <section class="item">
                             <section class="brand-item">
-                                <a target="_blank" href="{{ route('customer.market.products', ['brands[]' => $brand->id]) }}"><img class="rounded-2" src="{{ hasFileUpload($brand->logo) }}" alt="{{$brand->orginal_name}}"></a>
+                                <a target="_blank" href="{{ route('customer.market.products', ['brands[]' => $brand->id]) }}"><img class="rounded-2" src="{{ hasFileUpload($brand->logo) }}" style="max-height: 80px;" alt="{{$brand->orginal_name}}"></a>
                             </section>
                         </section>
                         @endforeach

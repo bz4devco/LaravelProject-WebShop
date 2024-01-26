@@ -18,7 +18,7 @@ class HasCartItems
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check()) {
+        if (Auth::check() && Auth::user()->user_type == 0) {
             if (empty(CartItem::where('user_id', Auth::user()->id)->count())) {
                 return redirect()->route('customer.sales-process.cart');
             }

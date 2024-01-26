@@ -62,6 +62,9 @@
 .product-introduction p:has(> img){
     text-align: center;
 }
+.product-introduction p > img{
+    width: 100%;
+}
 
 .product-features {
 

@@ -44,7 +44,6 @@ class BrandController extends Controller
         // create image of logo
         if ($request->hasFile('logo')) {
             $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
-            $imageservice->setImageName('logo');
             $result = $imageservice->save($request->file('logo'));
 
             if ($result === false) {
@@ -98,7 +97,6 @@ class BrandController extends Controller
                 $imageservice->deleteImage($brand->logo);
             }
             $imageservice->setExclusiveDirectory('images' . DIRECTORY_SEPARATOR . 'brand');
-            $imageservice->setImageName('logo');
             $result = $imageservice->save($request->file('logo'));
 
             if ($result === false) {

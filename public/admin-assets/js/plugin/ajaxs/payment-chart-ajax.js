@@ -34,7 +34,7 @@ fetch("/admin/payments-data")
                         text: "وضعیت پرداختی ها در 6 ماه اخیر",
                         font: {
                             family: "IRANSans",
-                            size: 20,
+                            size: 18,
                         },
                     },
                 },

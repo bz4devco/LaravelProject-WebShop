@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         // customer cart Items
         view()->composer('customer.layouts.header', function ($view) {
             $view->with('headerMenu', Menu::where('status', 1)->where('position', 0)->orderBy('sort', 'asc')->take(7)->get());
-            $view->with('headerCateegories', ProductCategory::where('status', 1)->get());
+            $view->with('headerCateegories', ProductCategory::where('status', 1)->where('show_in_menu', 1)->get());
 
             if (Auth::check()) {
                 $view->with('cartItems', CartItem::where('user_id', Auth::user()->id)->get());

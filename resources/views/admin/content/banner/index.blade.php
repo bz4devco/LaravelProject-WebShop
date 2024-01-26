@@ -62,7 +62,7 @@
                                 {{ $banner->url }}
                             </td>
                             <td>
-                                <img src="{{ hasFileUpload($banner->image) }}" width="100" height="50" alt="{{ $banner->title }}">
+                                <img src="{{ hasFileUpload($banner->image ?? null) }}" width="100" height="50" alt="{{ $banner->title }}">
                             </td>
                             <td>{{ $positions[$banner->position] }}</td>
                             <td>{{ $banner->sort }}</td>

@@ -160,4 +160,9 @@ class Product extends Model
             return $this->price + $productColorPrice + $productGuaranteePrice;
         }
     }
+
+    public function hasMarketable()
+    {
+        return ($this->marketable_number > 0 ) ? (($this->marketable_number - $this->frozen_number) != 0 ? true : false) : false;
+    }
 }

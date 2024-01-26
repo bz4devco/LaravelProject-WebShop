@@ -28,7 +28,7 @@ fetch("/admin/sold-products-data")
                         text: "محصولات فروخته شده در 6 ماه اخیر",
                         font: {
                             family: "IRANSans",
-                            size: 20,
+                            size: 18,
                         },
                     },
                 },

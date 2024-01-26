@@ -74,7 +74,7 @@
                                 <select class="form-select form-select-sm" name="user_id" id="user_id" disabled>
                                     <option disabled readonly selected>کاربر مورد نظر را انتخاب کنید</option>
                                     @forelse($costumers as $costumer)
-                                    <option value="{{$costumer->id}}" @selected(old('user_id') == $costumer->id) >{{$costumer->fullname}}</option>
+                                    <option value="{{$costumer->id}}" @selected(old('user_id') == $costumer->id) >{{$costumer->full_name}}</option>
                                     @empty
                                     <option class="text-center" disabled readonly>کاربری در جدول کابران وجود ندارد</option>
                                     @endforelse

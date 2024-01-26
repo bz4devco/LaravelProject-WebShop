@@ -202,4 +202,19 @@ class User extends Authenticatable
             ->whereNotNull('mobile_verified_at')
             ->pluck('mobile');
     }
+
+    public function scopeActiveUsers()
+    {
+        return $this->where('user_type', 0)
+            ->where('activation', 1)
+            ->where('status', 1)
+            ->count();
+    }
+
+    public function scopeAdminUsers()
+    {
+        return $this->where('user_type', 1)->count();
+    }
+
+
 }

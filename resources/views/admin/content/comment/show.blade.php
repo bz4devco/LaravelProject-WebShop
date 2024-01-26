@@ -44,8 +44,8 @@
                 </section>
             </section>
             
-            @can('answer-comment-content')
             @if($comment->answer == null)
+            @can('answer-comment-content')
             <section class="">
                 <form id="form" action="{{ route('admin.content.comment.update', $comment->id) }}" method="post">
                     @csrf
@@ -70,8 +70,8 @@
                     </section>
                 </form>
             </section>
-            @else
             @endcan
+            @else
 
             {{-- approved button status check and show --}}
             @php
@@ -84,7 +84,7 @@
 
             <section class="card mb-3">
                 <section class="card-header bg-custom-green text-white font-size-14 d-flex justify-content-between">
-                    <span>ادمین - {{$comment->responder->fullname}}</span>
+                    <span>ادمین - {{ $comment->responder ? $comment->responder->full_name : ''}}</span>
                     @can('answer-comment-content')
                     <button {{$attr_checked}} type="button" data-url="{{ route('admin.content.comment.answershow', $comment->id) }}" onclick="answershow(this.id)" id="{{ $comment->id }}-answershow" class="btn btn-{{$btn_style}} btn-sm"><i class="fa fa-{{$icon_style}} ms-1 align-middle"></i>{{$btn_text}}</button>
                     @endcan

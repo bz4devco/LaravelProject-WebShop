@@ -1,7 +1,7 @@
-@foreach ($categories as $category)
-@php 
+@forelse ($categories as $category)
+@php
 $filtersArray['category'] = $category->id;
-$itemsHref = ($category->children->count() > 0) ? 'javascript:void(0)' : route('customer.market.products', $filtersArray ); 
+$itemsHref = ($category->children->count() > 0) ? 'javascript:void(0)' : route('customer.market.products', $filtersArray );
 @endphp
 <section class="sidebar-nav-item">
     <span class="sidebar-nav-item-title">
@@ -14,4 +14,8 @@ $itemsHref = ($category->children->count() > 0) ? 'javascript:void(0)' : route('
     @include('customer.layouts.partials.sidebar-category.sub-categories', ['categories' => $category->children])
     @endif
 </section>
-@endforeach
+@empty
+<section class="form-check sidebar-brand-item p-0 text-center">
+    <span>دسته بندی یافت نشد</span>
+</section>
+@endforelse

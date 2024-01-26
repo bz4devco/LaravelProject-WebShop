@@ -19,9 +19,18 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::orderBy('created_at', 'desc')->paginate(15);
+        if(!is_null($request)){
+            $sreach = checkRequest($request->search) ?? null;
+            if($sreach){
+                $products = Product::where('name', 'LIKE', "%" . $sreach . "%")->paginate(15);
+            }else{
+                $products = Product::orderBy('created_at', 'desc')->paginate(15);
+            }
+        }else{
+            $products = Product::orderBy('created_at', 'desc')->paginate(15);
+        }
         return view('admin.market.product.index', compact('products'));
     }
 

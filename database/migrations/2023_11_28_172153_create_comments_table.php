@@ -28,6 +28,7 @@ class CreateCommentsTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->timestamp('answer_date')->nullable()->comment('admin answer date');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

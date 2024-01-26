@@ -2,13 +2,14 @@
 
 namespace App\Models\Market;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = ['id'];
 
@@ -41,27 +42,27 @@ class Order extends Model
     {
         return $this->belongsTo('App\Models\Market\Copan');
     }
-    
+
     public function commonDiscount()
     {
         return $this->belongsTo('App\Models\Market\CommonDiscount');
     }
-    
-    
+
+
     // check status and types multi value
-          
+
     public function getPaymentTypeValueAttribute()
     {
-        switch($this->payment_type){
+        switch ($this->payment_type) {
             case 0:
                 $result = 'آنلاین';
-            break;
+                break;
             case 1:
                 $result = 'آفلاین';
-            break;
+                break;
             default:
                 $result = 'در محل';
-            break;
+                break;
         }
 
         return $result;
@@ -70,19 +71,19 @@ class Order extends Model
 
     public function getPaymentStatusValueAttribute()
     {
-        switch($this->payment_status){
+        switch ($this->payment_status) {
             case 0:
                 $result = 'پرداخت نشد';
-            break;
+                break;
             case 1:
                 $result = 'پرداخت شده';
-            break;
+                break;
             case 2:
                 $result = 'باطل شده';
-            break;
+                break;
             default:
                 $result = 'برگشت داده شده';
-            break;
+                break;
         }
 
         return $result;
@@ -91,19 +92,19 @@ class Order extends Model
 
     public function getDeliveryStatusValueAttribute()
     {
-        switch($this->delivery_status){
+        switch ($this->delivery_status) {
             case 0:
                 $result = 'ارسال نشده';
-            break;
+                break;
             case 1:
                 $result = 'درحال ارسال';
-            break;
+                break;
             case 2:
                 $result = 'ارسال شده';
-            break;
+                break;
             default:
                 $result = 'تحویل داده شد';
-            break;
+                break;
         }
 
         return $result;
@@ -112,22 +113,22 @@ class Order extends Model
 
     public function getOrderStatusValueAttribute()
     {
-        switch($this->order_status){
+        switch ($this->order_status) {
             case 0:
                 $result = 'در انتظار تایید';
-            break;
+                break;
             case 1:
                 $result = 'تایید نشده';
-            break;
+                break;
             case 2:
                 $result = 'تایید شده';
-            break;
+                break;
             case 3:
                 $result = 'باطل شده';
-            break;
+                break;
             default:
                 $result = 'مرجوع شده';
-            break;
+                break;
         }
 
         return $result;
@@ -135,10 +136,21 @@ class Order extends Model
 
 
 
-        // order_discount_amount + order_common_discount_amount + order_copan_discount_amount
-        public function sumDiscountOrder()
-        {
-            return $this->order_discount_amount + $this->order_common_discount_amount + $this->order_copan_discount_amount;
-        }
+    // order_discount_amount + order_common_discount_amount + order_copan_discount_amount
+    public function sumDiscountOrder()
+    {
+        return $this->order_discount_amount + $this->order_common_discount_amount + $this->order_copan_discount_amount;
+    }
 
+
+    public function scopeSendOrders()
+    {
+        $startOfToday = Carbon::today()->startOfDay();
+        $endOfToday = Carbon::today()->endOfDay();
+
+        return $this->selectRaw('count(*) send_orders')
+            ->where('delivery_status', 2)
+            ->whereBetween('delivery_date', [$startOfToday, $endOfToday])
+            ->pluck('send_orders');
+    }
 }

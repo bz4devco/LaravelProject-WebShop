@@ -94,6 +94,8 @@
                                         </strong>
                                     </span>
                                 @enderror
+
+                                @if ($productCategory->image)
                                 <section class="row mt-2">
                                     @php   
                                         $number = 1;
@@ -115,6 +117,7 @@
                                     @endforeach
 
                                 </section>
+                                @endif
                             </div>
                         </section>
                         <section class="col-12 mb-3">

@@ -23,167 +23,82 @@
         </div>
     </section>
     @endif
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="" class="text-decoration-none d-block mb-4">
-            <section class="card bg-custom-yellow text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>30,200 تومان</h5>
-                            <p>سود خالص</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </section>
+    @can('view-chart-admin')
+    <section class="col-lg-3 col-md-6 col-12 my-1">
+        <section class="card bg-custom-yellow text-white">
+            <section class="card-body">
+                <section class="d-flex justify-content-between">
+                    <section class="info-box-body">
+                        <h5><strong>{{$actuveUsers ?? 0}} نفر</strong></h5>
+                        <p>کاربران فعال</p>
+                    </section>
+                    <section class="info-box-icon">
+                        <i class="fas fa-users"></i>
                     </section>
                 </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی در : 21:42 بعد از ظهر
-                </section>
             </section>
-        </a>
+            <section class="card-footer info-box-footer">
+                <i class="fas fa-clock mx-2"></i> به روز رسانی در : {{jalaliDate(now())}}
+            </section>
+        </section>
     </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="" class="text-decoration-none d-block mb-4">
-            <section class="card bg-custom-green text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>30,200 تومان</h5>
-                            <p>سود خالص</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </section>
+    <section class="col-lg-3 col-md-6 col-12 my-1">
+        <section class="card bg-custom-green text-white">
+            <section class="card-body">
+                <section class="d-flex justify-content-between">
+                    <section class="info-box-body">
+                        <h5><strong>{{number_format($salesMonth) ?? 0}} تومان</strong></h5>
+                        <p>فروش ماه فعلی</p>
+                    </section>
+                    <section class="info-box-icon">
+                        <i class="fas fa-shopping-basket"></i>
                     </section>
                 </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی در : 21:42 بعد از ظهر
-                </section>
             </section>
-        </a>
+            <section class="card-footer info-box-footer">
+                <i class="fas fa-clock mx-2"></i> به روز رسانی در : {{jalaliDate(now())}}
+            </section>
+        </section>
     </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="" class="text-decoration-none d-block mb-4">
-            <section class="card bg-custom-pink text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>30,200 تومان</h5>
-                            <p>سود خالص</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </section>
+    <section class="col-lg-3 col-md-6 col-12 my-1">
+        <section class="card bg-custom-pink text-white">
+            <section class="card-body">
+                <section class="d-flex justify-content-between">
+                    <section class="info-box-body">
+                        <h5>{{$adminUsers ?? 0}} نفر</h5>
+                        <p>تعداد کاربران ادمین</p>
+                    </section>
+                    <section class="info-box-icon">
+                        <i class="fas fas fa-user-shield	"></i>
                     </section>
                 </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی در : 21:42 بعد از ظهر
-                </section>
             </section>
-        </a>
+            <section class="card-footer info-box-footer">
+                <i class="fas fa-clock mx-2"></i> به روز رسانی در : {{jalaliDate(now())}}
+            </section>
+        </section>
     </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="" class="text-decoration-none d-block mb-4">
-            <section class="card bg-custom-blue text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>30,200 تومان</h5>
-                            <p>سود خالص</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </section>
+    <section class="col-lg-3 col-md-6 col-12 my-1">
+        <section class="card bg-custom-blue text-white">
+            <section class="card-body">
+                <section class="d-flex justify-content-between">
+                    <section class="info-box-body">
+                        <h5>{{$sendOrders ?? 0}} سفارش</h5>
+                        <p>سفارشات ارسال شده امروز</p>
+                    </section>
+                    <section class="info-box-icon">
+                        <i class="fas fa-shipping-fast"></i>
                     </section>
                 </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی در : 21:42 بعد از ظهر
-                </section>
             </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="" class="text-decoration-none d-block mb-4">
-            <section class="card bg-danger text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>30,200 تومان</h5>
-                            <p>سود خالص</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی در : 21:42 بعد از ظهر
-                </section>
+            <section class="card-footer info-box-footer">
+                <i class="fas fa-clock mx-2"></i> به روز رسانی در : {{jalaliDate(now())}}
             </section>
-        </a>
+        </section>
     </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="" class="text-decoration-none d-block mb-4">
-            <section class="card bg-success text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>30,200 تومان</h5>
-                            <p>سود خالص</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی در : 21:42 بعد از ظهر
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="" class="text-decoration-none d-block mb-4">
-            <section class="card bg-warning text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>30,200 تومان</h5>
-                            <p>سود خالص</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی در : 21:42 بعد از ظهر
-                </section>
-            </section>
-        </a>
-    </section>
-    <section class="col-lg-3 col-md-6 col-12">
-        <a href="" class="text-decoration-none d-block mb-4">
-            <section class="card bg-primary text-white">
-                <section class="card-body">
-                    <section class="d-flex justify-content-between">
-                        <section class="info-box-body">
-                            <h5>30,200 تومان</h5>
-                            <p>سود خالص</p>
-                        </section>
-                        <section class="info-box-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </section>
-                    </section>
-                </section>
-                <section class="card-footer info-box-footer">
-                    <i class="fas fa-clock mx-2"></i> به روز رسانی در : 21:42 بعد از ظهر
-                </section>
-            </section>
-        </a>
-    </section>
+    @endcan
 </section>
+@can('view-chart-admin')
 <section class="row">
     <section class="col-md-6">
         <section class="main-body-container">
@@ -196,6 +111,7 @@
         </section>
     </section>
 </section>
+@endcan
 <!-- dashboard charts -->
 
 <!-- dashboard users information box -->

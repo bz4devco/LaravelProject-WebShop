@@ -23,8 +23,8 @@ Route::middleware('admin.auth')->prefix('admin')->namespace('Admin')->group(func
 
     // dashboard route
     Route::get('/', 'AdminDashboardController@index')->name('admin.home');
-    Route::get('/payments-data', 'ChartController@getData');
-    Route::get('/sold-products-data', 'ChartController@getSoldData');
+    Route::get('/payments-data', 'ChartController@getData')->can('view-chart-admin');
+    Route::get('/sold-products-data', 'ChartController@getSoldData')->can('view-chart-admin');
 
     // section admin profile in admin panel
     Route::prefix('profile')->controller("ProfileController")->group(function () {
@@ -42,7 +42,7 @@ Route::middleware('admin.auth')->prefix('admin')->namespace('Admin')->group(func
         Route::prefix('category')->controller("CategoryController")->group(function () {
             Route::get('/', 'index')->name('admin.market.category.index')->can('view-products-category-list');
             Route::get('/create', 'create')->name('admin.market.category.create')->can('create-product-category');
-            Route::post('/store', 'store')->name('admin.market.category.store')->can('create-product-categoryt');
+            Route::post('/store', 'store')->name('admin.market.category.store')->can('create-product-category');
             Route::get('/edit/{productCategory}', 'edit')->name('admin.market.category.edit')->can('edit-product-category');
             Route::put('/update/{productCategory}', 'update')->name('admin.market.category.update')->can('edit-product-category');
             Route::delete('/destroy/{productCategory}', 'destroy')->name('admin.market.category.destroy')->can('delete-product-category');
@@ -187,7 +187,7 @@ Route::middleware('admin.auth')->prefix('admin')->namespace('Admin')->group(func
 
             // section market and product colors side in admin panel
             Route::controller("GuaranteeController")->group(function () {
-                Route::get('/guarantee/{product}', 'index')->name('admin.market.product.guarantee.index')->can('view-guaranties-list');
+                Route::get('/guarantee/{product}', 'index')->name('admin.market.product.guarantee.index')->can('view-guarantees-list');
                 Route::get('/guarantee/create/{product}', 'create')->name('admin.market.product.guarantee.create')->can('create-guarantee');
                 Route::post('/guarantee/store/{product}', 'store')->name('admin.market.product.guarantee.store')->can('create-guarantee');
                 Route::delete('/guarantee/destroy/{product}/{guarantee}', 'destroy')->name('admin.market.product.guarantee.destroy')->can('delete-guarantee');

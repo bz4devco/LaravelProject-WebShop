@@ -56,7 +56,7 @@
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{ $brand->persian_name }}</td>
                             <td>{{ $brand->orginal_name }}</td>
-                            <td><img src="{{ hasFileUpload($brand->logo) }}" width="50" height="50" class="max-height-2rem" alt="برند"></td>
+                            <td><img src="{{ hasFileUpload($brand->logo ?? null) }}" width="50" height="50" class="max-height-2rem" alt="برند"></td>
                             @can('edit-brand')
                             <td>
                                 <section>

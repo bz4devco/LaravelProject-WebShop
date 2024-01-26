@@ -75,7 +75,8 @@
                                     @php   
                                         $number = 1;
                                     @endphp
-
+                                    
+                                    @if ($postCategory->image)
                                     @foreach($postCategory->image['indexArray'] as $key => $value)
                                     <section class="col-{{ 6 / $number }}">
                                         <div class="form-check p-0">
@@ -87,9 +88,10 @@
                                         </div>
                                     </section>
                                     @php
-                                        $number++;
+                                    $number++;
                                     @endphp
                                     @endforeach
+                                    @endif
 
                                 </section>
                             </div>

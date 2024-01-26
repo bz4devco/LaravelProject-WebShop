@@ -118,7 +118,7 @@
                                     <!-- /////////////////////////////////// -->
 
                                     <!-- start marketable product -->
-                                    @if ($product->marketable_number > 0)
+                                    @if ($product->hasMarketable())
                                     <p><i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا موجود در انبار</span></p>
                                     @else
                                     <p><i class="fa fa-store-alt cart-product-selected-store me-1"></i> <span>کالا ناموجود</span></p>
@@ -157,7 +157,7 @@
                                     @endif
 
                                     <p class="add-to-favorite-btn">
-                                        
+
                                     </p>
                                     @endauth
                                     <!-- end add to favorite button -->
@@ -168,7 +168,7 @@
                                     <section>
                                         <section class="cart-product-number d-inline-block ">
                                             <button class="cart-number cart-number-down" type="button">-</button>
-                                            <input id="number" name="number" type="number" min="1" max="{{ $product->marketable_number }}" step="1" value="{{ $product->marketable_number == 0 ? 0 : 1 }}" readonly="readonly">
+                                            <input id="number" name="number" type="number" min="1" max="{{ $product->marketable_number  ? $product->marketable_number -  $product->frozen_number : 0 }}" step="1" value="{{ $product->marketable_number == 0 ? 0 : 1 }}" readonly="readonly">
                                             <button class="cart-number cart-number-up" type="button">+</button>
                                         </section>
                                     </section>
@@ -229,7 +229,7 @@
                             <section class="">
                                 @if($product->marketable == 0)
                                 <a id="next-level" href="javascript:void(0)" class="btn btn-outline-secondary d-block">به زودی</a>
-                                @elseif ($product->marketable_number > 0)
+                                @elseif ($product->hasMarketable())
                                 <button id="next-level" type="submit" class="btn btn-danger d-block">افزودن به سبد خرید</button>
                                 @else
                                 <a id="next-level" href="#" class="btn btn-outline-secondary d-block">موجود شد اطلاع بده</a>
@@ -376,6 +376,7 @@
                             <section class="col-md-7">
                                 <!-- start add comment button -->
                                 @auth
+                                @if(auth()->user()->user_type == 0)
                                 <section class="comment-add-wrapper">
                                     <button class="comment-add-button" type="button" data-bs-toggle="modal" data-bs-target="#add-comment"><i class="fa fa-plus"></i> افزودن دیدگاه</button>
                                     <!-- start add comment Modal -->
@@ -403,6 +404,11 @@
                                         </section>
                                     </section>
                                 </section>
+                                @else
+                                <section class="comment-add-wrapper">
+                                    <a class="comment-add-button text-decoration-none" href="{{route('auth.customer.login-register-form') }}"><i class="fa fa-plus"></i> جهت افزودن دیدگاه ابتدا به حساب کاربری خود وارد شوید</a>
+                                </section>
+                                @endif
                                 @endauth
                                 @guest
                                 <section class="comment-add-wrapper">

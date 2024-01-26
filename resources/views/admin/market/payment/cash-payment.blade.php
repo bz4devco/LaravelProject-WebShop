@@ -48,7 +48,7 @@
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td>{{$payment->paymentable->transaction_id ?? 'بدون کد تراکنش'}}</td>
                             <td>{{$payment->paymentable->gateway ?? '-'}}</td>
-                            <td>{{$payment->user->fullname}}</td>
+                            <td>{{$payment->user->full_name}}</td>
                             <td>{{$payment->status == 0 ? 'پرداخت نشده' : ($payment->status == 1 ? 'پرداخت شده' : ($payment->status == 2 ? 'باطل شده' : 'برگشت داده شده'))}}</td>
                             <td>{{$payment->type == 0 ? 'آنلاین' : ($payment->type == 1 ? 'آفلاین' : 'در محل')}}</td>
                             <td class="width-22-rem text-start">

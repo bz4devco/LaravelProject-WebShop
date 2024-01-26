@@ -43,7 +43,7 @@
                     </label>
                 </section>
                 @empty
-                <section class="form-check sidebar-brand-item text-center">
+                <section class="form-check sidebar-brand-item p-0 text-center">
                     <span>برندی یافت نشد</span>
                 </section>
                 @endforelse

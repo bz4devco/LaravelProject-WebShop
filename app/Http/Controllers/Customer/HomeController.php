@@ -117,7 +117,7 @@ class HomeController extends Controller
 
     public function addToFavorite(Product $product)
     {
-        if (Auth::check()) {
+        if (Auth::check() && auth()->user()->user_type == 0) {
             $product->user()->toggle([Auth::user()->id]);
             if ($product->user->contains(Auth::user()->id)) {
                 return response()->json(['status' => 1]);

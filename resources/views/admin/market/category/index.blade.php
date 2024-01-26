@@ -59,7 +59,7 @@
                             <td>{{ $productCategory->name }}</td>
                             <td>{{ $productCategory->parent_id ? $productCategory->parent->name : 'دسته اصلی'}}</td>
                             <td>
-                                <img src="{{ hasFileUpload($productCategory->image['indexArray'][$productCategory->image['currentImage']]) }}" width="50" height="50" alt="{{ $productCategory->name }}">
+                                <img src="{{ hasFileUpload($productCategory->image ? $productCategory->image['indexArray'][$productCategory->image['currentImage']] : null) }}" width="50" height="50" alt="{{ $productCategory->name }}">
                             </td>
                             <td class="text-truncate" style="max-width: 150px;" title="{{ $productCategory->slug }}">
                                 {{ $productCategory->slug }}

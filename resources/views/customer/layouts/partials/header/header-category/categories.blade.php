@@ -1,4 +1,5 @@
 @foreach ($categories as $category)
+@if($category->parent_id == null)
 <section class="sublist-item">
     <section class="sublist-item-toggle">{{$category->name}}</section>
 
@@ -11,4 +12,5 @@
     </section>
     @endif
 </section>
+@endif
 @endforeach

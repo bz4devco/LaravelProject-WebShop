@@ -35,7 +35,7 @@
                             <div class="d-flex justify-content-center">
                                 <section>
                                     <section class="d-flex justify-content-center">
-                                        <img src="{{ hasFileUpload(auth()->user()->profile_photo_path , 'avatar') }}" class="shadow mb-4" style="border-radius: 0.6rem;" height="100" alt="avatar">
+                                        <img src="{{ hasFileUpload(auth()->user()->profile_photo_path ?? null , 'avatar') }}" class="shadow mb-4" style="border-radius: 0.6rem;" height="100" alt="avatar">
                                     </section>
                                     <h5><strong class="d-block text-center mb-2">مقام:</strong></h5>
                                     @php $userRole = auth()->user()->roles ? auth()->user()->roles()->first() : null; @endphp

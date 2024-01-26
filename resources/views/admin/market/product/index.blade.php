@@ -34,9 +34,12 @@
                     <a href="{{ route('admin.market.product.create') }}" class="btn btn-sm btn-info text-white">ایجاد کالا جدید</a>
                     @endcan
                 </section>
-                <div class="max-width-16-rem">
-                    <input type="text" class="form-control form-control-sm form-text" placeholder="جستجو">
-                </div>
+                <form class="d-flex" action="{{ route('admin.market.product.index') }}" method="get">
+                    <div class="max-width-16-rem">
+                        <input type="text" name="search" value="{{request()->search ?? ''}}" class="form-control form-control-sm form-text" placeholder="جستجو">
+                    </div>
+                    <button class="mt-1 btn btn-primary btn-sm me-2" style="height: fit-content;">جستجو</button>
+                </form>
             </section>
             <section class="table-responsive">
                 <table class="table table-striped table-hover">
@@ -58,7 +61,7 @@
                             <th>{{ iteration($loop->iteration, request()->page) }}</th>
                             <td class="text-truncate" style="max-width: 120px;" title="{{$product->name}}">{{$product->name}}</td>
                             <td>
-                                <img src="{{ hasFileUpload($product->image['indexArray'][$product->image['currentImage']]) }}" width="50" height="50" alt="{{ $product->name }}">
+                                <img src="{{ hasFileUpload($product->image ? $product->image['indexArray'][$product->image['currentImage']] : null) }}" width="50" height="50" alt="{{ $product->name }}">
                             </td>
                             <td><span>{{number_format($product->price)}}<span>تومان</span></span></td>
                             <td>{{$product->category->name ?? '-'}}</td>

@@ -197,24 +197,29 @@ class ProductController extends Controller
 
     public function addComment(Product $product, Request $request)
     {
-        $request->validate([
-            'body' => 'required|max:2000|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,، ]+$/u'
-        ]);
+        if (Auth::check() && auth()->user()->user_type == 0) {
 
-        $inputs['body'] = str_replace(PHP_EOL, '<br/>', $request->body);
-        $inputs['author_id'] = Auth::user()->id;
-        $inputs['commentable_id'] = $product->id;
-        $inputs['commentable_type'] = Product::class;
-        $inputs['stauts'] = 1;
-        Comment::create($inputs);
-        return back()->with('swal-success', 'دیدگاه شما با موفقیت ثبت شد، با تشکر از شما کاربر گرامی');
+            $request->validate([
+                'body' => 'required|max:2000|regex:/^[الف-یa-zA-Z0-9\-۰-۹آء-ي.,، ]+$/u'
+            ]);
+
+            $inputs['body'] = str_replace(PHP_EOL, '<br/>', $request->body);
+            $inputs['author_id'] = Auth::user()->id;
+            $inputs['commentable_id'] = $product->id;
+            $inputs['commentable_type'] = Product::class;
+            $inputs['stauts'] = 1;
+            Comment::create($inputs);
+            return back()->with('swal-success', 'دیدگاه شما با موفقیت ثبت شد، با تشکر از شما کاربر گرامی');
+        }else{
+            return back()->with('swal-danger', 'لطفاً برای افزودن دیدگاه ابتدا به حساب کاربری خود وارد شوید');
+        }
     }
 
 
 
     public function addToFavorite(Product $product)
     {
-        if (Auth::check()) {
+        if (Auth::check() && auth()->user()->user_type == 0) {
             $product->user()->toggle([Auth::user()->id]);
 
             if ($product->user->contains(Auth::user()->id)) {
@@ -244,7 +249,7 @@ class ProductController extends Controller
             $userCompareList = Compare::create(['user_id' => $user->id]);
         }
 
-        
+
         if ($product->compares->contains([$userCompareList->id])) {
             return back()->with('swal-error', 'این محصول قبلاً در لیست مقایسه اضافه شده است');
         } else {
@@ -256,7 +261,7 @@ class ProductController extends Controller
 
     public function addRating(Product $product, Request $request)
     {
-        if (Auth::check()) {
+        if (Auth::check() && auth()->user()->user_type == 0) {
             $user = Auth::user();
             if ($request->rate <= 5 && $request->rate >= 1) {
 

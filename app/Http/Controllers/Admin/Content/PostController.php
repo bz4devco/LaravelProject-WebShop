@@ -16,9 +16,18 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(15);
+        if (!is_null($request)) {
+            $sreach = checkRequest($request->search) ?? null;
+            if ($sreach) {
+                $posts = Post::where('title', 'LIKE', "%" . $sreach . "%")->paginate(15);
+            } else {
+                $posts = Post::orderBy('created_at', 'desc')->paginate(15);
+            }
+        } else {
+            $posts = Post::orderBy('created_at', 'desc')->paginate(15);
+        }
         return view('admin.content.post.index', compact('posts'));
     }
 

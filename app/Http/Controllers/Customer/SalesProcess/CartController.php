@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Customer\SalesProcess;
 
 use Illuminate\Http\Request;
 use App\Models\Market\Product;
+use App\Models\Market\CartItem;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Market\CartItem;
 
 class CartController extends Controller
 {
@@ -52,6 +53,20 @@ class CartController extends Controller
                 return back()->with('swal-error', 'تعداد انتخابی شما از تعداد موجودی محصول  ' . $cartItem->product->name . ' در انبار بیشتر است');
             }
             if (isset($inputs['number'][$cartItem->id])) {
+                DB::transaction(function () use ($cartItem, $inputs) {
+                $product = Product::where('id', $cartItem->product_id)->first();
+                if($product){
+                    if($cartItem->number > $inputs['number'][$cartItem->id]){
+                        $product->frozen_number = $product->frozen_number - ($cartItem->number - $inputs['number'][$cartItem->id]);
+                        $product->save();
+                    }
+                    if($cartItem->number < $inputs['number'][$cartItem->id]){
+                        $product->frozen_number = $product->frozen_number + ($inputs['number'][$cartItem->id] - $cartItem->number);
+                        $product->save();
+                    }
+                }
+            });
+
                 $cartItem->update(['number' => $inputs['number'][$cartItem->id]]);
             }
         }
@@ -103,7 +118,12 @@ class CartController extends Controller
         $inputs['user_id'] = auth()->user()->id;
         $inputs['product_id'] = $product->id;
 
-        CartItem::create($inputs);
+        DB::transaction(function () use ($inputs, $product, $request) {
+            CartItem::create($inputs);
+
+            $product->frozen_number = $product->frozen_number + $request->number;
+            $product->save();
+        });
 
         return back()->with('swal-success', 'محصول با موقیت به سبد خرید شما اضافه شد');
     }
