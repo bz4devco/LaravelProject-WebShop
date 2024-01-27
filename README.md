@@ -24,7 +24,9 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Laravel Project (CMS Panel And Shop Website) 
 - Laravel V9.0
-database export path:
+
+Database export path:
+
 database\sqls\database-full-export.sql
 
 ## License
