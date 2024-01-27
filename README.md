@@ -24,10 +24,10 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Laravel Project (CMS Panel And Shop Website) 
 - Laravel V9.0
+- Stable release project [v1.0](https://github.com/bz4devco/LaravelProject/releases/tag/v1.0).
 
-Database export path:
-
-database\sqls\database-full-export.sql
+### Database export path:
+- [export](https://github.com/bz4devco/LaravelProject/tree/main/database/sqls)
 
 ## License
 
