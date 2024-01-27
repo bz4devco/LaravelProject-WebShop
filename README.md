@@ -6,6 +6,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
+# Laravel Project (CMS panel and Shop website)
+## Laravel v9.0
+### database export path:
+##### database\sqls\database-full-export.sql
+<hr>
 
 ## About Laravel
 
